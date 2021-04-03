@@ -1,0 +1,5 @@
+{
+    "appService.showBuildDuringDeployPrompt": false,
+    "appService.defaultWebAppToDeploy": "/subscriptions/1409e793-a9d2-42b6-8a97-04f0ac672828/resourceGroups/RG_West_Europe_Inventart/providers/Microsoft.Web/sites/inventart-web",
+    "appService.deploySubpath": "build"
+}
