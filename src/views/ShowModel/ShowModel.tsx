@@ -29,7 +29,8 @@ function loadModel(model: string) {
     // @ts-ignore
 	window.presenter.setScene({
         meshes: {
-            "mesh_1" : { url: `${config.hopModels}/${model}` }
+            //"mesh_1" : { url: `${config.hopModels}/${model}` }
+            "mesh_1" : { url: 'https://res.cloudinary.com/inventart/raw/upload/v1617501330/3DHOP/gargo_daub17.nxz' }
         },
         modelInstances : {
             "model_1" : { mesh : "mesh_1" }
