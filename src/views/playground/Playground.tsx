@@ -1,6 +1,10 @@
 import { Link, useHistory } from "react-router-dom";
 import { Button } from '@material-ui/core';
 import logo from './play.png';
+import { config } from '../../config';
+
+//override typescript error messages on calls to window object
+declare const window: any;
 
 const Playground = () => {
     const history = useHistory();
@@ -13,6 +17,7 @@ const Playground = () => {
         <Button color="inherit" onClick={()=>{history.push('/Model?model=gargo.nxz')}}>history.push('/Model?model=gargo.nxz')</Button><br/>
         <Link to={"/Model?model=gargo.nxz"}>Link to="/Model?model=gargo.nxz"</Link><br/>
         {/* Open in new window */}
+        <Link to={"/Model?model=gargo.nxz"} target="_blank">Link to="/Model?model=gargo.nxz" target="_blank"</Link><br/>
         <a
           className="App-link"
           href={newWindowLink("/Model","?model=gargo.nxz")}
@@ -33,15 +38,16 @@ export default Playground;
 
 async function openInNewWindow(pathname: string, search: string) {
     const link = newWindowLink(pathname, search);
-    // @ts-ignore 
+    
     window.other = window.open(link);
 }
 
 function newWindowLink(pathname: string, search: string){
-    return `${process.env.PUBLIC_URL}${pathname}${search}`;
+    return `${config.webRoot}${pathname}${search}`;
 }
 
 function showVariables(){
-    console.warn('process.env.PUBLIC_URL',process.env.PUBLIC_URL);
-    console.warn('process.env.REACT_APP_3DHOP_ROOT',process.env.REACT_APP_3DHOP_ROOT);
+    console.warn('PUBLIC_URL', config.webRoot);
+    console.warn('REACT_APP_3DHOP_SOURCE', config.hopSource);
+    console.warn('REACT_APP_3DHOP_MODELS', config.hopModels);
 }

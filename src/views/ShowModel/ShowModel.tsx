@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { config } from '../../config';
 const queryString = require('query-string');
 
 const ShowModel = () => {
@@ -28,7 +29,7 @@ function loadModel(model: string) {
     // @ts-ignore
 	window.presenter.setScene({
         meshes: {
-            "mesh_1" : { url: `https://inventart-api.azurewebsites.net/nxz/${model}` }
+            "mesh_1" : { url: `${config.hopModels}/${model}` }
         },
         modelInstances : {
             "model_1" : { mesh : "mesh_1" }
@@ -60,29 +61,19 @@ window.actionsToolbar = function(action) { // @ts-ignore
 }
 
 const hopDiv = () => {
-return (<div id="3dhop" className="tdhop">
-    <div id="tdhlg"></div>
-    <div id="toolbar">
-        <img id="home"     title="Home"                  src={publicRoot('/skins/dark/home.png')}            alt="" /><br/>
-        <img id="zoomin"   title="Zoom In"               src={publicRoot('/skins/dark/zoomin.png')}          alt="" /><br/>
-        <img id="zoomout"  title="Zoom Out"              src={publicRoot('/skins/dark/zoomout.png')}         alt="" /><br/>
-        <img id="light_on" title="Disable Light Control" src={publicRoot('/skins/dark/lightcontrol_on.png')} alt="" style={{position:'absolute', visibility:'hidden'}}/>
-        <img id="light"    title="Enable Light Control"  src={publicRoot('/skins/dark/lightcontrol.png')}    alt="" /><br/>
-        <img id="full_on"  title="Exit Full Screen"      src={publicRoot('/skins/dark/full_on.png')}         alt="" style={{position:'absolute', visibility:'hidden'}}/>
-        <img id="full"     title="Full Screen"           src={publicRoot('/skins/dark/full.png')}            alt="" />
-    </div>
-    <canvas id="draw-canvas" style={{backgroundImage: `url("${publicRoot("/skins/backgrounds/light.jpg")}")`}}/>
-</div>);
+    const source:string = config.hopSource;
+    return (<div id="3dhop" className="tdhop">
+        <div id="tdhlg"></div>
+        <div id="toolbar">
+            <img id="home"     title="Home"                  src={`${source}/skins/dark/home.png`}            alt="" /><br/>
+            <img id="zoomin"   title="Zoom In"               src={`${source}/skins/dark/zoomin.png`}          alt="" /><br/>
+            <img id="zoomout"  title="Zoom Out"              src={`${source}/skins/dark/zoomout.png`}         alt="" /><br/>
+            <img id="light_on" title="Disable Light Control" src={`${source}/skins/dark/lightcontrol_on.png`} alt="" style={{position:'absolute', visibility:'hidden'}}/>
+            <img id="light"    title="Enable Light Control"  src={`${source}/skins/dark/lightcontrol.png`}    alt="" /><br/>
+            <img id="full_on"  title="Exit Full Screen"      src={`${source}/skins/dark/full_on.png`}         alt="" style={{position:'absolute', visibility:'hidden'}}/>
+            <img id="full"     title="Full Screen"           src={`${source}/skins/dark/full.png`}            alt="" />
+        </div>
+        <canvas id="draw-canvas" style={{backgroundImage: `url("${source}/skins/backgrounds/light.jpg")`}}/>
+    </div>);
 };
 
-
-function publicRoot(file: string){
-    return `${process.env.REACT_APP_3DHOP_ROOT}${file}`;
-}
-
-// mainWindow.loadURL(`file://${__dirname}/app/app.html`);
-
-/*
-const params = new URLSearchParams(window.location.search);
-params.has('cenas');
-params.get('cenas'); */
