@@ -1,4 +1,5 @@
 export interface ModelViewerInterface {
     idx: number,
-    url: string
+    url: string,
+    showEmbeddedButtons: boolean
 }

@@ -2,6 +2,7 @@ import { Link, useHistory } from "react-router-dom";
 import { Button } from '@material-ui/core';
 import logo from './play.png';
 import { config } from '../../config';
+import ModelViewer from '../../components/ModelViewer/ModelViewer';
 
 //override typescript error messages on calls to window object
 declare const window: any;
@@ -33,9 +34,22 @@ const Playground = () => {
         <img src={logo} alt={'build warnings made me do it'} /><br/>
 
 
-            <iframe src={`${config.hopSource}/3DHOP_embedded.html?url=https://res.cloudinary.com/inventart/image/upload/v1617566316/3DHOP/laurana_sh9bnm.ply`} height='300px' width='100%' ></iframe>
+            {/* <iframe src={`${config.hopSource}/3DHOP_embedded.html?url=https://res.cloudinary.com/inventart/image/upload/v1617566316/3DHOP/laurana_sh9bnm.ply`} height='300px' width='100%' ></iframe>
             <iframe src={`${config.hopSource}/3DHOP_embedded.html?url=https://res.cloudinary.com/inventart/raw/upload/v1617566207/3DHOP/luso_ffy1la.nxz`} height='300px' width='100%' ></iframe>
-            <iframe src={`${config.hopSource}/3DHOP_embedded.html?url=https://res.cloudinary.com/inventart/raw/upload/v1617501330/3DHOP/gargo_daub17.nxz`} height='300px' width='100%' ></iframe>
+            <iframe src={`${config.hopSource}/3DHOP_embedded.html?url=https://res.cloudinary.com/inventart/raw/upload/v1617501330/3DHOP/gargo_daub17.nxz`} height='300px' width='100%' ></iframe> */}
+            
+            <div style={{width:'100%', display: "flex", flexDirection: 'column', alignItems: 'center' }}>
+                <div style={{width:'300px' }}>
+                    <ModelViewer idx={1} url={'https://res.cloudinary.com/inventart/image/upload/v1617566316/3DHOP/laurana_sh9bnm.ply'} showEmbeddedButtons={true} ></ModelViewer>
+                </div>
+                <div style={{width:'300px' }}>
+                    <ModelViewer idx={2} url={'https://res.cloudinary.com/inventart/raw/upload/v1617566207/3DHOP/luso_ffy1la.nxz'} showEmbeddedButtons={true} ></ModelViewer>
+                </div>
+                <div style={{width:'300px' }}>
+                    <ModelViewer idx={3} url={'https://res.cloudinary.com/inventart/raw/upload/v1617501330/3DHOP/gargo_daub17.nxz'} showEmbeddedButtons={true} ></ModelViewer>
+                </div>
+            </div>
+
     </div>);
 };
 

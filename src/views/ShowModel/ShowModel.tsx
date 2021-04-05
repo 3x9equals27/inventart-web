@@ -15,11 +15,13 @@ const ShowModel = () => {
     //qs.model
     const url = 'https://res.cloudinary.com/inventart/raw/upload/v1617501330/3DHOP/gargo_daub17.nxz'; 
 
-
-    return <div className={styles.iframeContainer}>
-        <iframe src={`${config.hopSource}/3DHOP_single.html?url=${url}`}>
-        </iframe>
-    </div>;
+    return (
+    <div className={styles.mainBody}>
+        <div className={styles.modelViewer}>
+            <ModelViewer idx={0} url={url} showEmbeddedButtons={true} ></ModelViewer>
+        </div>
+    </div>);
+    // return <div className={styles.iframeContainer}><iframe src={`${config.hopSource}/3DHOP_single.html?url=${url}`}></iframe></div>;
 };
 
 export default ShowModel;

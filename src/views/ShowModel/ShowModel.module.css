@@ -1,14 +1,10 @@
-.iframeContainer {
-    overflow: hidden;
-    padding-top: 45%;
-    position: relative;
+.mainBody {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
 }
-  
-.iframeContainer iframe {
-     border: 0;
-     height: 100%;
-     left: 0;
-     position: absolute;
-     top: 0;
-     width: 100%;
+
+.modelViewer {
+    width: 75vw;
 }
