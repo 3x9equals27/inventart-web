@@ -31,6 +31,11 @@ const Playground = () => {
         <button onClick={async () => await openInNewWindow("/Model","?model=gargo.nxz")}> open gargo.nxz in another window</button><br/>
         <button onClick={async () => showVariables()}> show variables</button><br/>
         <img src={logo} alt={'build warnings made me do it'} /><br/>
+
+
+            <iframe src='https://localhost:3000/3DHOP/3DHOP_embedded.html?url=https://res.cloudinary.com/inventart/image/upload/v1617566316/3DHOP/laurana_sh9bnm.ply' height='300px' width='100%' ></iframe>
+            <iframe src='https://localhost:3000/3DHOP/3DHOP_embedded.html?url=https://res.cloudinary.com/inventart/raw/upload/v1617566207/3DHOP/luso_ffy1la.nxz' height='300px' width='100%' ></iframe>
+            <iframe src='https://localhost:3000/3DHOP/3DHOP_embedded.html?url=https://res.cloudinary.com/inventart/raw/upload/v1617501330/3DHOP/gargo_daub17.nxz' height='300px' width='100%' ></iframe>
     </div>);
 };
 
