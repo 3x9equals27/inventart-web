@@ -4,6 +4,7 @@ import NavBar from './components/NavBar/NavBar';
 import App from './views/app/App'
 import Playground from './views/playground/Playground';
 import ShowModel from './views/ShowModel/ShowModel';
+import Diagnostics from './views/Diagnostics/Diagnostics';
 
 
 export const Routes = () => {
@@ -15,6 +16,7 @@ export const Routes = () => {
         <Route exact path="/Home" component={Playground} />
         <Route exact path="/Model" component={ShowModel} />
         <Route exact path="/About" component={App} />
+        <Route exact path="/Diagnostics" component={Diagnostics} />
         <Route exact path="/"><Redirect to="/Home" /></Route>
         <Route render={() => <Redirect to="/Home"/>}/>
       </Switch>

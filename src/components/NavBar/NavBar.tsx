@@ -21,6 +21,7 @@ export default function ButtonAppBar() {
             Inventário
           </Typography>
           <Button color="inherit" onClick={()=>{history.push('/Home')}}>Home</Button>
+          <Button color="inherit" onClick={()=>{history.push('/Diagnostics')}}>Diagnostics</Button>
           <Button color="inherit" onClick={()=>{history.push('/About')}}>About</Button>
         </Toolbar>
       </AppBar>
