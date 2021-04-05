@@ -13,7 +13,6 @@ export const ModelViewer: React.FC<ModelViewerInterface> = ({
     url
   }) => {
       // @ts-ignore
-    window.presenter = window.presenter??{}
     console.warn('model viewer idx', idx);
     
 
@@ -36,10 +35,10 @@ function init3DHOP() {
 
 function loadModel(idx: number, url: string) {
     // @ts-ignore
-	window.presenter[idx] = new window.Presenter(`draw-canvas-${idx}`);
+	window.presenter = new window.Presenter("draw-canvas");
 
     // @ts-ignore
-	window.presenter[idx].setScene({
+	window.presenter.setScene({
         meshes: {
             "mesh_1" : { url: url }
         },
@@ -64,10 +63,10 @@ function loadModel(idx: number, url: string) {
 // @ts-ignore 
 // eslint-disable-next-line
 window.actionsToolbar = function(action) { // @ts-ignore
-	if(action==='home') window.presenter[idx].resetTrackball(); // @ts-ignore
-    else if(action==='zoomin') window.presenter[idx].zoomIn(); // @ts-ignore
-	else if(action==='zoomout') window.presenter[idx].zoomOut(); // @ts-ignore
-	else if(action==='light' || action==='light_on') { window.presenter[idx].enableLightTrackball(!window.presenter[idx].isLightTrackballEnabled()); lightSwitch(); } // @ts-ignore
+	if(action==='home') window.presenter.resetTrackball(); // @ts-ignore
+    else if(action==='zoomin') window.presenter.zoomIn(); // @ts-ignore
+	else if(action==='zoomout') window.presenter.zoomOut(); // @ts-ignore
+	else if(action==='light' || action==='light_on') { window.presenter.enableLightTrackball(!window.presenter.isLightTrackballEnabled()); lightSwitch(); } // @ts-ignore
 	else if(action==='full'  || action==='full_on') fullscreenSwitch(); // @ts-ignore
 }
 
@@ -84,6 +83,6 @@ const hopDiv = (idx: number) => {
             <img id="full_on"  title="Exit Full Screen"      src={`${source}/skins/dark/full_on.png`}         alt="" style={{position:'absolute', visibility:'hidden'}}/>
             <img id="full"     title="Full Screen"           src={`${source}/skins/dark/full.png`}            alt="" />
         </div>
-        <canvas id={`draw-canvas-${idx}`} className={"draw-canvas-3dhop"} style={{backgroundImage: `url("${source}/skins/backgrounds/light.jpg")`}}/>
+        <canvas id="draw-canvas" style={{backgroundImage: `url("${source}/skins/backgrounds/light.jpg")`}}/>
     </div>);
 };
