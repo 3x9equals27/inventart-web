@@ -33,9 +33,9 @@ const Playground = () => {
         <img src={logo} alt={'build warnings made me do it'} /><br/>
 
 
-            <iframe src='https://localhost:3000/3DHOP/3DHOP_embedded.html?url=https://res.cloudinary.com/inventart/image/upload/v1617566316/3DHOP/laurana_sh9bnm.ply' height='300px' width='100%' ></iframe>
-            <iframe src='https://localhost:3000/3DHOP/3DHOP_embedded.html?url=https://res.cloudinary.com/inventart/raw/upload/v1617566207/3DHOP/luso_ffy1la.nxz' height='300px' width='100%' ></iframe>
-            <iframe src='https://localhost:3000/3DHOP/3DHOP_embedded.html?url=https://res.cloudinary.com/inventart/raw/upload/v1617501330/3DHOP/gargo_daub17.nxz' height='300px' width='100%' ></iframe>
+            <iframe src={`${config.hopSource}/3DHOP_embedded.html?url=https://res.cloudinary.com/inventart/image/upload/v1617566316/3DHOP/laurana_sh9bnm.ply`} height='300px' width='100%' ></iframe>
+            <iframe src={`${config.hopSource}/3DHOP_embedded.html?url=https://res.cloudinary.com/inventart/raw/upload/v1617566207/3DHOP/luso_ffy1la.nxz`} height='300px' width='100%' ></iframe>
+            <iframe src={`${config.hopSource}/3DHOP_embedded.html?url=https://res.cloudinary.com/inventart/raw/upload/v1617501330/3DHOP/gargo_daub17.nxz`} height='300px' width='100%' ></iframe>
     </div>);
 };
 
