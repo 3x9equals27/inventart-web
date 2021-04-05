@@ -79,9 +79,9 @@ function init3dhop() {
 			jQuery('#toolbar img').css("opacity","0.5");
 		});
 
-	jQuery('#3dhop:not(#draw-canvas)').on('contextmenu', function(e) { return false; });
+	jQuery('#3dhop:not(.draw-canvas-3dhop)').on('contextmenu', function(e) { return false; });
 
-	jQuery('#draw-canvas')
+	jQuery('.draw-canvas-3dhop')
 		.on('contextmenu', function(e) {
 			if (!isMobile()) return false; //MOBILE DEVICES CHECK
 		})
@@ -118,8 +118,8 @@ function init3dhop() {
 			height = jQuery('#3dhop').parent().height();
 		}
 
-		jQuery('#draw-canvas').attr('width', width);
-		jQuery('#draw-canvas').attr('height',height);
+		jQuery('.draw-canvas-3dhop').attr('width', width);
+		jQuery('.draw-canvas-3dhop').attr('height',height);
 		jQuery('#3dhop').css('width', width);
 		jQuery('#3dhop').css('height', height);
 
@@ -135,8 +135,8 @@ function init3dhop() {
 		jQuery('.close').css("display", "inline");
 	});
 
-	jQuery('#draw-canvas').attr('width', jQuery('#3dhop').parent().width());
-	jQuery('#draw-canvas').attr('height',jQuery('#3dhop').parent().height());
+	jQuery('.draw-canvas-3dhop').attr('width', jQuery('#3dhop').parent().width());
+	jQuery('.draw-canvas-3dhop').attr('height',jQuery('#3dhop').parent().height());
 	jQuery('#3dhop').css('width', jQuery('#3dhop').parent().width());
 	jQuery('#3dhop').css('height', jQuery('#3dhop').parent().height());
 
@@ -213,7 +213,7 @@ function pickpointSwitch(on) {
     jQuery('#pick').css("visibility", "hidden");
     jQuery('#pick_on').css("visibility", "visible");
     jQuery('#pickpoint-box').fadeIn().css("display","table");
-    jQuery('#draw-canvas').css("cursor","crosshair");
+    jQuery('.draw-canvas-3dhop').css("cursor","crosshair");
   }
   else{
     if (window.getSelection && window.getSelection()!='') window.getSelection().removeAllRanges();
@@ -222,7 +222,7 @@ function pickpointSwitch(on) {
     jQuery('#pick').css("visibility", "visible");
     jQuery('#pickpoint-box').css("display","none");
     jQuery('#pickpoint-output').html("[ 0 , 0 , 0 ]");
-    if (!presenter.isAnyMeasurementEnabled()) jQuery('#draw-canvas').css("cursor","default");
+    if (!presenter.isAnyMeasurementEnabled()) jQuery('.draw-canvas-3dhop').css("cursor","default");
   }
 }
 
@@ -233,7 +233,7 @@ function measureSwitch(on) {
     jQuery('#measure').css("visibility", "hidden");
     jQuery('#measure_on').css("visibility", "visible");
     jQuery('#measure-box').fadeIn().css("display","table");
-    jQuery('#draw-canvas').css("cursor","crosshair");
+    jQuery('.draw-canvas-3dhop').css("cursor","crosshair");
   }
   else{
     if (window.getSelection && window.getSelection()!='') window.getSelection().removeAllRanges();
@@ -242,7 +242,7 @@ function measureSwitch(on) {
     jQuery('#measure').css("visibility", "visible");
     jQuery('#measure-box').css("display","none");
     jQuery('#measure-output').html("0.0");
-    if (!presenter.isAnyMeasurementEnabled()) jQuery('#draw-canvas').css("cursor","default");
+    if (!presenter.isAnyMeasurementEnabled()) jQuery('.draw-canvas-3dhop').css("cursor","default");
   }
 }
 
@@ -488,8 +488,8 @@ function exitFullscreen() {
 
   if (isIOS()) return; //IOS DEVICES CHECK
 
-  jQuery('#draw-canvas').attr('width', presenter._nativeWidth);
-  jQuery('#draw-canvas').attr('height',presenter._nativeHeight);
+  jQuery('.draw-canvas-3dhop').attr('width', presenter._nativeWidth);
+  jQuery('.draw-canvas-3dhop').attr('height',presenter._nativeHeight);
   jQuery('#3dhop').css('width', presenter._nativeWidth);
   jQuery('#3dhop').css('height', presenter._nativeHeight);
   presenter._resizable = presenter._nativeResizable;
@@ -515,7 +515,7 @@ function measurementSwitch() {
     jQuery('#measure').css("visibility", "hidden");
     jQuery('#measure_on').css("visibility", "visible");
     jQuery('#measurebox').css("visibility","visible");
-    jQuery('#draw-canvas').css("cursor","crosshair");
+    jQuery('.draw-canvas-3dhop').css("cursor","crosshair");
   }
   else{
     if (window.getSelection && window.getSelection()!='') window.getSelection().removeAllRanges();
@@ -524,7 +524,7 @@ function measurementSwitch() {
     jQuery('#measure').css("visibility", "visible");
     jQuery('#measurebox').css("visibility","hidden");
     jQuery('#measure-output').html("0.0");
-    if (!presenter.isAnyMeasurementEnabled()) jQuery('#draw-canvas').css("cursor","default");
+    if (!presenter.isAnyMeasurementEnabled()) jQuery('.draw-canvas-3dhop').css("cursor","default");
   }
 }
 
@@ -558,8 +558,8 @@ function moveMeasurebox(r,t) {
 }
 
 function resizeCanvas(w,h) {
-  jQuery('#draw-canvas').attr('width', w);
-  jQuery('#draw-canvas').attr('height',h);
+  jQuery('.draw-canvas-3dhop').attr('width', w);
+  jQuery('.draw-canvas-3dhop').attr('height',h);
   jQuery('#3dhop').css('width', w);
   jQuery('#3dhop').css('height', h);
 
