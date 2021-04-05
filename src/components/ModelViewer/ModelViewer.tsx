@@ -13,14 +13,14 @@ export const ModelViewer: React.FC<ModelViewerInterface> = ({
     url
   }) => {
       // @ts-ignore
+    window.presenter = window.presenter??{}
     console.warn('model viewer idx', idx);
     
 
     useEffect(() => {
-        console.warn('using effect');
         init3DHOP();
         loadModel(idx,url);
-    }, []);
+    }, [idx,url]);
 
     return (<div style={{height:'100%', width:'100%'}}>
         {hopDiv(idx)}
@@ -30,18 +30,16 @@ export const ModelViewer: React.FC<ModelViewerInterface> = ({
 export default ModelViewer;
 
 function init3DHOP() {
-    console.warn('initing 3dhop');
     // @ts-ignore
     window.init3dhop();
 };
 
 function loadModel(idx: number, url: string) {
     // @ts-ignore
-	window.presenter = new window.Presenter(`draw-canvas-${idx}`);
-    console.warn('presenter', idx);
+	window.presenter[idx] = new window.Presenter(`draw-canvas-${idx}`);
 
     // @ts-ignore
-	window.presenter.setScene({
+	window.presenter[idx].setScene({
         meshes: {
             "mesh_1" : { url: url }
         },
@@ -66,14 +64,10 @@ function loadModel(idx: number, url: string) {
 // @ts-ignore 
 // eslint-disable-next-line
 window.actionsToolbar = function(action) { // @ts-ignore
-    console.warn('action', action);
-    //let idx = 1;
-    // @ts-ignore 
-    //window.presenter = window.presenter[1]; // @ts-ignore 
-	if(action==='home') window.presenter.resetTrackball(); // @ts-ignore
-    else if(action==='zoomin') window.presenter.zoomIn(); // @ts-ignore
-	else if(action==='zoomout') window.presenter.zoomOut(); // @ts-ignore
-	else if(action==='light' || action==='light_on') { window.presenter.enableLightTrackball(!window.presenter.isLightTrackballEnabled()); lightSwitch(); } // @ts-ignore
+	if(action==='home') window.presenter[idx].resetTrackball(); // @ts-ignore
+    else if(action==='zoomin') window.presenter[idx].zoomIn(); // @ts-ignore
+	else if(action==='zoomout') window.presenter[idx].zoomOut(); // @ts-ignore
+	else if(action==='light' || action==='light_on') { window.presenter[idx].enableLightTrackball(!window.presenter[idx].isLightTrackballEnabled()); lightSwitch(); } // @ts-ignore
 	else if(action==='full'  || action==='full_on') fullscreenSwitch(); // @ts-ignore
 }
 
