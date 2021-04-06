@@ -19,7 +19,9 @@ export const ModelViewer: React.FC<ModelViewerInterface> = ({
     console.warn('model viewer idx', idx);
 
     useEffect(() => {
-        loadModel(idx,url);
+        if(idx >= 0 && url.length > 0){
+            loadModel(idx,url);
+        }
     }, [idx,url]);
 
     let render_height:number = window.screen.height;

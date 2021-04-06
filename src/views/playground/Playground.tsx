@@ -15,21 +15,21 @@ const Playground = () => {
         try new stuff here<br/>
 
         {/* Open in same window SPA style */}
-        <Button color="inherit" onClick={()=>{history.push('/Model?model=gargo.nxz')}}>history.push('/Model?model=gargo.nxz')</Button><br/>
-        <Link to={"/Model?model=gargo.nxz"}>Link to="/Model?model=gargo.nxz"</Link><br/>
+        <Button color="inherit" onClick={()=>{history.push('/Model?model=0e1249c3-aa30-4477-855e-660200669047')}}>history.push('/Model?model=0e1249c3-aa30-4477-855e-660200669047')</Button><br/>
+        <Link to={"/Model?model=0e1249c3-aa30-4477-855e-660200669047"}>Link to="/Model?model=0e1249c3-aa30-4477-855e-660200669047"</Link><br/>
         {/* Open in new window */}
-        <Link to={"/Model?model=gargo.nxz"} target="_blank">Link to="/Model?model=gargo.nxz" target="_blank"</Link><br/>
+        <Link to={"/Model?model=0e1249c3-aa30-4477-855e-660200669047"} target="_blank">Link to="/Model?model=0e1249c3-aa30-4477-855e-660200669047" target="_blank"</Link><br/>
         <a
           className="App-link"
-          href={newWindowLink("/Model","?model=gargo.nxz")}
+          href={newWindowLink("/Model","?model=0e1249c3-aa30-4477-855e-660200669047")}
           target="_blank"
           rel="noopener noreferrer"
-          onClick={async (e) => { e.preventDefault(); await openInNewWindow("/Model","?model=gargo.nxz")}}
+          onClick={async (e) => { e.preventDefault(); await openInNewWindow("/Model","?model=0e1249c3-aa30-4477-855e-660200669047")}}
         >
-          open gargo.nxz in another window
+          open 0e1249c3-aa30-4477-855e-660200669047 in another window
         </a><br/>
 
-        <button onClick={async () => await openInNewWindow("/Model","?model=gargo.nxz")}> open gargo.nxz in another window</button><br/>
+        <button onClick={async () => await openInNewWindow("/Model","?model=0e1249c3-aa30-4477-855e-660200669047")}> open 0e1249c3-aa30-4477-855e-660200669047 in another window</button><br/>
         <button onClick={async () => showVariables()}> show variables</button><br/>
         <img src={logo} alt={'build warnings made me do it'} /><br/>
 

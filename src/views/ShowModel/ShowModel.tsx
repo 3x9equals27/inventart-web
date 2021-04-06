@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import ModelViewer from '../../components/ModelViewer/ModelViewer';
 import { config } from '../../config';
 import styles from './ShowModel.module.css';
+import axios from 'axios';
+import Loading from '../../components/Loading/Loading';
 const queryString = require('query-string');
 
-//https://inventart-api.azurewebsites.net/nxz/gargo.nxz
 //https://res.cloudinary.com/inventart/raw/upload/v1617501330/3DHOP/gargo_daub17.nxz
 //https://res.cloudinary.com/inventart/raw/upload/v1617566207/3DHOP/luso_ffy1la.nxz
 //https://res.cloudinary.com/inventart/image/upload/v1617566316/3DHOP/laurana_sh9bnm.ply
@@ -12,16 +13,23 @@ const queryString = require('query-string');
 
 const ShowModel = () => {
     const qs = queryString.parse(window.location.search);
-    //qs.model
-    const url = 'https://res.cloudinary.com/inventart/raw/upload/v1617501330/3DHOP/gargo_daub17.nxz'; 
 
     return (
     <div className={styles.mainBody}>
         <div className={styles.modelViewer}>
-            <ModelViewer idx={0} url={url} showEmbeddedButtons={true} ></ModelViewer>
+            <Loading condition={() => promisseModelViewer(qs.model)} />
         </div>
     </div>);
-    // return <div className={styles.iframeContainer}><iframe src={`${config.hopSource}/3DHOP_single.html?url=${url}`}></iframe></div>;
 };
 
 export default ShowModel;
+
+
+const promisseModelViewer = async(fileGuid:string):Promise<JSX.Element> => {
+      return axios.get(`${config.apiRoot}/File/link/${fileGuid}`)
+      .then(async res => { 
+          return <ModelViewer idx={1} url={res.data} showEmbeddedButtons={true} />
+        });
+    }
+
+  //0e1249c3-aa30-4477-855e-660200669047

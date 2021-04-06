@@ -1,11 +1,13 @@
 import styles from './Diagnostics.module.css';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { GridCore } from '../../components/GridCore/GridCore';
 import { Loading } from '../../components/Loading/Loading';
 import { Column } from '@material-table/core';
 import ModelViewer from '../../components/ModelViewer/ModelViewer';
 import _ from 'lodash';
+import { config } from '../../config';
+import { Link } from 'react-router-dom';
 const delay = require('delay');
 
 
@@ -15,7 +17,7 @@ const Diagnostics = () => {
     console.warn('drawing diagnostics');
 
     useEffect(() => {
-        axios.get(`https://inventart-api.azurewebsites.net/Diagnostico/list`)
+        axios.get(`${config.apiRoot}/Diagnostico/list`)
         .then(res => {
             console.warn(res.data);
             setGridData(res.data);
@@ -46,9 +48,18 @@ const gridColumns: Array<Column<any>> = [
     },
     {
         field: 'has_file',
-        title: 'boolean render',
-        //render: (rowData) => <div>{_.get(rowData, 'has_file')?'yes':'no'}</div>, 
-        render: (rowData) => { return <Loading condition={() => promisseModelViewer(rowData.tableData.id)} />; }
+        title: 'Has file',
+        render: (rowData) => <div>{_.get(rowData, 'has_file')?'yes':'no'}</div>, 
+        //render: (rowData) => { return <Loading condition={() => promisseModelViewer(rowData.tableData.id)} />; }
+    },
+    {
+        field: 'file_guid',
+        title: 'View Model',
+        render: (rowData) => { return !rowData.file_guid ? null :
+            // <Loading condition={() => promisseModelViewer(rowData.tableData.id)} /> : 
+            <Link to={`/Model?model=${rowData.file_guid}`} >View Model</Link>
+            ; 
+        }
     }
   ];
 
