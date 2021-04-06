@@ -71,7 +71,7 @@ function goFullScreen(idx: number){
     // @ts-ignore
     document.getElementById(canvasId(idx)).height = window.screen.height;// @ts-ignore
     document.getElementById(canvasId(idx)).width = window.screen.width;// @ts-ignore
-    document.getElementById(canvasId(idx)).requestFullscreen();
+    document.getElementById(canvasId(idx))?.parentElement.requestFullscreen();
 
     presenterArray[idx].ui.postDrawEvent();
 }
