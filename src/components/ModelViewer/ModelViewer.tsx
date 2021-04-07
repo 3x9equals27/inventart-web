@@ -46,8 +46,8 @@ export default ModelViewer;
 function drawEmbeddedButtons(showEmbeddedButtons: boolean, idx: number) {
     if(showEmbeddedButtons){
         return <>
-            <img id="full" title="Full Screen" src="3DHOP/skins/dark/full.png" className={styles.embeddedFullScreenButton} onClick={(e)=>fullScreenImage(e,idx)}/>
-            <img id="home" title="Home" src="3DHOP/skins/dark/home.png" className={styles.embeddedHomeButton} onClick={(e)=>resetImage(e,idx)}/>
+            <img id="full" title="Full Screen" src="3DHOP/skins/dark/full.png" className={styles.embeddedFullScreenButton} onClick={(e)=>fullScreenImage(e,idx)} alt=""/>
+            <img id="home" title="Home" src="3DHOP/skins/dark/home.png" className={styles.embeddedHomeButton} onClick={(e)=>resetImage(e,idx)} alt=""/>
         </>;
     }
 
@@ -56,12 +56,12 @@ function drawEmbeddedButtons(showEmbeddedButtons: boolean, idx: number) {
 
 const canvasId = (idx:number):string => `draw-canvas-${idx}`;
 
-function resetButton(event: React.MouseEvent<HTMLButtonElement>, idx: number):void {
-    goHome(idx);
-}
-function fullScreenButton(event: React.MouseEvent<HTMLButtonElement>, idx: number):void {
-    goFullScreen(idx);
-}
+// function resetButton(event: React.MouseEvent<HTMLButtonElement>, idx: number):void {
+//     goHome(idx);
+// }
+// function fullScreenButton(event: React.MouseEvent<HTMLButtonElement>, idx: number):void {
+//     goFullScreen(idx);
+// }
 function resetImage(event: React.MouseEvent<HTMLImageElement>, idx: number):void {
     goHome(idx);
 }

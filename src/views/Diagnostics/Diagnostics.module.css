@@ -5,3 +5,9 @@
     width: 100%;
 }
 
+.detailPanel{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

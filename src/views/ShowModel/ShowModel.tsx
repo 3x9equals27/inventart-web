@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react';
 import ModelViewer from '../../components/ModelViewer/ModelViewer';
 import { config } from '../../config';
 import styles from './ShowModel.module.css';
@@ -26,10 +25,10 @@ export default ShowModel;
 
 
 const promisseModelViewer = async(fileGuid:string):Promise<JSX.Element> => {
-      return axios.get(`${config.apiRoot}/File/link/${fileGuid}`)
-      .then(async res => { 
-          return <ModelViewer idx={1} url={res.data} showEmbeddedButtons={true} />
-        });
-    }
+    return axios.get(`${config.apiRoot}/File/link/${fileGuid}`)
+    .then(async res => { 
+        return <ModelViewer idx={1} url={res.data} showEmbeddedButtons={true} />
+    });
+}
 
   //0e1249c3-aa30-4477-855e-660200669047

@@ -1,23 +1,29 @@
 import React from 'react';
-import MaterialTable, { Column, Components } from '@material-table/core';
+import MaterialTable, { Column, Components, DetailPanel, MTableBody } from '@material-table/core';
 import { Paper } from '@material-ui/core';
 import styles from './GridCore.module.css';
 import { TableIcons } from './GridCoreIcons';
 
-export interface GridCoreProps {
+export interface GridCoreProps<RowData extends object> {
   columns: Column<any>[];
   data: any[];
-//  paginationOverride?: JSX.Element;
+  detailPanel?: DetailPanel<RowData>[];
+  onRowClick?: (
+    event?: React.MouseEvent,
+    rowData?: RowData,
+    toggleDetailPanel?: (panelIndex?: number) => void
+  ) => void;
 }
 
-export const GridCore: React.FC<GridCoreProps> = ({ 
+export const GridCore: React.FC<GridCoreProps<any>> = ({ 
   columns, 
   data, 
- // paginationOverride 
+  detailPanel,
+  onRowClick
 }) => {
   var components: Components = {};
   components.Container = (props) => <Paper {...props} className={styles.gridCore} />;
-  //if (paginationOverride) components.Pagination = () => <td style={{ display: 'flex' }}>{paginationOverride}</td>; // Warning: validateDOMNesting(...): <div> cannot appear as a child of <tr>.
+  components.Body = (props) => <MTableBody {...props} bulkEditChangedRows={[]}></MTableBody>;
 
   return (
     <MaterialTable
@@ -25,7 +31,7 @@ export const GridCore: React.FC<GridCoreProps> = ({
       columns={columns}
       data={data}
       options={{
-        maxBodyHeight: 800,
+        maxBodyHeight: 500,
         emptyRowsWhenPaging: false,
         //columnsButton: true,
         // toolbar: false,
@@ -38,6 +44,9 @@ export const GridCore: React.FC<GridCoreProps> = ({
       }}
       // https://material-table.com/#/docs/features/component-overriding
       components={components}
+      detailPanel={detailPanel}
+      onRowClick={onRowClick}
     />
   );
 };
+
