@@ -13,12 +13,10 @@ import { Link } from 'react-router-dom';
 
 const Diagnostics = () => {
     const [gridData, setGridData] = useState<Array<any>>([]);
-    console.warn('drawing diagnostics');
 
     useEffect(() => {
         axios.get(`${config.apiRoot}/Diagnostico/list`)
         .then(res => {
-            console.warn(res.data);
             setGridData(res.data);
         });
     }, []);

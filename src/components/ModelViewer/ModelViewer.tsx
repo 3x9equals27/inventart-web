@@ -16,8 +16,6 @@ export const ModelViewer: React.FC<ModelViewerInterface> = ({
     url,
     showEmbeddedButtons
   }) => {
-    console.warn('model viewer idx', idx);
-
     useEffect(() => {
         if(idx >= 0 && url.length > 0){
             loadModel(idx,url);
@@ -83,9 +81,6 @@ function goHome(idx: number){
 
 function loadModel(idx: number, url: string) {
     
-    console.warn('canvasId', canvasId);
-    console.warn('url', url);
-    console.warn('idx', idx);
     // @ts-ignore
     presenterArray[idx] = new window.Presenter(canvasId(idx));
 

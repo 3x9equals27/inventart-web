@@ -31,7 +31,7 @@ export const GridCore: React.FC<GridCoreProps<any>> = ({
       columns={columns}
       data={data}
       options={{
-        maxBodyHeight: 500,
+        maxBodyHeight: 800,
         emptyRowsWhenPaging: false,
         //columnsButton: true,
         // toolbar: false,
