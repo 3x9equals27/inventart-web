@@ -1,12 +1,7 @@
-- test
-- https://www.digitalocean.com/community/tutorials/how-to-add-login-authentication-to-react-applications
-- https://www.c-sharpcorner.com/article/authentication-and-authorization-in-asp-net-core-web-api-with-json-web-tokens/
-- https://dev.to/_patrickgod/basic-authentication-with-a-net-core-web-api-2a59
+- https://auth0.com/blog/complete-guide-to-react-user-authentication/
 
 - https://stackoverflow.com/questions/56495475/asp-net-core-its-possible-to-configure-an-action-in-controller-only-in-developm
 
-- make ModelViewer embeded inside Model and fed model name with props
-- since this will be the only thing needing to access the 3DHOP static files, consider adding static .js content here and not in the index.html
 
 Curator - ines/simoes - pode ver e editar tudo.
 Visitor - guest/guest - só pode ver.

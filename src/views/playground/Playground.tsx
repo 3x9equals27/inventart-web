@@ -3,17 +3,28 @@ import { Button } from '@material-ui/core';
 import logo from './play.png';
 import { config } from '../../config';
 import ModelViewer from '../../components/ModelViewer/ModelViewer';
+import { useAuth0 } from "@auth0/auth0-react";
 
 //override typescript error messages on calls to window object
 declare const window: any;
 
 const Playground = () => {
     const history = useHistory();
-    
+    const { user, logout, getAccessTokenSilently } = useAuth0();
+
+    async function getAccessToken(){
+        const accessToken = await getAccessTokenSilently();
+
+        console.warn('getAccessToken', accessToken);
+    }
+
     return (
     <div style={{minHeight:'500px', maxHeight:'600px', width:'100%'}}>
         try new stuff here<br/>
 
+        <button onClick={() => logout({ returnTo: window.location.origin })}>Log Out</button><br/>
+        <button onClick={() => console.warn(user)}>Auth 0 User</button><br/>
+        <button onClick={() => getAccessToken()}>get access token</button><br/>
         {/* Open in same window SPA style */}
         <Button color="inherit" onClick={()=>{history.push('/Model?model=0e1249c3-aa30-4477-855e-660200669047')}}>history.push('/Model?model=0e1249c3-aa30-4477-855e-660200669047')</Button><br/>
         <Link to={"/Model?model=0e1249c3-aa30-4477-855e-660200669047"}>Link to="/Model?model=0e1249c3-aa30-4477-855e-660200669047"</Link><br/>
@@ -38,7 +49,7 @@ const Playground = () => {
             <iframe src={`${config.hopSource}/3DHOP_embedded.html?url=https://res.cloudinary.com/inventart/raw/upload/v1617566207/3DHOP/luso_ffy1la.nxz`} height='300px' width='100%' ></iframe>
             <iframe src={`${config.hopSource}/3DHOP_embedded.html?url=https://res.cloudinary.com/inventart/raw/upload/v1617501330/3DHOP/gargo_daub17.nxz`} height='300px' width='100%' ></iframe> */}
             
-            <div style={{width:'100%', display: "flex", flexDirection: 'column', alignItems: 'center' }}>
+            {/* <div style={{width:'100%', display: "flex", flexDirection: 'column', alignItems: 'center' }}>
                 <div style={{width:'300px' }}>
                     <ModelViewer idx={1} url={'https://res.cloudinary.com/inventart/image/upload/v1617566316/3DHOP/laurana_sh9bnm.ply'} showEmbeddedButtons={true} ></ModelViewer>
                 </div>
@@ -48,7 +59,7 @@ const Playground = () => {
                 <div style={{width:'300px' }}>
                     <ModelViewer idx={3} url={'https://res.cloudinary.com/inventart/raw/upload/v1617501330/3DHOP/gargo_daub17.nxz'} showEmbeddedButtons={true} ></ModelViewer>
                 </div>
-            </div>
+            </div> */}
 
     </div>);
 };

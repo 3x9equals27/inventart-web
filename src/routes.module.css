@@ -2,3 +2,14 @@
   margin-top: 60px;
   height: calc(100% - 60px);
 }
+
+.circularProgress {
+  width: 100vw;
+  height: 100vh; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+  text-align: center;
+}
