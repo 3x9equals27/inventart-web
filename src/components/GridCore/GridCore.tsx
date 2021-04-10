@@ -1,7 +1,7 @@
 import React from 'react';
 import MaterialTable, { Column, Components, DetailPanel, MTableBody } from '@material-table/core';
 import { Paper } from '@material-ui/core';
-import styles from './GridCore.module.css';
+import styles from './GridCore.module.scss';
 import { TableIcons } from './GridCoreIcons';
 
 export interface GridCoreProps<RowData extends object> {
@@ -31,7 +31,8 @@ export const GridCore: React.FC<GridCoreProps<any>> = ({
       columns={columns}
       data={data}
       options={{
-        maxBodyHeight: 800,
+        minBodyHeight: 'calc(100vh - 230px)',
+        maxBodyHeight: 'calc(100vh - 230px)',
         emptyRowsWhenPaging: false,
         //columnsButton: true,
         // toolbar: false,
@@ -40,7 +41,7 @@ export const GridCore: React.FC<GridCoreProps<any>> = ({
         // pageSize: 6,
         // emptyRowsWhenPaging: false,
         // pageSizeOptions: [],
-        // paginationPosition: 'bottom',
+        paginationPosition: 'bottom',
       }}
       // https://material-table.com/#/docs/features/component-overriding
       components={components}
