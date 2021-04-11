@@ -1,5 +1,10 @@
-- https://auth0.com/blog/complete-guide-to-react-user-authentication/
+- meter loading na tabela
+- mudar permissoes para roles
+- criar REGISTRATION hook no auth0 que dá o role de visitante a quem se registar com email terminado em @campus.ul.pt
+- criar um hook que devolve "isLoading", accessToken e permissões[]
 
+
+- https://auth0.com/blog/complete-guide-to-react-user-authentication/
 - https://stackoverflow.com/questions/56495475/asp-net-core-its-possible-to-configure-an-action-in-controller-only-in-developm
 
 
@@ -14,3 +19,6 @@ Admin - pode ver o ecra de gestao de roles de utilizadores.
 Contributor - pode ver e sugerir alteracoes a obras/fichas existentes ou a introducao de novas obras/fichas
 a contribuicao poderia ser guardada/submetida/editada apenas pelo contribuidor e apenas ficaria visivel para os Visitantes após ser aprovada por um Curador
 
+role:visitor
+role:contributor
+role:curator

@@ -3,18 +3,26 @@ import { Button } from '@material-ui/core';
 import logo from './play.png';
 import { config } from '../../config';
 import { useAuth0 } from "@auth0/auth0-react";
+import jwt_decode from "jwt-decode";
+import { AuthInfo } from "../../interfaces/AuthInfo.interface";
 
 //override typescript error messages on calls to window object
 declare const window: any;
 
-const Playground = () => {
+const Playground = (auth:AuthInfo) => {
+    console.warn('Playground reading parameters', auth);
     const history = useHistory();
     const { user, logout, getAccessTokenSilently } = useAuth0();
 
     async function getAccessToken(){
         const accessToken = await getAccessTokenSilently();
-
         console.warn('getAccessToken', accessToken);
+        const decoded:any = jwt_decode(accessToken);
+        window.jwt = decoded;
+        console.warn('window.jwt', window.jwt);
+        if(decoded.permissions.includes('file:upload')){
+            console.warn("decoded.permissions.includes('file:upload') evaluated to true");
+        }
     }
 
     return (
@@ -40,7 +48,7 @@ const Playground = () => {
         </a><br/>
 
         <button onClick={async () => await openInNewWindow("/Model","?model=0e1249c3-aa30-4477-855e-660200669047")}> open 0e1249c3-aa30-4477-855e-660200669047 in another window</button><br/>
-        <button onClick={async () => showVariables()}> show variables</button><br/>
+        <button onClick={async () => showVariables()}> show config</button><br/>
         <img src={logo} alt={'build warnings made me do it'} /><br/>
 
 
@@ -76,7 +84,5 @@ function newWindowLink(pathname: string, search: string){
 }
 
 function showVariables(){
-    console.warn('PUBLIC_URL', config.webRoot);
-    console.warn('REACT_APP_3DHOP_SOURCE', config.hopSource);
-    console.warn('REACT_APP_3DHOP_MODELS', config.hopModels);
+    console.warn('config', config);
 }

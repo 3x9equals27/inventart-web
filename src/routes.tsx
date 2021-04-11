@@ -5,11 +5,12 @@ import App from './views/app/App'
 import Playground from './views/playground/Playground';
 import ShowModel from './views/ShowModel/ShowModel';
 import Diagnostics from './views/Diagnostics/Diagnostics';
-import { useAuth0 } from "@auth0/auth0-react";
 import { CircularProgress } from '@material-ui/core';
+import { useAuthentication } from './hooks/useAuthentication';
+import { AuthInfo } from './interfaces/AuthInfo.interface';
 
 export const Routes = () => {
-  const { isAuthenticated, isLoading, loginWithRedirect, user } = useAuth0();
+  const { isAuthenticated, isLoading, loginWithRedirect, user, token, roles } = useAuthentication();
 
   if (isLoading === true) {
     return <div className={styles.circularProgress}>
@@ -28,13 +29,22 @@ export const Routes = () => {
   </div>;
   }
 
+  if(roles.visitor === false){
+    //WIP
+    //does not have even the lowest access
+    //redirect to a screen where the user is informed he must wait for approval or contact X
+  }
+
   if (isAuthenticated === true) {
+
+    const authInfo:AuthInfo = {token: token, roles: roles};
+
     return (
       <div>
         <NavBar />
         <div className={styles.content}>
         <Switch>
-          <Route exact path="/Home" component={Playground} />
+          <Route exact path="/Home" component={()=>Playground(authInfo)} />
           <Route exact path="/Model" component={ShowModel} />
           <Route exact path="/About" component={App} />
           <Route exact path="/Diagnostics" component={Diagnostics} />
