@@ -9,7 +9,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { CircularProgress } from '@material-ui/core';
 
 export const Routes = () => {
-  const { isAuthenticated, isLoading, loginWithRedirect  } = useAuth0();
+  const { isAuthenticated, isLoading, loginWithRedirect, user } = useAuth0();
 
   if (isLoading === true) {
     return <div className={styles.circularProgress}>
@@ -19,6 +19,13 @@ export const Routes = () => {
 
   if (isAuthenticated === false) {
     loginWithRedirect();
+  }
+
+  if (isAuthenticated === true && user.email_verified === false) {
+    return <div className={styles.verifyEmail}>
+    <div>Please verify your email {user.email}</div>
+    <div>Check your inbox for the link to verify your account.</div>
+  </div>;
   }
 
   if (isAuthenticated === true) {
