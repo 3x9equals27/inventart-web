@@ -3,6 +3,8 @@ import { config } from '../../config';
 import styles from './ShowModel.module.css';
 import axios from 'axios';
 import Loading from '../../components/Loading/Loading';
+import { useAuth0 } from '@auth0/auth0-react';
+import { useEffect, useState } from 'react';
 const queryString = require('query-string');
 
 //https://res.cloudinary.com/inventart/raw/upload/v1617501330/3DHOP/gargo_daub17.nxz
@@ -12,11 +14,20 @@ const queryString = require('query-string');
 
 const ShowModel = () => {
     const qs = queryString.parse(window.location.search);
+    const { getAccessTokenSilently } = useAuth0();
+    const [token, setToken] = useState<string>();
 
-    return (
+    useEffect(() => {
+        (async () => {
+            const accessToken = await getAccessTokenSilently();
+            setToken(accessToken);
+        })();
+    }, [getAccessTokenSilently]);
+    
+    return ( !token ? <></> :
     <div className={styles.mainBody}>
         <div className={styles.modelViewer}>
-            <Loading condition={() => promisseModelViewer(qs.model)} />
+            <Loading condition={() => promisseModelViewer(qs.model, token)} />
         </div>
     </div>);
 };
@@ -24,8 +35,12 @@ const ShowModel = () => {
 export default ShowModel;
 
 
-const promisseModelViewer = async(fileGuid:string):Promise<JSX.Element> => {
-    return axios.get(`${config.apiRoot}/File/link/${fileGuid}`)
+const promisseModelViewer = async(fileGuid:string, token: string):Promise<JSX.Element> => {
+    return axios.get(`${config.apiRoot}/File/link/${fileGuid}`, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
     .then(async res => { 
         return <ModelViewer idx={1} url={res.data} showEmbeddedButtons={true} />
     });

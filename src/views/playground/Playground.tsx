@@ -2,7 +2,6 @@ import { Link, useHistory } from "react-router-dom";
 import { Button } from '@material-ui/core';
 import logo from './play.png';
 import { config } from '../../config';
-import ModelViewer from '../../components/ModelViewer/ModelViewer';
 import { useAuth0 } from "@auth0/auth0-react";
 
 //override typescript error messages on calls to window object
