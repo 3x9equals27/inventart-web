@@ -1,7 +1,8 @@
-- meter loading na tabela
-- mudar permissoes para roles
 - criar REGISTRATION hook no auth0 que dá o role de visitante a quem se registar com email terminado em @campus.ul.pt
-- criar um hook que devolve "isLoading", accessToken e permissões[]
+- api service class
+- meter loading na GRID
+
+
 
 
 - https://auth0.com/blog/complete-guide-to-react-user-authentication/

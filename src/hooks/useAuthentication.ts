@@ -1,59 +1,49 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { useState, useEffect } from 'react';
 import jwt_decode from "jwt-decode";
-import { AuthRoles } from '../interfaces/AuthRoles.interface';
 
 export function useAuthentication() {
-  const { isAuthenticated, isLoading, loginWithRedirect, user, getAccessTokenSilently } = useAuth0();
-  const [authParams, setAuthParams] = useState<{accessToken:string,isLoading:boolean, roles:AuthRoles}>({
-    accessToken:'',
+  const { isLoading, isAuthenticated, user, loginWithRedirect, logout, getAccessTokenSilently } = useAuth0();
+  const [authParams, setAuthParams] = useState<{ accessToken: string, isLoading: boolean, role: string }>({
+    accessToken: '',
     isLoading: true,
-    roles: freshNewRoles
+    role: ''
   });
 
   useEffect(() => {
     (async () => {
-        if(isLoading) return;
-        if(authParams.isLoading === false) return;
-        if(!isAuthenticated) {
-          setAuthParams(a => { return { isLoading:false, roles:a.roles, accessToken:a.accessToken }});
-          return;
-        }
-        
-        const accessToken = await getAccessTokenSilently();
-        const roles = getRoles(accessToken);
+      if (isLoading) return;
+      if (authParams.isLoading === false) return;
+      if (!isAuthenticated) {
+        setAuthParams(a => { return { isLoading: false, role: a.role, accessToken: a.accessToken } });
+        return;
+      }
 
-        setAuthParams({
-          accessToken:accessToken,
-          isLoading: false,
-          roles: roles
-        });
+      const accessToken = await getAccessTokenSilently();
+      const role = getRole(accessToken);
+
+      setAuthParams({
+        accessToken: accessToken,
+        isLoading: false,
+        role: role
+      });
     })();
-}, [getAccessTokenSilently, isLoading, isAuthenticated, authParams.isLoading]);
+  }, [getAccessTokenSilently, isLoading, isAuthenticated, authParams.isLoading]);
 
-  return { 
-    isAuthenticated, 
-    isLoading: isLoading || authParams.isLoading, 
-    loginWithRedirect, 
-    user, 
+  return {
+    isLoading: isLoading || authParams.isLoading,
+    isAuthenticated,
+    user,
+    loginWithRedirect,
+    logout,
     token: authParams.accessToken,
-    roles: authParams.roles
+    role: authParams.role
   };
 }
 
-function getRoles(token:string): AuthRoles {
-  let roles: AuthRoles = freshNewRoles;
-  const decoded:any = jwt_decode(token);
-  //
-  roles.curator = decoded.permissions.includes("role:curator");
-  roles.contributor = decoded.permissions.includes("role:contributor") || roles.curator;
-  roles.visitor = decoded.permissions.includes("role:visitor") || roles.contributor;
-  //
-  return roles;
+function getRole(token: string): string {
+  const decoded: any = jwt_decode(token);
+  if (decoded.permissions.length === 1)
+    return decoded.permissions[0];
+  return 'not:valid';
 }
-
-const freshNewRoles: AuthRoles = {
-  visitor:false, 
-  contributor:false, 
-  curator:false
-};
