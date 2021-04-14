@@ -10,19 +10,20 @@ import { useAuthentication } from './hooks/useAuthentication';
 import { InventartApi } from './services/api/InventartApi';
 import { PermissionManager } from './services/Authentication/PermissionManager';
 import { Permission } from './services/Authentication/Permission';
+import VerifyEmailPage from './standalone/VerifyEmailPage/VerifyEmailPage';
+import NoAccessPage from './standalone/NoAccessPage/NoAccessPage';
 const queryString = require('query-string');
 
 export const Routes = () => {
   const { isAuthenticated, isLoading, loginWithRedirect, user, token, role } = useAuthentication();
 
   const qs = queryString.parse(window.location.search);
-  if(qs.error){
-    return <div className={styles.centeredContent}>
-      <div>{qs.error}</div>
-      <div>{qs.error_description}</div>
-    </div>;
+  if (qs.error) {
+    if (qs.error_description === 'email_not_verified')
+      return <VerifyEmailPage />;
+    return <div className={styles.centeredContent}><div>{qs.error}</div></div>;
   }
-  
+
   if (isLoading === true) {
     return <div className={styles.centeredContent}>
       <CircularProgress />
@@ -31,22 +32,17 @@ export const Routes = () => {
 
   if (isAuthenticated === false) {
     loginWithRedirect();
+    return <></>;
   }
 
   if (isAuthenticated === true && user.email_verified === false) {
-    return <div className={styles.centeredContent}>
-      <div>Please verify your email {user.email}</div>
-      <div>Check your inbox for the link to verify your account.</div>
-    </div>;
+    return <VerifyEmailPage />;
   }
 
   const pm = new PermissionManager(role);
 
   if (!pm.Check(Permission.APP_ACCESS)) {
-    return <div className={styles.centeredContent}>
-      <div>You are logged in and your email is verified but you do not have access permission to use the system</div>
-      <div>Please wait a while or contact pleaceholderemail@somwhere.com.</div>
-    </div>;
+    return <NoAccessPage/>;
   }
 
   if (isAuthenticated === true) {

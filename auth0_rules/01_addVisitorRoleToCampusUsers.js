@@ -1,9 +1,9 @@
-function addPermissionToEmailsEndingWith(user, context, callback) {
-	var atSomething = '';
-	var permission = '';
-	var apiIdentifier = '';
-
-	if(user.email_verified && user.email.endsWith(atSomething)){
+function addVisitorRoleToCampusUsers(user, context, callback) {
+	const atSomething = '';
+	const permission = '';
+	const apiIdentifier = '';
+	//set permission  for users with emails ending in atSomething
+	if(user.email.endsWith(atSomething)){
 	  var ManagementClient = require('auth0@2.34.1').ManagementClient;
 	  var management = new ManagementClient({
 		token: auth0.accessToken,
