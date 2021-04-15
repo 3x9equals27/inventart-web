@@ -3,8 +3,8 @@ import styles from './NoAccessPage.module.css';
 
 export const NoAccessPage: React.FC = () => {
   return <div className={styles.centeredContent}>
-  <div>Please verify your email</div>
-  <div>Check your inbox for the link to verify your account.</div>
+  <div>You are logged in and your email is verified but it appears you don't have access rights</div>
+  <div>Please wait for someone to grant you access or contact inventart.contact@gmail.com</div>
 </div>;
 };
 

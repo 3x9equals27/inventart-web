@@ -1,6 +1,7 @@
-- criar REGISTRATION hook no auth0 que dá o role de visitante a quem se registar com email terminado em @campus.ul.pt
-- api service class
+- file upload
 - meter loading na GRID
+- api service class
+
 
 
 
