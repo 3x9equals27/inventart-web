@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import jwt_decode from "jwt-decode";
 
 export function useAuthentication() {
-  const { isLoading, isAuthenticated, user, loginWithRedirect, logout, getAccessTokenSilently } = useAuth0();
+  const { isLoading, error, isAuthenticated, user, loginWithRedirect, logout, getAccessTokenSilently } = useAuth0();
   const [authParams, setAuthParams] = useState<{ accessToken: string, isLoading: boolean, role: string }>({
     accessToken: '',
     isLoading: true,
@@ -32,6 +32,7 @@ export function useAuthentication() {
 
   return {
     isLoading: isLoading || authParams.isLoading,
+    error, 
     isAuthenticated,
     user,
     loginWithRedirect,

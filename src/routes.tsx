@@ -15,19 +15,20 @@ import NoAccessPage from './standalone/NoAccessPage/NoAccessPage';
 const queryString = require('query-string');
 
 export const Routes = () => {
-  const { isAuthenticated, isLoading, loginWithRedirect, user, token, role } = useAuthentication();
+  const { isAuthenticated, error, isLoading, loginWithRedirect, user, token, role } = useAuthentication();
 
-  const qs = queryString.parse(window.location.search);
-  if (qs.error) {
-    if (qs.error_description === 'email_not_verified')
-      return <VerifyEmailPage />;
-    return <div className={styles.centeredContent}><div>{qs.error}</div></div>;
-  }
+
 
   if (isLoading === true) {
     return <div className={styles.centeredContent}>
       <CircularProgress />
     </div>;
+  }
+
+  if (error) {
+    if (error.message === 'email_not_verified')
+      return <VerifyEmailPage />;
+    return <div>Oops... {error.message}</div>;
   }
 
   if (isAuthenticated === false) {
@@ -42,7 +43,7 @@ export const Routes = () => {
   const pm = new PermissionManager(role);
 
   if (!pm.Check(Permission.APP_ACCESS)) {
-    return <NoAccessPage/>;
+    return <NoAccessPage />;
   }
 
   if (isAuthenticated === true) {
