@@ -24,3 +24,6 @@ a contribuicao poderia ser guardada/submetida/editada apenas pelo contribuidor e
 role:visitor
 role:contributor
 role:curator
+
+https://167.172.186.199:5001/models/{giagnostic_guid}/gargo.nxz
+
