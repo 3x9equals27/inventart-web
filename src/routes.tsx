@@ -6,16 +6,31 @@ import Playground from './views/playground/Playground';
 import ShowModel from './views/ShowModel/ShowModel';
 import Diagnostics from './views/Diagnostics/Diagnostics';
 import { CircularProgress } from '@material-ui/core';
-import { useAuthentication } from './hooks/useAuthentication';
 import { InventartApi } from './services/api/InventartApi';
 import { PermissionManager } from './services/Authentication/PermissionManager';
 import { Permission } from './services/Authentication/Permission';
 import VerifyEmailPage from './standalone/VerifyEmailPage/VerifyEmailPage';
 import NoAccessPage from './standalone/NoAccessPage/NoAccessPage';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { config } from './config';
+import Login from './standalone/Login/Login';
+import useToken from './hooks/useToken';
 const queryString = require('query-string');
 
 export const Routes = () => {
-  const { isAuthenticated, error, isLoading, loginWithRedirect, user, token, role } = useAuthentication();
+  const { token, setToken, logout } = useToken();
+
+  if (!token) {
+    return <Login setToken={setToken} />
+  }
+
+  console.warn('after logout',token);
+
+  return <div>YOU SHALL NOT PASS<button onClick={() => logout()}>Logout</button></div>;
+
+  /*
+  const { isAuthenticated, error, isLoading, loginWithRedirect, user, token: cenas, role } = useAuthentication();
 
 
 
@@ -68,4 +83,6 @@ export const Routes = () => {
   }
 
   return <></>;
+
+  */
 };
