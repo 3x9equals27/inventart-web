@@ -61,6 +61,4 @@ export const Login: React.FC<LoginInterface> = ({
   )
 }
 
-
-
 export default Login;

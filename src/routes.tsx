@@ -1,4 +1,4 @@
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Switch, Redirect, useHistory } from 'react-router-dom';
 import styles from './routes.module.css'
 import NavBar from './components/NavBar/NavBar';
 import App from './views/app/App'
@@ -16,18 +16,33 @@ import axios from 'axios';
 import { config } from './config';
 import Login from './standalone/Login/Login';
 import useToken from './hooks/useToken';
+import LandingPage from './standalone/LandingPage/LandingPage';
 const queryString = require('query-string');
 
 export const Routes = () => {
+  const history = useHistory();
   const { token, setToken, logout } = useToken();
 
+  function setLoginToken(userToken:string):void {
+    history.push('/');
+    setToken(userToken);
+  }
+
+  if(window.location.pathname === '/verify-email'){
+    const qs = queryString.parse(window.location.search);
+    return <VerifyEmailPage verificationCode={qs.guid} />
+  }
+  if(!token && window.location.pathname === '/login'){
+    return <Login setToken={setLoginToken} />
+  }
+
   if (!token) {
-    return <Login setToken={setToken} />
+    return <LandingPage setToken={setLoginToken} />
   }
 
   console.warn('after logout',token);
 
-  return <div>YOU SHALL NOT PASS<button onClick={() => logout()}>Logout</button></div>;
+  return <div>YOU SHALL NOT PASS<button onClick={() => logout()}>Logout</button>{token}</div>;
 
   /*
   const { isAuthenticated, error, isLoading, loginWithRedirect, user, token: cenas, role } = useAuthentication();
