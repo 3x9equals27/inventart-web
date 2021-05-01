@@ -11,6 +11,13 @@ export interface LandingPageInterface {
 export const LandingPage: React.FC<LandingPageInterface> = ({
   setToken
 }) => {
+
+  async function loginAsGuest(){
+    const token = await loginUser('guest@inventart','guest');
+    console.warn('LandingPage:LoginAsGuest', token);
+    setToken(token);
+  }
+
   return (
     <div className={styles.pageWrapper}>
        <div className={styles.welcomeText}>
@@ -29,7 +36,7 @@ export const LandingPage: React.FC<LandingPageInterface> = ({
         </div>
         <div className={styles.door}>
           {/* <div className={styles.doorText}>Enter as guest</div> */}
-          <div className={styles.doorButton}><Button variant='outlined'>Enter as guest</Button></div>
+          <div className={styles.doorButton}><Button variant='outlined' onClick={()=>loginAsGuest()}>Enter as guest</Button></div>
         </div>
       </div>
     </div>
@@ -39,3 +46,21 @@ export const LandingPage: React.FC<LandingPageInterface> = ({
 
 
 export default LandingPage;
+
+async function loginUser(username:string, password:string) {
+  return axios.post(`${config.apiRoot}/auth/login`, {
+    email: username,
+    password: password
+  },{
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  })
+    .then(res => {
+      console.warn('Login:loginUser:then', res.data);
+      return res.data;
+    })
+    .catch(err => {
+      console.warn('catch', err.response);
+    });
+ }
