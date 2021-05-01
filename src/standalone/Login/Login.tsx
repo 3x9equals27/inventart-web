@@ -1,6 +1,5 @@
-import axios from 'axios';
-import React, { Dispatch, FormEvent, SetStateAction, useState } from 'react';
-import { config } from '../../config';
+import React, { FormEvent, useState } from 'react';
+import { InventartApi } from '../../services/api/InventartApi';
 import styles from './Login.module.css';
 
 export interface LoginInterface {
@@ -10,35 +9,22 @@ export interface LoginInterface {
 export const Login: React.FC<LoginInterface> = ({
   setToken
 }) => {
+  const api = new InventartApi();
   const [username, setUserName] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [loginError, setLoginError] = useState<string>('');
 
   async function handleSubmit(e:FormEvent<HTMLFormElement>){
     e.preventDefault();
-    const token = await loginUser(username,password);
-    console.warn('Login:handleSubmit', token);
-    setToken(token);
-  }
+    const response = await api.authLogin(username,password);
+    console.warn('Login:handleSubmit', response);
 
-  async function loginUser(username:string, password:string) {
-    return axios.post(`${config.apiRoot}/auth/login`, {
-      email: username,
-      password: password
-    },{
-      headers: {
-        'Content-Type': 'application/json'
-      },
-    })
-      .then(res => {
-        console.warn('Login:loginUser:then', res.data);
-        return res.data;
-      })
-      .catch(err => {
-        setLoginError(err.response.data);
-        console.warn('catch', err.response);
-      });
-   }
+    if(response.success) {
+      setToken(response.token!);
+    } else {
+      setLoginError(response.error!);
+    }
+  }
 
   return (
     <div className={styles.loginWrapper}>
