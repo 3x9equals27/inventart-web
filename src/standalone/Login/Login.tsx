@@ -42,7 +42,7 @@ export const Login: React.FC<LoginInterface> = ({
           <button type="submit">Submit</button>
         </div>
       </form>
-      <div>{loginError}</div>
+      <div className={styles.errorDiv}>{loginError}</div>
     </div>
   )
 }

@@ -1,5 +1,5 @@
-import { Button } from '@material-ui/core';
-import React from 'react';
+import { Button, CircularProgress } from '@material-ui/core';
+import React, { useState } from 'react';
 import { InventartApi } from '../../services/api/InventartApi';
 import styles from './LandingPage.module.css';
 
@@ -11,14 +11,18 @@ export const LandingPage: React.FC<LandingPageInterface> = ({
   setToken
 }) => {
   const api = new InventartApi();
+  const [guestLoading, setGuestLoading] = useState<boolean>(false);
+  const [loginError, setLoginError] = useState<string>('');
 
   async function loginAsGuest(){
+    setGuestLoading(true);
     const result = await api.authLogin('guest@inventart','guest');
     console.warn('LandingPage:LoginAsGuest', result);
     if(result.success){
       setToken(result.token!);
     } else {
-      //WIP set error display to result.error
+      setGuestLoading(false);
+      setLoginError(result.error!);
     }
   }
 
@@ -40,9 +44,11 @@ export const LandingPage: React.FC<LandingPageInterface> = ({
         </div>
         <div className={styles.door}>
           {/* <div className={styles.doorText}>Enter as guest</div> */}
-          <div className={styles.doorButton}><Button variant='outlined' onClick={()=>loginAsGuest()}>Enter as guest</Button></div>
+          { !guestLoading && <div className={styles.doorButton}><Button variant='outlined' onClick={()=>loginAsGuest()}>Enter as guest</Button></div> }
+          { guestLoading && <CircularProgress/> }
         </div>
       </div>
+      <div className={styles.errorDiv}>{loginError}</div>
     </div>
   )
 }

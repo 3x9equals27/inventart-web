@@ -1,0 +1,29 @@
+.pageWrapper {
+  width: 100vw;
+  margin-top: 20vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.errorDiv {
+  color: red;
+}
+
+.listTable {
+  display: table;
+  margin-left: auto;
+  margin-right: auto;
+  border-collapse:separate;
+  border-spacing:5px;
+  border: solid 1px black;
+  border-radius: 5px;
+}
+.listRow {
+  width: 100%;
+  display: table-row;
+}
+.listCell {
+  display: table-cell;
+}

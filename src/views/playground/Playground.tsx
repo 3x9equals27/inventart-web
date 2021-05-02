@@ -2,10 +2,9 @@ import { Link, useHistory } from "react-router-dom";
 import { Button } from '@material-ui/core';
 import logo from './play.png';
 import { config } from '../../config';
-import { useAuth0 } from "@auth0/auth0-react";
-import jwt_decode from "jwt-decode";
 import { InventartApi } from "../../services/api/InventartApi";
 import { PermissionManager } from "../../services/Authentication/PermissionManager";
+import useToken from "../../hooks/useToken";
 
 //override typescript error messages on calls to window object
 declare const window: any;
@@ -14,26 +13,15 @@ const Playground = (inventartApi: InventartApi, permissionManager: PermissionMan
   console.warn('Playground reading parameters InventartApi', inventartApi);
   console.warn('Playground reading parameters PermissionManager', permissionManager);
   const history = useHistory();
-  const { user, logout, getAccessTokenSilently } = useAuth0();
+  const { logout } = useToken();
 
-  async function getAccessToken() {
-    const accessToken = await getAccessTokenSilently();
-    console.warn('getAccessToken', accessToken);
-    const decoded: any = jwt_decode(accessToken);
-    window.jwt = decoded;
-    console.warn('window.jwt', window.jwt);
-    if (decoded.permissions.includes('file:upload')) {
-      console.warn("decoded.permissions.includes('file:upload') evaluated to true");
-    }
-  }
+
 
   return (
     <div style={{ minHeight: '500px', maxHeight: '600px', width: '100%' }}>
       try new stuff here<br />
 
-      <button onClick={() => logout({ returnTo: window.location.origin })}>Log Out</button><br />
-      <button onClick={() => console.warn(user)}>Auth 0 User</button><br />
-      <button onClick={() => getAccessToken()}>get access token</button><br />
+      <Button variant='contained' onClick={() => { logout(); window.location.href = '/'; }}>Logout</Button><br />
       {/* Open in same window SPA style */}
       <Button color="inherit" onClick={() => { history.push('/Model?model=0e1249c3-aa30-4477-855e-660200669047') }}>history.push('/Model?model=0e1249c3-aa30-4477-855e-660200669047')</Button><br />
       <Link to={"/Model?model=0e1249c3-aa30-4477-855e-660200669047"}>Link to="/Model?model=0e1249c3-aa30-4477-855e-660200669047"</Link><br />

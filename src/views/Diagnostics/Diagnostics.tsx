@@ -1,41 +1,63 @@
 import styles from './Diagnostics.module.css';
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { GridCore } from '../../components/GridCore/GridCore';
 import { Loading } from '../../components/Loading/Loading';
 import { Column, DetailPanel } from '@material-table/core';
 import ModelViewer from '../../components/ModelViewer/ModelViewer';
 import _ from 'lodash';
-import { config } from '../../config';
 import { Link } from 'react-router-dom';
-import { useAuth0 } from '@auth0/auth0-react';
+import { InventartApi } from '../../services/api/InventartApi';
+import { PermissionManager } from '../../services/Authentication/PermissionManager';
 
-const Diagnostics = () => {
+const Diagnostics = (inventartApi: InventartApi, permissionManager: PermissionManager) => {
     const [gridData, setGridData] = useState<Array<any>>([]);
-    const { getAccessTokenSilently } = useAuth0();
-    const [token, setToken] = useState<string>();
+
+    console.warn('Diagnostics', inventartApi);
+    ///@ts-ignore
+    window.test = inventartApi;
 
     useEffect(() => {
         (async () => {
-            const accessToken = await getAccessTokenSilently();
-            setToken(accessToken);
+            var response = await inventartApi.diagnosticoList();
+            if(response.success){
+              setGridData(response.payload);
+            } else {
+              //wip
+            }
 
-            axios.get(`${config.apiRoot}/Diagnostico/list`, {
-                headers: {
-                    'Authorization': `Bearer ${accessToken}`
-                }
-            })
-                .then(res => {
-                    setGridData(res.data);
-                });
         })();
-    }, [getAccessTokenSilently]);
+    }, [inventartApi]);
 
-    return (!token ? <></> :
+    const promisseModelViewer = async (rowId: number, fileGuid: string): Promise<JSX.Element> => {
+      var response = await inventartApi.fileLink(fileGuid);
+  
+      return (
+          <div className={styles.detailPanel}>
+              <div style={{ width: '300px' }}>
+                  <ModelViewer idx={rowId} url={response.payload} showEmbeddedButtons={true} />
+              </div>
+          </div>
+      );
+  };
+  const gridDetailPanel = (): DetailPanel<any>[] => {
+    return [
+        {
+            tooltip: 'Show Model',
+            render: (rowData: any) => {
+                if (!rowData.file_guid) {
+                    return <div>Nothing to see here</div>
+                }
+                return <Loading condition={() => promisseModelViewer(rowData.tableData.id, rowData.file_guid)} />;
+            },
+        }
+    ];
+};
+
+    return (!gridData ? <></> :
         <div className={styles.mainBody}>
             <div>
                 WIP: filters can go here
-            <GridCore data={gridData} columns={gridColumns} detailPanel={gridDetailPanel(token)} onRowClick={gridRowClick}></GridCore>
+            <GridCore data={gridData} columns={gridColumns} detailPanel={gridDetailPanel()} onRowClick={gridRowClick}></GridCore>
             </div>
         </div>);
 };
@@ -56,12 +78,12 @@ const gridColumns: Array<Column<any>> = [
     {
         field: 'has_file',
         title: 'Has file',
-        render: (rowData) => <div>{_.get(rowData, 'has_file') ? 'yes' : 'no'}</div>,
+        render: (rowData: any) => <div>{_.get(rowData, 'has_file') ? 'yes' : 'no'}</div>,
     },
     {
         field: 'file_guid',
         title: 'View Model',
-        render: (rowData) => {
+        render: (rowData: any) => {
             return !rowData.file_guid ? null :
                 <Link to={`/Model?model=${rowData.file_guid}`} >View Model</Link>
                 ;
@@ -69,37 +91,9 @@ const gridColumns: Array<Column<any>> = [
     }
 ];
 
-const promisseModelViewer = async (rowId: number, fileGuid: string, token: string): Promise<JSX.Element> => {
-    return axios.get(`${config.apiRoot}/File/link/${fileGuid}`, {
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
-    })
-        .then(async res => {
-            return (
-                <div className={styles.detailPanel}>
-                    <div style={{ width: '300px' }}>
-                        <ModelViewer idx={rowId} url={res.data} showEmbeddedButtons={true} />
-                    </div>
-                </div>
-            );
-        });
-}
+
 
 function gridRowClick(event?: React.MouseEvent, rowData?: any, toggleDetailPanel?: (panelIndex?: number) => void) {
     toggleDetailPanel?.(0);
 }
 
-const gridDetailPanel = (token:string): DetailPanel<any>[] => {
-    return [
-        {
-            tooltip: 'Show Model',
-            render: (rowData: any) => {
-                if (!rowData.file_guid) {
-                    return <div>Nothing to see here</div>
-                }
-                return <Loading condition={() => promisseModelViewer(rowData.tableData.id, rowData.file_guid, token)} />;
-            },
-        }
-    ];
-}

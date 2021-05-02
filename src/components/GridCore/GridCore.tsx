@@ -23,7 +23,7 @@ export const GridCore: React.FC<GridCoreProps<any>> = ({
 }) => {
   var components: Components = {};
   components.Container = (props) => <Paper {...props} className={styles.gridCore} />;
-  components.Body = (props) => <MTableBody {...props} bulkEditChangedRows={[]}></MTableBody>;
+  components.Body = (props) => <MTableBody {...props} bulkEditChangedRows={{}}></MTableBody>;
 
   return (
     <MaterialTable

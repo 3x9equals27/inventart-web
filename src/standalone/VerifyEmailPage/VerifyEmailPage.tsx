@@ -1,7 +1,6 @@
 import { Button, CircularProgress } from '@material-ui/core';
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { config } from '../../config';
+import { InventartApi } from '../../services/api/InventartApi';
 import styles from './VerifyEmailPage.module.css';
 
 export const VerifyEmailPage: React.FC<{ 
@@ -17,19 +16,11 @@ export const VerifyEmailPage: React.FC<{
   useEffect(() => {
     (async () => {
       //
-      var verificationResult: boolean = await axios.post(`${config.apiRoot}/auth/verify?verificationGuid=${verificationCode}`, {
-        headers: {
-        }
-      })
-        .then(res => {
-          return true;
-        }).catch(err => {
-          return false;
-        });
+      var verificationResult: boolean = await (new InventartApi()).authVerify(verificationCode);
       setVerification(x => { return { loading: false, verified: verificationResult } });
       //
     })();
-  }, []);
+  }, [verificationCode]);
 
   if (verification.loading) {
     return <div className={styles.centeredContent}>

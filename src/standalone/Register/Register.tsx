@@ -1,10 +1,9 @@
-import { Button, TextField } from '@material-ui/core';
-import React, { FormEvent, useState } from 'react';
+import { Button, CircularProgress, TextField } from '@material-ui/core';
+import React, { useState } from 'react';
 import { InventartApi } from '../../services/api/InventartApi';
 import styles from './Register.module.css';
 
-export const Register: React.FC = ({
-}) => {
+export const Register: React.FC = () => {
   const api = new InventartApi();
   const [username, setUserName] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -13,14 +12,17 @@ export const Register: React.FC = ({
   const [lastName, setLastName] = useState<string>('');
   const [registrationError, setRegistrationError] = useState<string>('');
   const [registrationComplete, setRegistrationComplete] = useState<boolean>(false);
+  const [registering, setRegistering] = useState<boolean>(false);
 
   async function registerUser() {
+    setRegistering(true);
     const response = await api.authRegister(username, password, passwordRepeat, firstName, lastName);
     console.warn('Register:handleSubmit', response);
 
     if (response.success) {
       setRegistrationComplete(true);
     } else {
+      setRegistering(false);
       setRegistrationError(response.error!);
     }
   }
@@ -55,7 +57,8 @@ export const Register: React.FC = ({
           <TextField className={styles.inputField} required label="Last Name" variant="outlined" onChange={e => setLastName(e.target.value)} />
         </div>
       </div>
-      <Button variant='outlined' onClick={() => { registerUser(); }}>Register</Button>
+      { !registering && <Button variant='outlined' onClick={() => { registerUser(); }}>Register</Button> }
+      { registering && <CircularProgress/> }
       <div className={styles.errorDiv}>{registrationError}</div>
     </div>
   )

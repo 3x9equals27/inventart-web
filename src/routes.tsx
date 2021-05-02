@@ -8,100 +8,100 @@ import Diagnostics from './views/Diagnostics/Diagnostics';
 import { CircularProgress } from '@material-ui/core';
 import { InventartApi } from './services/api/InventartApi';
 import { PermissionManager } from './services/Authentication/PermissionManager';
-import { Permission } from './services/Authentication/Permission';
 import VerifyEmailPage from './standalone/VerifyEmailPage/VerifyEmailPage';
-import NoAccessPage from './standalone/NoAccessPage/NoAccessPage';
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { config } from './config';
+import { useEffect, useState } from 'react';
 import Login from './standalone/Login/Login';
 import useToken from './hooks/useToken';
 import LandingPage from './standalone/LandingPage/LandingPage';
 import Register from './standalone/Register/Register';
+import TenantSelection from './standalone/TenantSelection/TenantSelection';
 const queryString = require('query-string');
 
 export const Routes = () => {
   const history = useHistory();
   const { token, setToken, logout } = useToken();
+  const [user, setUser] = useState<{info:{}|undefined, tenant: string|undefined, role: string|undefined}>();
 
-  function setLoginToken(userToken:string):void {
+  console.warn('Routes.tsx tenant', user?.tenant);
+  console.warn('Routes.tsx role', user?.role);
+  console.warn('Routes.tsx userInfo', user?.info);
+  //console.warn('Routes.tsx',);
+
+  useEffect(() => {
+    (async () => {
+      //
+      if (!token) return;
+      if (user?.info) return;
+      //
+      var response = await (new InventartApi(token)).authUserInfo();
+      if (response.success) {
+        const userInfo = response.payload;
+        var userTenant = user?.tenant;
+        var userRole = user?.role;
+        if (!user?.tenant && (response.payload?.default_tenant?.length ?? 0) > 0) {
+          userTenant = response.payload?.default_tenant;
+          userRole = response.payload?.default_tenant_role;
+        }
+        setUser(x => { return { info: userInfo, tenant: userTenant, role: userRole } });
+      } else {
+        logout();
+      }
+      //
+    })();
+  }, [token, user, logout]);
+
+  function setLoginToken(userToken: string): void {
     history.push('/');
     setToken(userToken);
+    setUser(x => { return { info: undefined, tenant: undefined, role: undefined } });
+  }
+  function switchTenant(tenant: string, role: string): void {
+    history.push('/');
+    setUser(x => { return { info: x?.info, tenant: tenant, role: role } });
   }
 
-  if(window.location.pathname === '/verify-email'){
+  if (window.location.pathname === '/verify-email') {
     const qs = queryString.parse(window.location.search);
     return <VerifyEmailPage verificationCode={qs.guid} />
   }
-  if(!token && window.location.pathname === '/login'){
+  if (!token && window.location.pathname === '/login') {
     return <Login setToken={setLoginToken} />
   }
-  if(!token && window.location.pathname === '/register'){
-    return <Register/>
+  if (!token && window.location.pathname === '/register') {
+    return <Register />
   }
 
   if (!token) {
     return <LandingPage setToken={setLoginToken} />
   }
 
-  console.warn('after logout',token);
-
-  return <div>YOU SHALL NOT PASS<button onClick={() => logout()}>Logout</button>{token}</div>;
-
-  /*
-  const { isAuthenticated, error, isLoading, loginWithRedirect, user, token: cenas, role } = useAuthentication();
-
-
-
-  if (isLoading === true) {
+  if (!user?.info) {
     return <div className={styles.centeredContent}>
       <CircularProgress />
     </div>;
   }
 
-  if (error) {
-    if (error.message === 'email_not_verified')
-      return <VerifyEmailPage />;
-    return <div>Oops... {error.message}</div>;
+  if (!user?.tenant || !user?.role) {
+    return <TenantSelection switchTenant={switchTenant} authToken={token} />
   }
 
-  if (isAuthenticated === false) {
-    loginWithRedirect();
-    return <></>;
-  }
+  const inventartApi = new InventartApi(token, user?.tenant);
+  const permissionManager = new PermissionManager(user?.role!);
 
-  if (isAuthenticated === true && user.email_verified === false) {
-    return <VerifyEmailPage />;
-  }
-
-  const pm = new PermissionManager(role);
-
-  if (!pm.Check(Permission.APP_ACCESS)) {
-    return <NoAccessPage />;
-  }
-
-  if (isAuthenticated === true) {
-
-    const inventartApi = new InventartApi(token);
-
-    return (
-      <div>
-        <NavBar />
-        <div className={styles.content}>
-          <Switch>
-            <Route exact path="/Home" component={() => Playground(inventartApi, pm)} />
-            <Route exact path="/Model" component={ShowModel} />
-            <Route exact path="/About" component={App} />
-            <Route exact path="/Diagnostics" component={Diagnostics} />
-            <Route exact path="/"><Redirect to="/Home" /></Route>
-            <Route render={() => <Redirect to="/Home" />} />
-          </Switch>
-        </div>
+  return (
+    <div>
+      <NavBar />
+      <div className={styles.content}>
+        <Switch>
+          <Route exact path="/Home" component={() => Playground(inventartApi, permissionManager)} />
+          <Route exact path="/Model" component={() => ShowModel(inventartApi, permissionManager)} />
+          <Route exact path="/About" component={App} />
+          <Route exact path="/Diagnostics" component={() => Diagnostics(inventartApi, permissionManager)} />
+          <Route exact path="/"><Redirect to="/Home" /></Route>
+          <Route render={() => <Redirect to="/Home" />} />
+        </Switch>
       </div>
-    );
-  }
-
-  return <></>;
-
-  */
+    </div>
+  );
 };
+
