@@ -11,12 +11,13 @@ import { PermissionManager } from './services/Authentication/PermissionManager';
 import { Permission } from './services/Authentication/Permission';
 import VerifyEmailPage from './standalone/VerifyEmailPage/VerifyEmailPage';
 import NoAccessPage from './standalone/NoAccessPage/NoAccessPage';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { config } from './config';
 import Login from './standalone/Login/Login';
 import useToken from './hooks/useToken';
 import LandingPage from './standalone/LandingPage/LandingPage';
+import Register from './standalone/Register/Register';
 const queryString = require('query-string');
 
 export const Routes = () => {
@@ -34,6 +35,9 @@ export const Routes = () => {
   }
   if(!token && window.location.pathname === '/login'){
     return <Login setToken={setLoginToken} />
+  }
+  if(!token && window.location.pathname === '/register'){
+    return <Register/>
   }
 
   if (!token) {

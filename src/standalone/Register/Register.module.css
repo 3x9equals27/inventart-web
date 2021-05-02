@@ -1,0 +1,33 @@
+.registerWrapper {
+  width: 100vw;
+  margin-top: 10vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.errorDiv {
+  color: red;
+}
+
+.registrationComplete {
+  width: 100vw;
+  margin-top: 10vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.inputRow {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+.inputDiv {
+  margin-left: 1em;
+  margin-right: 1em;
+}

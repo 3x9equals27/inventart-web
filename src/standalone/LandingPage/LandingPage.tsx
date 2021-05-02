@@ -36,7 +36,7 @@ export const LandingPage: React.FC<LandingPageInterface> = ({
         </div>
         <div className={styles.door}>
           {/* <div className={styles.doorText}>option 2</div> */}
-          <div className={styles.doorButton}><Button variant='outlined' color='secondary'>Register</Button></div>
+          <div className={styles.doorButton}><Button variant='outlined' color='secondary' onClick={() => { window.location.href = '/register' }}>Register</Button></div>
         </div>
         <div className={styles.door}>
           {/* <div className={styles.doorText}>Enter as guest</div> */}
@@ -47,7 +47,4 @@ export const LandingPage: React.FC<LandingPageInterface> = ({
   )
 }
 
-
-
 export default LandingPage;
-

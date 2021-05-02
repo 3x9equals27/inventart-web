@@ -1,3 +1,9 @@
+GET USER INFO loading screen inside Routes.tsx
+make userInfo a state prop in Routes
+setting it from anywhere will invalidate it and cause a refresh of the userInfo
+userInfo retrieval and loading screen happen only after  login
+userInfo contains first name, last name and DEFAULT TENANT 
+
 - file upload
 - meter loading na GRID
 - api service class
