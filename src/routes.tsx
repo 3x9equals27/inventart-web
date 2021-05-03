@@ -34,7 +34,7 @@ export const Routes = () => {
       if (user?.info) return;
       //
       var response = await (new InventartApi(token)).authUserInfo();
-      if (response.success) {
+      if (response.success && response.payload) {
         const userInfo = response.payload;
         var userTenant = user?.tenant;
         var userRole = user?.role;

@@ -10,12 +10,13 @@ import useToken from "../../hooks/useToken";
 declare const window: any;
 
 const Playground = (inventartApi: InventartApi, permissionManager: PermissionManager) => {
-  console.warn('Playground reading parameters InventartApi', inventartApi);
-  console.warn('Playground reading parameters PermissionManager', permissionManager);
   const history = useHistory();
   const { logout } = useToken();
 
-
+  function showVariables() {
+    console.warn('config', config);  
+    console.warn('PermissionManager', permissionManager);
+  }
 
   return (
     <div style={{ minHeight: '500px', maxHeight: '600px', width: '100%' }}>
@@ -73,6 +74,4 @@ function newWindowLink(pathname: string, search: string) {
   return `${config.webRoot}${pathname}${search}`;
 }
 
-function showVariables() {
-  console.warn('config', config);
-}
+
