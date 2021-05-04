@@ -1,3 +1,5 @@
+see comment at top of Routes.tsx
+
 {user.role}@{user.tenant}
 i18n.changeLanguage('en-US');
 https://react.i18next.com/guides/quick-start
