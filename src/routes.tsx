@@ -1,6 +1,6 @@
 import { Route, Switch, Redirect, useHistory } from 'react-router-dom';
 import styles from './routes.module.css'
-import NavBar from './components/NavBar/NavBar';
+import { AppNavBar } from './components/NavBar/NavBar';
 import App from './views/app/App'
 import Playground from './views/playground/Playground';
 import ShowModel from './views/ShowModel/ShowModel';
@@ -15,12 +15,13 @@ import useToken from './hooks/useToken';
 import LandingPage from './standalone/LandingPage/LandingPage';
 import Register from './standalone/Register/Register';
 import TenantSelection from './standalone/TenantSelection/TenantSelection';
+import { UserInterface } from './interfaces/user.interface';
 const queryString = require('query-string');
 
 export const Routes = () => {
   const history = useHistory();
   const { token, setToken, logout } = useToken();
-  const [user, setUser] = useState<{info:{}|undefined, tenant: string|undefined, role: string|undefined}>();
+  const [user, setUser] = useState<UserInterface>();
 
   console.warn('Routes.tsx tenant', user?.tenant);
   console.warn('Routes.tsx role', user?.role);
@@ -82,7 +83,8 @@ export const Routes = () => {
   }
 
   if (!user?.tenant || !user?.role) {
-    return <TenantSelection switchTenant={switchTenant} authToken={token} />
+    let api = new InventartApi(token); 
+    return <TenantSelection switchTenant={switchTenant} inventartApi={api} />
   }
 
   const inventartApi = new InventartApi(token, user?.tenant);
@@ -90,9 +92,10 @@ export const Routes = () => {
 
   return (
     <div>
-      <NavBar />
+      <AppNavBar user={user} />
       <div className={styles.content}>
         <Switch>
+          <Route exact path="/Tenant" component={() => <TenantSelection switchTenant={switchTenant} inventartApi={inventartApi} />} />
           <Route exact path="/Home" component={() => Playground(inventartApi, permissionManager)} />
           <Route exact path="/Model" component={() => ShowModel(inventartApi, permissionManager)} />
           <Route exact path="/About" component={App} />

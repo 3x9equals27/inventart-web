@@ -6,12 +6,12 @@ import styles from './TenantSelection.module.css';
 
 export interface TenantSelectionInterface {
   switchTenant: (tenant: string, role: string) => void,
-  authToken: string
+  inventartApi: InventartApi
 }
 
 export const TenantSelection: React.FC<TenantSelectionInterface> = ({
   switchTenant,
-  authToken
+  inventartApi
 }) => {
   const { logout } = useToken();
   const [loading, setLoading] = useState<boolean>(true);
@@ -20,7 +20,7 @@ export const TenantSelection: React.FC<TenantSelectionInterface> = ({
   useEffect(() => {
     (async () => {
       //
-      var response = await (new InventartApi(authToken)).authUserTenants();
+      var response = await inventartApi.authUserTenants();
       if (response.success) {
         console.warn('TenantSelection:useEffect', response.payload);
         setLoading(false);
@@ -30,7 +30,7 @@ export const TenantSelection: React.FC<TenantSelectionInterface> = ({
       }
       //
     })();
-  }, [authToken]);
+  }, [inventartApi]);
 
   if (loading) {
     return (

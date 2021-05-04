@@ -1,35 +1,10 @@
-GET USER INFO loading screen inside Routes.tsx
-make userInfo a state prop in Routes
-setting it from anywhere will invalidate it and cause a refresh of the userInfo
-userInfo retrieval and loading screen happen only after  login
-userInfo contains first name, last name and DEFAULT TENANT 
-
-- file upload
-- meter loading na GRID
-- api service class
+{user.role}@{user.tenant}
+i18n.changeLanguage('en-US');
+https://react.i18next.com/guides/quick-start
 
 
+- meter os tenants a funcionar mesmo
 
-
-
-- https://auth0.com/blog/complete-guide-to-react-user-authentication/
-- https://stackoverflow.com/questions/56495475/asp-net-core-its-possible-to-configure-an-action-in-controller-only-in-developm
-
-
-Curator - ines/simoes - pode ver e editar tudo.
-Visitor - guest/guest - só pode ver.
-
-As fichas no sistema serão pessoais ou colaborativas ?
-Só a pessoa que criou é que pode alterar ou qualquer Curator pode alterar
-
-FUTURO
-Admin - pode ver o ecra de gestao de roles de utilizadores.
-Contributor - pode ver e sugerir alteracoes a obras/fichas existentes ou a introducao de novas obras/fichas
-a contribuicao poderia ser guardada/submetida/editada apenas pelo contribuidor e apenas ficaria visivel para os Visitantes após ser aprovada por um Curador
-
-role:visitor
-role:contributor
-role:curator
-
-https://167.172.186.199:5001/models/{giagnostic_guid}/gargo.nxz
+- criar um ecra para os Curadores/Admins mexerem nos roles dos utilizadores do seu tenant.
+- criar um perfil que consegue criar e fazer upload de cenas mas nao consegue mexer nos perfis dos outros utilizadores para não poder convidar os amiguinhos, talvez seja este o perfil de contribuidor...
 
