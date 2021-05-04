@@ -23,6 +23,8 @@ export const Routes = () => {
   const { token, setToken, logout } = useToken();
   const [user, setUser] = useState<UserInterface>();
 
+  //session => token, role, user(all from payload), tenant(code,short_name, long_name)
+
   console.warn('Routes.tsx tenant', user?.tenant);
   console.warn('Routes.tsx role', user?.role);
   console.warn('Routes.tsx userInfo', user?.info);
