@@ -6,12 +6,12 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import { useHistory } from 'react-router-dom';
 import styles from './NavBar.module.css';
-import { UserInterface } from '../../interfaces/user.interface';
+import { SessionInterface } from '../../interfaces/session.interface';
 
 export const AppNavBar: React.FC<{ 
-  user: UserInterface
+  session: SessionInterface
  }> = ({
-  user
+  session
 }) => {
   const history = useHistory();
 
@@ -23,7 +23,7 @@ export const AppNavBar: React.FC<{
             <MenuIcon />
           </IconButton>
           <Typography variant='h6' className={styles.title}>
-          <Button color='inherit' variant='outlined' onClick={() => { history.push('/Tenant') }}>{user.role}@{user.tenant}</Button>
+          <Button color='inherit' variant='outlined' onClick={() => { history.push('/Tenant') }}>{session.tenant?.role}@{session.tenant?.short_name}</Button>
           </Typography>
           <Button color='inherit' onClick={() => { history.push('/Home') }}>Home</Button>
           <Button color='inherit' onClick={() => { history.push('/Diagnostics') }}>Diagnostics</Button>

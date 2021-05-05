@@ -15,52 +15,64 @@ import useToken from './hooks/useToken';
 import LandingPage from './standalone/LandingPage/LandingPage';
 import Register from './standalone/Register/Register';
 import TenantSelection from './standalone/TenantSelection/TenantSelection';
-import { UserInterface } from './interfaces/user.interface';
+import { SessionInterface, UserInfoInterface, UserTenantInterface } from './interfaces/session.interface';
 const queryString = require('query-string');
 
 export const Routes = () => {
   const history = useHistory();
   const { token, setToken, logout } = useToken();
-  const [user, setUser] = useState<UserInterface>();
+  const [session, setSession] = useState<SessionInterface>();
 
-  //session => token, role, user(all from payload), tenant(code,short_name, long_name)
-
-  console.warn('Routes.tsx tenant', user?.tenant);
-  console.warn('Routes.tsx role', user?.role);
-  console.warn('Routes.tsx userInfo', user?.info);
-  //console.warn('Routes.tsx',);
-
+  console.warn('Routes.tsx: ', '1');
+  console.warn(token, session);
+  //clear session on logout
+  if (!token && session) 
+  {
+    console.warn('Routes.tsx: ', 'logout detected, clearing session');
+    setSession(undefined);
+  }
+  console.warn('Routes.tsx: ', '2');
+  
   useEffect(() => {
     (async () => {
       //
-      if (!token) return;
-      if (user?.info) return;
+      if (!token || session) return;
       //
-      var response = await (new InventartApi(token)).authUserInfo();
-      if (response.success && response.payload) {
-        const userInfo = response.payload;
-        var userTenant = user?.tenant;
-        var userRole = user?.role;
-        if (!user?.tenant && (response.payload?.default_tenant?.length ?? 0) > 0) {
-          userTenant = response.payload?.default_tenant;
-          userRole = response.payload?.default_tenant_role;
-        }
-        setUser(x => { return { info: userInfo, tenant: userTenant, role: userRole } });
-      } else {
+      var api = new InventartApi(token);
+      var tmp_user: UserInfoInterface | undefined = undefined;
+      var tmp_tenant: UserTenantInterface | undefined = undefined;
+      //
+      var response_user = await api.authUserInfo();
+      if (!response_user.success || !response_user.payload) {
+        console.warn('FAIL 1');
         logout();
       }
       //
+      tmp_user = response_user.payload;
+      if (tmp_user?.default_tenant) {
+        var response_tenant = await api.authUserTenant(tmp_user.default_tenant);
+        if (response_tenant.success && response_tenant.payload) {
+          console.warn('response_tenant.payload', response_tenant.payload);
+          tmp_tenant = response_tenant.payload;
+        }
+      }
+      //
+      setSession(x => { return { user: tmp_user, tenant: tmp_tenant } });
+      //
     })();
-  }, [token, user, logout]);
+  }, [token, session, logout]);
 
   function setLoginToken(userToken: string): void {
     history.push('/');
     setToken(userToken);
-    setUser(x => { return { info: undefined, tenant: undefined, role: undefined } });
   }
-  function switchTenant(tenant: string, role: string): void {
+  function switchTenant(tenant: UserTenantInterface): void {
     history.push('/');
-    setUser(x => { return { info: x?.info, tenant: tenant, role: role } });
+    setSession(x => { return { user: x?.user, tenant: tenant } });
+  }
+  function userLogout(): void {
+    history.push('/');
+    logout();
   }
 
   if (window.location.pathname === '/verify-email') {
@@ -78,27 +90,27 @@ export const Routes = () => {
     return <LandingPage setToken={setLoginToken} />
   }
 
-  if (!user?.info) {
+  if (!session?.user) {
     return <div className={styles.centeredContent}>
       <CircularProgress />
     </div>;
   }
 
-  if (!user?.tenant || !user?.role) {
-    let api = new InventartApi(token); 
+  if (!session?.tenant || !session?.tenant.role) {
+    let api = new InventartApi(token);
     return <TenantSelection switchTenant={switchTenant} inventartApi={api} />
   }
 
-  const inventartApi = new InventartApi(token, user?.tenant);
-  const permissionManager = new PermissionManager(user?.role!);
+  const inventartApi = new InventartApi(token, session?.tenant.code);
+  const permissionManager = new PermissionManager(session.tenant?.role!);
 
   return (
     <div>
-      <AppNavBar user={user} />
+      <AppNavBar session={session} />
       <div className={styles.content}>
         <Switch>
           <Route exact path="/Tenant" component={() => <TenantSelection switchTenant={switchTenant} inventartApi={inventartApi} />} />
-          <Route exact path="/Home" component={() => Playground(inventartApi, permissionManager)} />
+          <Route exact path="/Home" component={() => Playground(userLogout, session, inventartApi, permissionManager)} />
           <Route exact path="/Model" component={() => ShowModel(inventartApi, permissionManager)} />
           <Route exact path="/About" component={App} />
           <Route exact path="/Diagnostics" component={() => Diagnostics(inventartApi, permissionManager)} />

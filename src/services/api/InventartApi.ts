@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { config } from '../../config';
+import { UserTenantInterface, UserInfoInterface } from '../../interfaces/session.interface';
 
 export class InventartApi {
   BASE_URL = config.apiRoot;
@@ -63,7 +64,7 @@ export class InventartApi {
       });
   }
 
-  async authUserInfo(): Promise<{success:boolean, payload: undefined | { email:string, first_name:string, last_name:string, default_tenant:string, default_tenant_role:string}}> {
+  async authUserInfo(): Promise<{success:boolean, payload: undefined | UserInfoInterface}> {
     return axios.post(`${config.apiRoot}/auth/userinfo`, null, {
       headers: {
         'Content-Type': 'application/json',
@@ -77,7 +78,21 @@ export class InventartApi {
       });
   }
 
-  async authUserTenants(): Promise<{success:boolean, payload: undefined | { code:string, short_name:string, long_name:string, role:string}[]}> {
+  async authUserTenant(tenant: string): Promise<{success:boolean, payload: undefined | UserTenantInterface}> {
+    return axios.post(`${config.apiRoot}/auth/usertenant?tenant=${tenant}`, null, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.token}`
+      },
+    })
+      .then(res => {
+        return {success: true, payload: res.data};
+      }).catch(err => {
+        return {success: false, payload: undefined};
+      });
+  }
+
+  async authUserTenants(): Promise<{success:boolean, payload: undefined | UserTenantInterface[]}> {
     return axios.post(`${config.apiRoot}/auth/usertenants`, null, {
       headers: {
         'Content-Type': 'application/json',

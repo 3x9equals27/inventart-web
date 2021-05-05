@@ -4,25 +4,25 @@ import logo from './play.png';
 import { config } from '../../config';
 import { InventartApi } from "../../services/api/InventartApi";
 import { PermissionManager } from "../../services/Authentication/PermissionManager";
-import useToken from "../../hooks/useToken";
+import { SessionInterface } from "../../interfaces/session.interface";
 
 //override typescript error messages on calls to window object
 declare const window: any;
 
-const Playground = (inventartApi: InventartApi, permissionManager: PermissionManager) => {
+const Playground = (logout: ()=>void, session: SessionInterface, inventartApi: InventartApi, permissionManager: PermissionManager) => {
   const history = useHistory();
-  const { logout } = useToken();
 
   function showVariables() {
     console.warn('config', config);  
     console.warn('PermissionManager', permissionManager);
+    console.warn('Session', session);
   }
 
   return (
     <div style={{ minHeight: '500px', maxHeight: '600px', width: '100%' }}>
       try new stuff here<br />
 
-      <Button variant='contained' onClick={() => { logout(); window.location.href = '/'; }}>Logout</Button><br />
+      <Button variant='contained' onClick={() => { logout(); /*window.location.href = '/';*/ }}>Logout</Button><br />
       {/* Open in same window SPA style */}
       <Button color="inherit" onClick={() => { history.push('/Model?model=0e1249c3-aa30-4477-855e-660200669047') }}>history.push('/Model?model=0e1249c3-aa30-4477-855e-660200669047')</Button><br />
       <Link to={"/Model?model=0e1249c3-aa30-4477-855e-660200669047"}>Link to="/Model?model=0e1249c3-aa30-4477-855e-660200669047"</Link><br />
