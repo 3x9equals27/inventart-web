@@ -1,8 +1,11 @@
 see comment at top of Routes.tsx
 
 mudar rotas das apis para usar ifens.
+mudar nomes dos sps para usar um short name dos controllers 
+ex: fn_user_tenant_role => fn_auth_user_tenant_role
+ex: fn_list_diagnostico => fn_diag_list_all
 
-meter authUserTenant a ser a primeira api call a usar tenant no path/route
+meter list-diagnostics a ser a primeira api call a usar tenant no path/route
 
 {user.role}@{user.tenant}
 i18n.changeLanguage('en-US');

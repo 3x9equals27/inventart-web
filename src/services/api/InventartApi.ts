@@ -65,7 +65,7 @@ export class InventartApi {
   }
 
   async authUserInfo(): Promise<{success:boolean, payload: undefined | UserInfoInterface}> {
-    return axios.post(`${config.apiRoot}/auth/userinfo`, null, {
+    return axios.post(`${config.apiRoot}/auth/user-info`, null, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${this.token}`
@@ -79,7 +79,7 @@ export class InventartApi {
   }
 
   async authUserTenant(tenant: string): Promise<{success:boolean, payload: undefined | UserTenantInterface}> {
-    return axios.post(`${config.apiRoot}/auth/usertenant?tenant=${tenant}`, null, {
+    return axios.post(`${config.apiRoot}/auth/user-tenant?tenant=${tenant}`, null, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${this.token}`
@@ -93,7 +93,7 @@ export class InventartApi {
   }
 
   async authUserTenants(): Promise<{success:boolean, payload: undefined | UserTenantInterface[]}> {
-    return axios.post(`${config.apiRoot}/auth/usertenants`, null, {
+    return axios.post(`${config.apiRoot}/auth/user-tenants`, null, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${this.token}`
@@ -107,7 +107,7 @@ export class InventartApi {
   }
 
   async diagnosticoList(): Promise<{success:boolean, payload: any}> {
-    return axios.get(`${config.apiRoot}/diagnostico/list`, {
+    return axios.get(`${config.apiRoot}/diagnostic/${this.tenant}/list-all`, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${this.token}`
