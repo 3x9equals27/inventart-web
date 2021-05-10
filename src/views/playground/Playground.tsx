@@ -5,12 +5,14 @@ import { config } from '../../config';
 import { InventartApi } from "../../services/api/InventartApi";
 import { PermissionManager } from "../../services/Authentication/PermissionManager";
 import { SessionInterface } from "../../interfaces/session.interface";
+import { useTranslation } from "react-i18next";
 
 //override typescript error messages on calls to window object
 declare const window: any;
 
 const Playground = (logout: ()=>void, session: SessionInterface, inventartApi: InventartApi, permissionManager: PermissionManager) => {
   const history = useHistory();
+  const { t, i18n } = useTranslation();
 
   function showVariables() {
     console.warn('config', config);  
@@ -21,6 +23,12 @@ const Playground = (logout: ()=>void, session: SessionInterface, inventartApi: I
   return (
     <div style={{ minHeight: '500px', maxHeight: '600px', width: '100%' }}>
       try new stuff here<br />
+      <div>i18n home hello: {t('home:hello')}</div>
+      <div>i18n home goodbye: {t('home:goodbye')}</div>
+      <div>i18n diagnostic-list hello: {t('diagnostic-list:hello')}</div>
+      <div>i18n diagnostic-list goodbye: {t('diagnostic-list:goodbye')}</div>
+      <Button variant='outlined' onClick={() => { i18n.changeLanguage('en-GB'); }}>english</Button><br />
+      <Button variant='outlined' onClick={() => { i18n.changeLanguage('pt-PT'); }}>portugues</Button><br />
 
       <Button variant='contained' onClick={() => { logout(); /*window.location.href = '/';*/ }}>Logout</Button><br />
       {/* Open in same window SPA style */}

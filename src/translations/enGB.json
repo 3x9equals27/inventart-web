@@ -1,0 +1,17 @@
+{
+  "role":{
+    "guest":"guest",
+    "visitor":"visitor",
+    "contributor":"contributor",
+    "curator":"curator",
+    "admin":"admin"
+  },
+  "home":{
+    "hello":"Hi home",
+    "goodbye":"Bye home"
+  },
+  "diagnostic-list":{
+    "hello":"Hi diag",
+    "goodbye":"Bye diag"
+  }
+}

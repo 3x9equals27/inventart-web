@@ -1,3 +1,11 @@
+- adicionar default_language à tabela user_
+- criar pagina de gestao de utilizador (first name, last name, language, default tenant ???)
+- O default tenant pode ser definido na pagina de escolha de tenant..
+ver como gerir as preferncias de lingua e tenant
+
+
+lingua, menus, form com upload (diagnostico)
+
 see comment at top of Routes.tsx
 
 mudar rotas das apis para usar ifens.

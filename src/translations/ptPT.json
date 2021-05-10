@@ -1,0 +1,17 @@
+{
+  "role":{
+    "guest":"convidado",
+    "visitor":"visitante",
+    "contributor":"contribuinte",
+    "curator":"curador",
+    "admin":"administrador"
+  },
+  "home":{
+    "hello":"olá casa",
+    "goodbye":"adeus casa"
+  },
+  "diagnostic-list":{
+    "hello":"olá diag",
+    "goodbye":"adeus diag"
+  }
+}
