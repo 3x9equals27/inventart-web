@@ -13,5 +13,13 @@
   "diagnostic-list":{
     "hello":"Hi diag",
     "goodbye":"Bye diag"
+  },
+  "login":{
+    "email.not.found":"Email not found",
+    "wrong.password":"Wrong password",
+    "email.unverified":"Email unverified",
+    "go.to.registration":"register new user",
+    "forgot.password":"did you forget your password ?",
+    "reset.password":"reset password"
   }
 }

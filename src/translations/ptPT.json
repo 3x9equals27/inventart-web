@@ -13,5 +13,13 @@
   "diagnostic-list":{
     "hello":"olá diag",
     "goodbye":"adeus diag"
+  },
+  "login":{
+    "email.not.found":"Email desconhecido",
+    "wrong.password":"Password errada",
+    "email.unverified":"Email não verificado",
+    "go.to.registration":"registar novo utilizador",
+    "forgot.password":"Esqueceu-se da palavra passe ?",
+    "reset.password":"Renovar palavra passe"
   }
 }

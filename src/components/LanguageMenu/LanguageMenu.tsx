@@ -21,7 +21,6 @@ export const LocaleMenu: React.FC = () => {
       i18n.changeLanguage(language);
     };
 
-
     const currentLanguageFlag = (): JSX.Element => {
       switch (i18n.language) {
         case 'en-GB': return <FlagGB width={40} />;
@@ -60,4 +59,3 @@ export const LocaleMenu: React.FC = () => {
   }
 
 export default LocaleMenu;
-
