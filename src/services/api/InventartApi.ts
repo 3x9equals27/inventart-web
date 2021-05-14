@@ -63,6 +63,18 @@ export class InventartApi {
         return false;
       });
   }
+  async authResetPasswordStep1(email: string): Promise<boolean> {
+    return axios.post(`${config.apiRoot}/auth/password-reset-step1?email=${email}`, null, {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    })
+      .then(res => {
+        return true;
+      }).catch(err => {
+        return false;
+      });
+  }
 
   async authUserInfo(): Promise<{success:boolean, payload: undefined | UserInfoInterface}> {
     return axios.post(`${config.apiRoot}/auth/user-info`, null, {

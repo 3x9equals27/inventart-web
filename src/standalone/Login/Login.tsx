@@ -57,7 +57,7 @@ export const Login: React.FC<LoginInterface> = ({
       </div>}
       {loginError === 'wrong.password' && <div className={styles.wrongPassword}>
         <p>{t(`login:forgot.password`)}</p>
-        <Button variant='outlined' onClick={() => { window.location.href = '/pwdResetStep1'; }}>{t(`login:reset.password`)}</Button>
+        <Button variant='outlined' onClick={() => { window.location.href = `/reset-password-step1?email=${username}`; }}>{t(`login:reset.password`)}</Button>
       </div>}
     </div>
   )

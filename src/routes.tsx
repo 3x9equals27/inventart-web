@@ -9,13 +9,14 @@ import { CircularProgress } from '@material-ui/core';
 import { InventartApi } from './services/api/InventartApi';
 import { PermissionManager } from './services/Authentication/PermissionManager';
 import VerifyEmailPage from './standalone/VerifyEmailPage/VerifyEmailPage';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Login from './standalone/Login/Login';
 import useToken from './hooks/useToken';
 import LandingPage from './standalone/LandingPage/LandingPage';
 import Register from './standalone/Register/Register';
 import TenantSelection from './standalone/TenantSelection/TenantSelection';
 import { SessionInterface, UserInfoInterface, UserTenantInterface } from './interfaces/session.interface';
+import ResetPasswordStep1 from './standalone/ResetPasswordStep1/ResetPasswordStep1';
 const queryString = require('query-string');
 
 export const Routes = () => {
@@ -78,6 +79,10 @@ export const Routes = () => {
   if (window.location.pathname === '/verify-email') {
     const qs = queryString.parse(window.location.search);
     return <VerifyEmailPage verificationCode={qs.guid} />
+  }
+  if (window.location.pathname === '/reset-password-step1') {
+    const qs = queryString.parse(window.location.search);
+    return <ResetPasswordStep1 email={qs.email} />
   }
   if (!token && window.location.pathname === '/login') {
     return <Login setToken={setLoginToken} />
