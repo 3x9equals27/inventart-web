@@ -18,6 +18,7 @@ import TenantSelection from './standalone/TenantSelection/TenantSelection';
 import { SessionInterface, UserInfoInterface, UserTenantInterface } from './interfaces/session.interface';
 import ResetPasswordStep1 from './standalone/ResetPasswordStep1/ResetPasswordStep1';
 import ResetPasswordStep2 from './standalone/ResetPasswordStep2/ResetPasswordStep2';
+import UserSettings from './views/UserSettings/UserSettings';
 const queryString = require('query-string');
 
 export const Routes = () => {
@@ -116,7 +117,7 @@ export const Routes = () => {
 
   return (
     <div>
-      <AppNavBar session={session} />
+      <AppNavBar session={session} logout={userLogout} permissionManager={permissionManager}/>
       <div className={styles.content}>
         <Switch>
           <Route exact path="/Tenant" component={() => <TenantSelection switchTenant={switchTenant} inventartApi={inventartApi} />} />
@@ -124,6 +125,7 @@ export const Routes = () => {
           <Route exact path="/Model" component={() => ShowModel(inventartApi, permissionManager)} />
           <Route exact path="/About" component={App} />
           <Route exact path="/Diagnostics" component={() => Diagnostics(inventartApi, permissionManager)} />
+          <Route exact path="/UserSettings" component={() => UserSettings(inventartApi)} />
           <Route exact path="/"><Redirect to="/Home" /></Route>
           <Route render={() => <Redirect to="/Home" />} />
         </Switch>

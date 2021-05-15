@@ -10,22 +10,50 @@ import { SessionInterface } from '../../interfaces/session.interface';
 import { useTranslation } from 'react-i18next';
 import React from 'react';
 import LocaleMenu from '../LanguageMenu/LanguageMenu';
+import { Menu, MenuItem } from '@material-ui/core';
+import { PermissionManager } from '../../services/Authentication/PermissionManager';
+import { Permission } from '../../services/Authentication/Permission';
 
 export const AppNavBar: React.FC<{
-  session: SessionInterface
+  session: SessionInterface,
+  permissionManager: PermissionManager,
+  logout: ()=>void
 }> = ({
-  session
+  session,
+  permissionManager,
+  logout
 }) => {
     const history = useHistory();
     const { t } = useTranslation();
+    const [menuAnchorEl, setMenuAnchorEl] = React.useState<null | HTMLElement>(null);
+    const menuClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+      setMenuAnchorEl(event.currentTarget);
+    };
+    const menuHandleClose = () => {
+      setMenuAnchorEl(null);
+    };
 
     return (
       <div className={styles.root}>
         <AppBar position='static'>
           <Toolbar>
-            <IconButton edge='start' className={styles.menuButton} color='inherit' aria-label='menu'>
+            <IconButton edge='start' className={styles.menuButton} color='inherit' aria-label='menu' aria-controls="context-menu" aria-haspopup="true" onClick={menuClick}>
               <MenuIcon />
             </IconButton>
+            <Menu
+          id="context-menu"
+          anchorEl={menuAnchorEl}
+          keepMounted
+          open={Boolean(menuAnchorEl)}
+          onClose={menuHandleClose}
+        >
+          {permissionManager.Check(Permission.EDIT_SELF) && <MenuItem onClick={() => { menuHandleClose(); history.push('/UserSettings');}}>
+            <Typography variant="inherit">User Settings</Typography>
+          </MenuItem>}
+          <MenuItem onClick={() => logout()}>
+            <Typography variant="inherit">Logout</Typography>
+          </MenuItem>
+        </Menu>
             <Typography variant='h6' className={styles.leftSide}>
               <LocaleMenu />
               <Button color='inherit' variant='outlined' onClick={() => { history.push('/Tenant') }}>{t(session.tenant?.role ?? '')}@{session.tenant?.short_name}</Button>
