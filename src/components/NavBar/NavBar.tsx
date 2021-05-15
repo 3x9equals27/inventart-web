@@ -17,7 +17,7 @@ import { Permission } from '../../services/Authentication/Permission';
 export const AppNavBar: React.FC<{
   session: SessionInterface,
   permissionManager: PermissionManager,
-  logout: ()=>void
+  logout: () => void
 }> = ({
   session,
   permissionManager,
@@ -36,31 +36,35 @@ export const AppNavBar: React.FC<{
     return (
       <div className={styles.root}>
         <AppBar position='static'>
-          <Toolbar>
-            <IconButton edge='start' className={styles.menuButton} color='inherit' aria-label='menu' aria-controls="context-menu" aria-haspopup="true" onClick={menuClick}>
-              <MenuIcon />
-            </IconButton>
-            <Menu
-          id="context-menu"
-          anchorEl={menuAnchorEl}
-          keepMounted
-          open={Boolean(menuAnchorEl)}
-          onClose={menuHandleClose}
-        >
-          {permissionManager.Check(Permission.EDIT_SELF) && <MenuItem onClick={() => { menuHandleClose(); history.push('/UserSettings');}}>
-            <Typography variant="inherit">User Settings</Typography>
-          </MenuItem>}
-          <MenuItem onClick={() => logout()}>
-            <Typography variant="inherit">Logout</Typography>
-          </MenuItem>
-        </Menu>
-            <Typography variant='h6' className={styles.leftSide}>
+          <Toolbar className={styles.toolbar}>
+            <div className={styles.divLeft}>
               <LocaleMenu />
               <Button color='inherit' variant='outlined' onClick={() => { history.push('/Tenant') }}>{t(session.tenant?.role ?? '')}@{session.tenant?.short_name}</Button>
-            </Typography>
-            <Button color='inherit' onClick={() => { history.push('/Home') }}>Home</Button>
-            <Button color='inherit' onClick={() => { history.push('/Diagnostics') }}>Diagnostics</Button>
-            <Button color='inherit' onClick={() => { history.push('/About') }}>About</Button>
+            </div>
+            <div className={styles.divCenter}>
+              <Button color='inherit' onClick={() => { history.push('/Home') }}>Home</Button>
+              <Button color='inherit' onClick={() => { history.push('/Diagnostics') }}>Diagnostics</Button>
+              <Button color='inherit' onClick={() => { history.push('/About') }}>About</Button>
+            </div>
+            <div className={styles.divRight}>
+              <IconButton edge='end' className={styles.menuButton} color='inherit' aria-label='menu' aria-controls="context-menu" aria-haspopup="true" onClick={menuClick}>
+                <MenuIcon />
+              </IconButton>
+              <Menu
+                id="context-menu"
+                anchorEl={menuAnchorEl}
+                keepMounted
+                open={Boolean(menuAnchorEl)}
+                onClose={menuHandleClose}
+              >
+                {permissionManager.Check(Permission.EDIT_SELF) && <MenuItem onClick={() => { menuHandleClose(); history.push('/UserSettings'); }}>
+                  <Typography variant="inherit">User Settings</Typography>
+                </MenuItem>}
+                <MenuItem onClick={() => logout()}>
+                  <Typography variant="inherit">Logout</Typography>
+                </MenuItem>
+              </Menu>
+            </div>
           </Toolbar>
         </AppBar>
       </div>

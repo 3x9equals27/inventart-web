@@ -13,9 +13,22 @@
     margin-right: 16px;
 }
 
-.leftSide {
+.divLeft {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+}
+.divRight {
+    display: flex;
+    align-items: center;
+    justify-content: right;
+}
+.divCenter {
     flex-grow: 1;
     display: flex;
     align-items: center;
-    justify-content: left;
+    justify-content: center;
+}
+.toolbar {
+    padding-left: 0px !important;
 }

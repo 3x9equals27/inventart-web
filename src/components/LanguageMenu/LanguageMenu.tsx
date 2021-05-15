@@ -3,8 +3,10 @@ import { FlagPT, FlagGB } from '../../icons';
 import React from 'react';
 import { IconButton, ListItemIcon, Menu, MenuItem, Typography } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
+import useSessionLanguage from '../../hooks/useSessionLanguage';
 
 export const LocaleMenu: React.FC = () => {
+    const { setSessionLanguage } = useSessionLanguage();
     const { i18n } = useTranslation();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -18,6 +20,7 @@ export const LocaleMenu: React.FC = () => {
 
     const setLanguage = (language: string) => {
       handleClose();
+      setSessionLanguage(language);
       i18n.changeLanguage(language);
     };
 

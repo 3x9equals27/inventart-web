@@ -19,9 +19,13 @@ import { SessionInterface, UserInfoInterface, UserTenantInterface } from './inte
 import ResetPasswordStep1 from './standalone/ResetPasswordStep1/ResetPasswordStep1';
 import ResetPasswordStep2 from './standalone/ResetPasswordStep2/ResetPasswordStep2';
 import UserSettings from './views/UserSettings/UserSettings';
+import { useTranslation } from 'react-i18next';
+import useSessionLanguage from './hooks/useSessionLanguage';
 const queryString = require('query-string');
 
 export const Routes = () => {
+  const { i18n } = useTranslation();
+  const { getSessionLanguage, unsetSessionLanguage } = useSessionLanguage();
   const history = useHistory();
   const { token, setToken, logout } = useToken();
   const [session, setSession] = useState<SessionInterface>();
@@ -60,6 +64,7 @@ export const Routes = () => {
         }
       }
       //
+      i18n.changeLanguage(getSessionLanguage(tmp_user?.default_language??i18n.language));
       setSession(x => { return { user: tmp_user, tenant: tmp_tenant } });
       //
     })();
@@ -76,6 +81,7 @@ export const Routes = () => {
   function userLogout(): void {
     history.push('/');
     logout();
+    unsetSessionLanguage();
   }
 
   if (window.location.pathname === '/verify-email') {
