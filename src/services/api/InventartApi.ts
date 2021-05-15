@@ -75,6 +75,35 @@ export class InventartApi {
         return false;
       });
   }
+  async authResetPasswordStep2a(password_reset_guid: string): Promise<boolean> {
+    return axios.post(`${config.apiRoot}/auth/password-reset-step2a?password_reset_guid=${password_reset_guid}`, null, {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    })
+      .then(res => {
+        return true;
+      }).catch(err => {
+        return false;
+      });
+  }
+  async authResetPasswordStep2b(password_reset_guid: string, password: string, passwordRepeat: string): Promise<{ success: boolean, error?: string }> {
+    return axios.post(`${config.apiRoot}/auth/password-reset-step2b`, {
+      passwordResetGuid: password_reset_guid,
+      password: password,
+      passwordRepeat: passwordRepeat
+    }, {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    })
+      .then(res => {
+        return { success: true };
+      })
+      .catch(err => {
+        return { success: false, error: err.response.data };
+      });
+  }
 
   async authUserInfo(): Promise<{success:boolean, payload: undefined | UserInfoInterface}> {
     return axios.post(`${config.apiRoot}/auth/user-info`, null, {

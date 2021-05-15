@@ -17,6 +17,7 @@ import Register from './standalone/Register/Register';
 import TenantSelection from './standalone/TenantSelection/TenantSelection';
 import { SessionInterface, UserInfoInterface, UserTenantInterface } from './interfaces/session.interface';
 import ResetPasswordStep1 from './standalone/ResetPasswordStep1/ResetPasswordStep1';
+import ResetPasswordStep2 from './standalone/ResetPasswordStep2/ResetPasswordStep2';
 const queryString = require('query-string');
 
 export const Routes = () => {
@@ -83,6 +84,10 @@ export const Routes = () => {
   if (window.location.pathname === '/reset-password-step1') {
     const qs = queryString.parse(window.location.search);
     return <ResetPasswordStep1 email={qs.email} />
+  }
+  if (window.location.pathname === '/reset-password-step2') {
+    const qs = queryString.parse(window.location.search);
+    return <ResetPasswordStep2 guid={qs.guid} />
   }
   if (!token && window.location.pathname === '/login') {
     return <Login setToken={setLoginToken} />
