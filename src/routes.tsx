@@ -64,11 +64,11 @@ export const Routes = () => {
         }
       }
       //
-      i18n.changeLanguage(getSessionLanguage(tmp_user?.default_language??i18n.language));
       setSession(x => { return { user: tmp_user, tenant: tmp_tenant } });
+      i18n.changeLanguage(getSessionLanguage(tmp_user?.default_language??i18n.language));
       //
     })();
-  }, [token, session, logout]);
+  }, [token, session, logout, i18n, getSessionLanguage]);
 
   function setLoginToken(userToken: string): void {
     history.push('/');
