@@ -21,29 +21,32 @@ import ResetPasswordStep2 from './standalone/ResetPasswordStep2/ResetPasswordSte
 import UserSettings from './views/UserSettings/UserSettings';
 import { useTranslation } from 'react-i18next';
 import useSessionLanguage from './hooks/useSessionLanguage';
+import useSessionTenant from './hooks/useSessionTenant';
 const queryString = require('query-string');
 
 export const Routes = () => {
   const { i18n } = useTranslation();
   const { getSessionLanguage, unsetSessionLanguage } = useSessionLanguage();
+  const { getSessionTenant, unsetSessionTenant, setSessionTenant } = useSessionTenant();
   const history = useHistory();
   const { token, setToken, logout } = useToken();
   const [session, setSession] = useState<SessionInterface>();
+  const [languageChanged, setLanguageChanged] = useState<boolean>(false);
 
-  console.warn('Routes.tsx: ', '1');
-  console.warn(token, session);
+  console.warn('Routes.tsx: ', 'start');
+
   //clear session on logout
   if (!token && session) 
   {
     console.warn('Routes.tsx: ', 'logout detected, clearing session');
     setSession(undefined);
   }
-  console.warn('Routes.tsx: ', '2');
   
   useEffect(() => {
     (async () => {
       //
       if (!token || session) return;
+      console.warn('Routes.tsx: useEffect');
       //
       var api = new InventartApi(token);
       var tmp_user: UserInfoInterface | undefined = undefined;
@@ -56,25 +59,27 @@ export const Routes = () => {
       }
       //
       tmp_user = response_user.payload;
-      if (tmp_user?.default_tenant) {
-        var response_tenant = await api.authUserTenant(tmp_user.default_tenant);
+      let session_tenant = getSessionTenant(tmp_user?.default_tenant);
+      if (session_tenant) {
+        var response_tenant = await api.authUserTenant(session_tenant);
         if (response_tenant.success && response_tenant.payload) {
-          console.warn('response_tenant.payload', response_tenant.payload);
           tmp_tenant = response_tenant.payload;
         }
       }
       //
       setSession(x => { return { user: tmp_user, tenant: tmp_tenant } });
       i18n.changeLanguage(getSessionLanguage(tmp_user?.default_language??i18n.language));
+      setLanguageChanged(true);
       //
     })();
-  }, [token, session, logout, i18n, getSessionLanguage]);
+  }, [token, session, logout, getSessionTenant, i18n, getSessionLanguage]);
 
   function setLoginToken(userToken: string): void {
     history.push('/');
     setToken(userToken);
   }
   function switchTenant(tenant: UserTenantInterface): void {
+    setSessionTenant(tenant.code);
     history.push('/');
     setSession(x => { return { user: x?.user, tenant: tenant } });
   }
@@ -82,6 +87,7 @@ export const Routes = () => {
     history.push('/');
     logout();
     unsetSessionLanguage();
+    unsetSessionTenant();
   }
 
   if (window.location.pathname === '/verify-email') {
@@ -107,7 +113,7 @@ export const Routes = () => {
     return <LandingPage setToken={setLoginToken} />
   }
 
-  if (!session?.user) {
+  if (!session?.user || !languageChanged) {
     return <div className={styles.centeredContent}>
       <CircularProgress />
     </div>;
@@ -117,6 +123,8 @@ export const Routes = () => {
     let api = new InventartApi(token);
     return <TenantSelection setTenantCallback={switchTenant} inventartApi={api} />
   }
+
+  console.warn('session', session);
 
   const inventartApi = new InventartApi(token, session?.tenant.code);
   const permissionManager = new PermissionManager(session.tenant?.role!);

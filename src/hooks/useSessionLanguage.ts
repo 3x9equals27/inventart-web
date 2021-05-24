@@ -1,15 +1,17 @@
 export default function useSessionLanguage() {
   const getSessionLanguage = (defaultLanguage: string):string => {
-    const language = localStorage.getItem('language');
-    return language??defaultLanguage;
+    const storedLanguage = localStorage.getItem('sessionLanguage');
+    let language: string = storedLanguage??defaultLanguage;
+    setSessionLanguage(language);
+    return language;
   };
 
   const setSessionLanguage = (language:string) => {
-    localStorage.setItem('language', language);
+    localStorage.setItem('sessionLanguage', language);
   };
 
   const unsetSessionLanguage = () => {
-    localStorage.removeItem('language');
+    localStorage.removeItem('sessionLanguage');
   };
 
   return {

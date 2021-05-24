@@ -1,17 +1,15 @@
 import styles from './UserSettings.module.scss';
 import React, { useEffect, useState } from 'react';
-import { Loading } from '../../components/Loading/Loading';
-import _ from 'lodash';
 import { InventartApi } from '../../services/api/InventartApi';
-import { PermissionManager } from '../../services/Authentication/PermissionManager';
-import { Button, CircularProgress, Container, Dialog, DialogTitle, FormControl, FormHelperText, Grid, Input, InputLabel, OutlinedInput, Paper, Snackbar, TextField } from '@material-ui/core';
+import { Button, CircularProgress, Container, Dialog, DialogTitle, Grid, Snackbar, TextField, Typography } from '@material-ui/core';
 import LocaleMenu from '../../components/LanguageMenu/LanguageMenu';
 import { Alert } from '@material-ui/lab';
 import TenantSelection from '../../standalone/TenantSelection/TenantSelection';
 import { UserInfoInterface, UserTenantInterface } from '../../interfaces/session.interface';
 
 const UserSettings = (api: InventartApi) => {
-  const [state, setState] = useState<{ firstName: string, lastName: string, defaultTenant: string | null, defaultLanguage: string, defaultTenantName: string }>({
+  const [state, setState] = useState<{ loading: boolean, firstName: string, lastName: string, defaultTenant: string | null, defaultLanguage: string, defaultTenantName: string }>({
+    loading: true,
     firstName: '',
     lastName: '',
     defaultTenant: null,
@@ -32,6 +30,7 @@ const UserSettings = (api: InventartApi) => {
 
   useEffect(() => {
     (async () => {
+      if(!state.loading) return;
       console.warn('UserSettings:useEffect');
       
       var resp_user = await api.authUserInfo();
@@ -54,17 +53,16 @@ const UserSettings = (api: InventartApi) => {
             lastName: userInfo.last_name ?? '',
             defaultTenant: userInfo.default_tenant ?? null,
             defaultLanguage: userInfo.default_language ?? '',
-            defaultTenantName: defaultTenantName
+            defaultTenantName: defaultTenantName,
+            loading: false
           }
         });
-        //var response2 = await inventartApi.userEditSelf('Heldero', 'deSousa', 'FBAUL', 'coisas');
-        //console.warn(response2);
       } else {
         //wip
       }
 
     })();
-  }, [api]);
+  }, [api, state.defaultTenantName, state.loading]);
 
   async function saveUserSettings() {
     setSaving(true);
@@ -96,9 +94,13 @@ const UserSettings = (api: InventartApi) => {
     setState(x => { return { ...x, defaultTenant: tenant.code, defaultTenantName: tenant.short_name } });
   }
 
+if(state.loading){
+  return <div className={styles.loadingWrapper} ><CircularProgress /></div>;
+}
+
   return (
     <div className={styles.mainBody}>
-      user settings
+      <Typography className={styles.title} variant={'h5'}> user settings</Typography>
       <Container maxWidth="sm">
         <Grid container spacing={3}>
           <Grid className={styles.gridItem} item xs={12} sm={6}>

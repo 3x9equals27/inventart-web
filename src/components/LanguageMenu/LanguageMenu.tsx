@@ -1,7 +1,7 @@
 import styles from './LanguageMenu.module.css';
 import { FlagPT, FlagGB } from '../../icons';
 import React from 'react';
-import { IconButton, ListItemIcon, Menu, MenuItem, Typography } from '@material-ui/core';
+import { ListItemIcon, Menu, MenuItem, Typography } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import useSessionLanguage from '../../hooks/useSessionLanguage';
 
@@ -56,9 +56,6 @@ export const LocaleMenu: React.FC<{
 
     return (
       <div className={styles.mainDiv}>
-        {/* <IconButton aria-controls="language-menu" aria-haspopup="true" onClick={handleClick}>
-          {currentLanguageFlag()}
-        </IconButton> */}
         <MenuItem aria-controls="language-menu" aria-haspopup="true" onClick={handleClick}>
           <ListItemIcon className={showText ? styles.listItemIconWithText : styles.listItemIconAlone}>
             {languageFlag()}
