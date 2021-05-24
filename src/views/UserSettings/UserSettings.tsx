@@ -6,8 +6,10 @@ import LocaleMenu from '../../components/LanguageMenu/LanguageMenu';
 import { Alert } from '@material-ui/lab';
 import TenantSelection from '../../standalone/TenantSelection/TenantSelection';
 import { UserInfoInterface, UserTenantInterface } from '../../interfaces/session.interface';
+import { Permission } from '../../services/Authentication/Permission';
+import { PermissionManager } from '../../services/Authentication/PermissionManager';
 
-const UserSettings = (api: InventartApi) => {
+const UserSettings = (api: InventartApi, permissionManager: PermissionManager) => {
   const [state, setState] = useState<{ loading: boolean, firstName: string, lastName: string, defaultTenant: string | null, defaultLanguage: string, defaultTenantName: string }>({
     loading: true,
     firstName: '',
@@ -16,6 +18,7 @@ const UserSettings = (api: InventartApi) => {
     defaultLanguage: 'en-GB',
     defaultTenantName: 'No Selection'
   });
+  const [authorized] = useState<boolean>(permissionManager.Check(Permission.EDIT_SELF));
   const [saving, setSaving] = useState<boolean>(false);
   const [savingError, setSavingError] = useState<string>('');
   const [openAlertSuccess, setOpenAlertSuccess] = React.useState(false);
@@ -30,7 +33,7 @@ const UserSettings = (api: InventartApi) => {
 
   useEffect(() => {
     (async () => {
-      if(!state.loading) return;
+      if(!authorized || !state.loading) return;
       console.warn('UserSettings:useEffect');
       
       var resp_user = await api.authUserInfo();
@@ -62,7 +65,7 @@ const UserSettings = (api: InventartApi) => {
       }
 
     })();
-  }, [api, state.defaultTenantName, state.loading]);
+  }, [api, state.defaultTenantName, state.loading, authorized]);
 
   async function saveUserSettings() {
     setSaving(true);
@@ -74,7 +77,7 @@ const UserSettings = (api: InventartApi) => {
       setSavingError('');
       setOpenAlertSuccess(true);
     } else {
-      setSavingError(response.error!);
+      setSavingError(JSON.stringify(response.error!));
     }
 
   }
@@ -94,9 +97,13 @@ const UserSettings = (api: InventartApi) => {
     setState(x => { return { ...x, defaultTenant: tenant.code, defaultTenantName: tenant.short_name } });
   }
 
-if(state.loading){
-  return <div className={styles.loadingWrapper} ><CircularProgress /></div>;
-}
+  if(!authorized){
+    return <div className={styles.mainBody} >Access Denied</div>;
+  }
+
+  if(state.loading){
+    return <div className={styles.loadingWrapper} ><CircularProgress /></div>;
+  }
 
   return (
     <div className={styles.mainBody}>

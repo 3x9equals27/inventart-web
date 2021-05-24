@@ -139,7 +139,7 @@ export const Routes = () => {
           <Route exact path="/Model" component={() => ShowModel(inventartApi, permissionManager)} />
           <Route exact path="/About" component={App} />
           <Route exact path="/Diagnostics" component={() => Diagnostics(inventartApi, permissionManager)} />
-          <Route exact path="/UserSettings" component={() => UserSettings(inventartApi)} />
+          <Route exact path="/UserSettings" component={() => UserSettings(inventartApi, permissionManager)} />
           <Route exact path="/"><Redirect to="/Home" /></Route>
           <Route render={() => <Redirect to="/Home" />} />
         </Switch>
