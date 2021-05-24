@@ -1,4 +1,12 @@
 .mainDiv {
-    display: flex;
+  display: flex;
+}
+
+.listItemIconWithText {
+  display: flex;
+}
+
+.listItemIconAlone {
+  min-width: unset !important;
 }
 

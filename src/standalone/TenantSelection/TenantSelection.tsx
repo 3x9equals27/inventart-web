@@ -6,12 +6,12 @@ import { InventartApi } from '../../services/api/InventartApi';
 import styles from './TenantSelection.module.css';
 
 export interface TenantSelectionInterface {
-  switchTenant: (tenant: UserTenantInterface) => void,
+  setTenantCallback: (tenant: UserTenantInterface) => void,
   inventartApi: InventartApi
 }
 
 export const TenantSelection: React.FC<TenantSelectionInterface> = ({
-  switchTenant,
+  setTenantCallback,
   inventartApi
 }) => {
   const { logout } = useToken();
@@ -42,7 +42,7 @@ export const TenantSelection: React.FC<TenantSelectionInterface> = ({
   }
 
   function setTenant(tenant: UserTenantInterface){
-    switchTenant(tenant);
+    setTenantCallback(tenant);
   };
 
   return (

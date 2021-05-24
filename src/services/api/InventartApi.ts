@@ -173,7 +173,7 @@ export class InventartApi {
         return {success: false, payload: undefined};
       });
   }
-  async userEditSelf(firstName: string, lastName: string, defaultTenant: string, defaultLanguage: string): Promise<{ success: boolean, error?: string }> {
+  async userEditSelf(firstName: string, lastName: string, defaultTenant: string|null, defaultLanguage: string): Promise<{ success: boolean, error?: string }> {
     return axios.post(`${config.apiRoot}/user/edit-self`, {
       firstName: firstName,
       lastName: lastName,

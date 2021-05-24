@@ -1,3 +1,8 @@
+- currently when the user has no default tenant and CTRL-F5(or url enter) a page he is forced to select the tenant again. 
+Also, when having a default tenant, having selected another tenant, hitting F5 will change back to default tenant.
+some persistence could be implemented here as long as it does not last after browser windows are closed.
+
+
 - adicionar default_language à tabela user_
 - criar pagina de gestao de utilizador (first name, last name, language, default tenant ???)
 - O default tenant pode ser definido na pagina de escolha de tenant..

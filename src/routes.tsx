@@ -115,7 +115,7 @@ export const Routes = () => {
 
   if (!session?.tenant || !session?.tenant.role) {
     let api = new InventartApi(token);
-    return <TenantSelection switchTenant={switchTenant} inventartApi={api} />
+    return <TenantSelection setTenantCallback={switchTenant} inventartApi={api} />
   }
 
   const inventartApi = new InventartApi(token, session?.tenant.code);
@@ -126,7 +126,7 @@ export const Routes = () => {
       <AppNavBar session={session} logout={userLogout} permissionManager={permissionManager}/>
       <div className={styles.content}>
         <Switch>
-          <Route exact path="/Tenant" component={() => <TenantSelection switchTenant={switchTenant} inventartApi={inventartApi} />} />
+          <Route exact path="/Tenant" component={() => <TenantSelection setTenantCallback={switchTenant} inventartApi={inventartApi} />} />
           <Route exact path="/Home" component={() => Playground(userLogout, session, inventartApi, permissionManager)} />
           <Route exact path="/Model" component={() => ShowModel(inventartApi, permissionManager)} />
           <Route exact path="/About" component={App} />
