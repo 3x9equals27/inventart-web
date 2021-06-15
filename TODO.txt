@@ -1,6 +1,6 @@
-- currently when the user has no default tenant and CTRL-F5(or url enter) a page he is forced to select the tenant again. 
-Also, when having a default tenant, having selected another tenant, hitting F5 will change back to default tenant.
-some persistence could be implemented here as long as it does not last after browser windows are closed.
+these need tenant
+-- sp_upload_file_diagnostico
+-- [HttpPost("upload")]
 
 
 - adicionar default_language à tabela user_

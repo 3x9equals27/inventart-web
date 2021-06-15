@@ -10,10 +10,7 @@ export interface TenantSelectionInterface {
   inventartApi: InventartApi
 }
 
-export const TenantSelection: React.FC<TenantSelectionInterface> = ({
-  setTenantCallback,
-  inventartApi
-}) => {
+export function TenantSelection(props: TenantSelectionInterface) {
   const { logout } = useToken();
   const [loading, setLoading] = useState<boolean>(true);
   const [tenantList, setTenantList] = useState<UserTenantInterface[]>();
@@ -21,7 +18,7 @@ export const TenantSelection: React.FC<TenantSelectionInterface> = ({
   useEffect(() => {
     (async () => {
       //
-      var response = await inventartApi.authUserTenants();
+      var response = await props.inventartApi.authUserTenants();
       if (response.success) {
         console.warn('TenantSelection:useEffect', response.payload);
         setLoading(false);
@@ -31,7 +28,7 @@ export const TenantSelection: React.FC<TenantSelectionInterface> = ({
       }
       //
     })();
-  }, [inventartApi]);
+  }, [props.inventartApi]);
 
   if (loading) {
     return (
@@ -42,7 +39,7 @@ export const TenantSelection: React.FC<TenantSelectionInterface> = ({
   }
 
   function setTenant(tenant: UserTenantInterface){
-    setTenantCallback(tenant);
+    props.setTenantCallback(tenant);
   };
 
   return (

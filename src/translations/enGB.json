@@ -11,8 +11,8 @@
     "goodbye":"Bye home"
   },
   "diagnostic-list":{
-    "hello":"Hi diag",
-    "goodbye":"Bye diag"
+    "hello":"Hi thing",
+    "goodbye":"Bye thing"
   },
   "login":{
     "email.not.found":"Email not found",

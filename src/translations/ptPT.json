@@ -11,8 +11,8 @@
     "goodbye":"adeus casa"
   },
   "diagnostic-list":{
-    "hello":"olá diag",
-    "goodbye":"adeus diag"
+    "hello":"olá coisa",
+    "goodbye":"adeus coisa"
   },
   "login":{
     "email.not.found":"Email desconhecido",
