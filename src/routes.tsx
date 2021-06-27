@@ -19,6 +19,7 @@ import { SessionInterface, UserInfoInterface, UserTenantInterface } from './inte
 import ResetPasswordStep1 from './standalone/ResetPasswordStep1/ResetPasswordStep1';
 import ResetPasswordStep2 from './standalone/ResetPasswordStep2/ResetPasswordStep2';
 import UserSettings from './views/UserSettings/UserSettings';
+import UserPermissions from './views/UserPermissions/UserPermissions';
 import { useTranslation } from 'react-i18next';
 import useSessionLanguage from './hooks/useSessionLanguage';
 import useSessionTenant from './hooks/useSessionTenant';
@@ -140,6 +141,7 @@ export const Routes = () => {
           <Route exact path="/About" component={App} />
           <Route exact path="/Diagnostics" component={() => Diagnostics(inventartApi, permissionManager)} />
           <Route exact path="/UserSettings" component={() => UserSettings(inventartApi, permissionManager)} />
+          <Route exact path="/UserPermissions" component={() => UserPermissions(inventartApi, permissionManager)} />
           <Route exact path="/"><Redirect to="/Home" /></Route>
           <Route render={() => <Redirect to="/Home" />} />
         </Switch>

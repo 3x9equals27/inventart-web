@@ -60,6 +60,9 @@ export const AppNavBar: React.FC<{
                 {permissionManager.Check(Permission.EDIT_SELF) && <MenuItem onClick={() => { menuHandleClose(); history.push('/UserSettings'); }}>
                   <Typography variant="inherit">User Settings</Typography>
                 </MenuItem>}
+                {permissionManager.Check(Permission.EDIT_PERMISSIONS) && <MenuItem onClick={() => { menuHandleClose(); history.push('/UserPermissions'); }}>
+                  <Typography variant="inherit">User Permissions</Typography>
+                </MenuItem>}
                 <MenuItem onClick={() => logout()}>
                   <Typography variant="inherit">Logout</Typography>
                 </MenuItem>

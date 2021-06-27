@@ -105,7 +105,7 @@ export class InventartApi {
       });
   }
 
-  async authUserInfo(): Promise<{success:boolean, payload: undefined | UserInfoInterface}> {
+  async authUserInfo(): Promise<{ success: boolean, payload: undefined | UserInfoInterface }> {
     return axios.post(`${config.apiRoot}/auth/user-info`, null, {
       headers: {
         'Content-Type': 'application/json',
@@ -113,13 +113,13 @@ export class InventartApi {
       },
     })
       .then(res => {
-        return {success: true, payload: res.data};
+        return { success: true, payload: res.data };
       }).catch(err => {
-        return {success: false, payload: undefined};
+        return { success: false, payload: undefined };
       });
   }
 
-  async authUserTenant(tenant: string): Promise<{success:boolean, payload: undefined | UserTenantInterface}> {
+  async authUserTenant(tenant: string): Promise<{ success: boolean, payload: undefined | UserTenantInterface }> {
     return axios.post(`${config.apiRoot}/auth/user-tenant?tenant=${tenant}`, null, {
       headers: {
         'Content-Type': 'application/json',
@@ -127,13 +127,13 @@ export class InventartApi {
       },
     })
       .then(res => {
-        return {success: true, payload: res.data};
+        return { success: true, payload: res.data };
       }).catch(err => {
-        return {success: false, payload: undefined};
+        return { success: false, payload: undefined };
       });
   }
 
-  async authUserTenants(): Promise<{success:boolean, payload: undefined | UserTenantInterface[]}> {
+  async authUserTenants(): Promise<{ success: boolean, payload: undefined | UserTenantInterface[] }> {
     return axios.post(`${config.apiRoot}/auth/user-tenants`, null, {
       headers: {
         'Content-Type': 'application/json',
@@ -141,13 +141,13 @@ export class InventartApi {
       },
     })
       .then(res => {
-        return {success: true, payload: res.data};
+        return { success: true, payload: res.data };
       }).catch(err => {
-        return {success: false, payload: undefined};
+        return { success: false, payload: undefined };
       });
   }
 
-  async diagnosticoList(): Promise<{success:boolean, payload: any}> {
+  async diagnosticoList(): Promise<{ success: boolean, payload: any }> {
     return axios.get(`${config.apiRoot}/diagnostic/${this.tenant}/list-all`, {
       headers: {
         'Content-Type': 'application/json',
@@ -155,12 +155,25 @@ export class InventartApi {
       },
     })
       .then(res => {
-        return {success: true, payload: res.data};
+        return { success: true, payload: res.data };
       }).catch(err => {
-        return {success: false, payload: undefined};
+        return { success: false, payload: undefined };
       });
   }
-  async fileLink(fileGuid: string): Promise<{success:boolean, payload: any}> {
+  async userRolesList(): Promise<{ success: boolean, payload: any }> {
+    return axios.get(`${config.apiRoot}/user/${this.tenant}/roles`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.token}`
+      },
+    })
+      .then(res => {
+        return { success: true, payload: res.data };
+      }).catch(err => {
+        return { success: false, payload: undefined };
+      });
+  }
+  async fileLink(fileGuid: string): Promise<{ success: boolean, payload: any }> {
     return axios.get(`${config.apiRoot}/File/link/${fileGuid}`, {
       headers: {
         'Content-Type': 'application/json',
@@ -168,12 +181,12 @@ export class InventartApi {
       },
     })
       .then(res => {
-        return {success: true, payload: res.data};
+        return { success: true, payload: res.data };
       }).catch(err => {
-        return {success: false, payload: undefined};
+        return { success: false, payload: undefined };
       });
   }
-  async userEditSelf(firstName: string, lastName: string, defaultTenant: string|null, defaultLanguage: string): Promise<{ success: boolean, error?: string }> {
+  async userEditSelf(firstName: string, lastName: string, defaultTenant: string | null, defaultLanguage: string): Promise<{ success: boolean, error?: string }> {
     return axios.post(`${config.apiRoot}/user/edit-self`, {
       firstName: firstName,
       lastName: lastName,

@@ -1,3 +1,5 @@
+submissionStatus on diagnostic table, para controlar estado de submissao feita por contribuidores a aprovada por curadores
+
 these need tenant
 -- sp_upload_file_diagnostico
 -- [HttpPost("upload")]
