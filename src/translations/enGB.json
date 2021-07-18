@@ -1,10 +1,11 @@
 {
   "role":{
-    "guest":"guest",
-    "visitor":"visitor",
-    "contributor":"contributor",
-    "curator":"curator",
-    "admin":"admin"
+    "disabled":"Disabled",
+    "guest":"Guest",
+    "visitor":"Visitor",
+    "contributor":"Contributor",
+    "curator":"Curator",
+    "admin":"Admin"
   },
   "home":{
     "hello":"Hi home",

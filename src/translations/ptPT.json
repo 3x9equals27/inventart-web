@@ -1,10 +1,11 @@
 {
   "role":{
-    "guest":"convidado",
-    "visitor":"visitante",
-    "contributor":"contribuinte",
-    "curator":"curador",
-    "admin":"administrador"
+    "disabled":"Bloqueado",
+    "guest":"Convidado",
+    "visitor":"Visitante",
+    "contributor":"Contribuidor",
+    "curator":"Curador",
+    "admin":"Administrador"
   },
   "home":{
     "hello":"olá casa",
