@@ -205,4 +205,18 @@ export class InventartApi {
         return { success: false, error: err.response.data };
       });
   }
+  async editUserRole(userGuid: string, nextRole: string): Promise<{ success: boolean, error?: string }> {
+    return axios.post(`${config.apiRoot}/user/${this.tenant}/roleChange/${userGuid}/${nextRole}`, {}, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.token}`
+      },
+    })
+      .then(res => {
+        return { success: true };
+      })
+      .catch(err => {
+        return { success: false, error: err.response.data };
+      });
+  }
 }

@@ -9,8 +9,6 @@ import { Column } from '@material-table/core';
 import { GridCore } from '../../components/GridCore/GridCore';
 import { Role } from '../../services/Authentication/Role';
 import { useTranslation } from 'react-i18next';
-import { couldStartTrivia } from 'typescript';
-import { values } from 'lodash';
 
 const UserPermissions = (api: InventartApi, permissionManager: PermissionManager) => {
   const { t } = useTranslation();
@@ -84,10 +82,10 @@ const UserPermissions = (api: InventartApi, permissionManager: PermissionManager
         }
         if (rowData.is_guest_user === true) {
           if (rowData.role === Role.GUEST) {
-            return (<Button variant={'contained'} color={'secondary'}>Disable</Button>);
+            return (<Button variant={'contained'} color={'secondary'} onClick={() => onChangeRoleSelector(rowData.guid, Role.DISABLED)}>Disable</Button>);
           }
           if (rowData.role === Role.DISABLED) {
-            return (<Button variant={'contained'} color={'primary'}>Enable</Button>);
+            return (<Button variant={'contained'} color={'primary'} onClick={() => onChangeRoleSelector(rowData.guid, Role.GUEST)}>Enable</Button>);
           }
         }
         return (
@@ -99,17 +97,21 @@ const UserPermissions = (api: InventartApi, permissionManager: PermissionManager
 
   function roleSelector(guid: string, role: string): ReactNode {
     return (
-      <Select value={role} onChange={(event: any) => onChangeRoleSelector(guid,event.target.value)}>
+      <Select value={role} onChange={(event: any) => onChangeRoleSelector(guid, event.target.value)}>
         <MenuItem value={Role.DISABLED}>{t(Role.DISABLED)}</MenuItem>
         <MenuItem value={Role.VISITOR}>{t(Role.VISITOR)}</MenuItem>
         <MenuItem value={Role.CONTRIBUTOR}>{t(Role.CONTRIBUTOR)}</MenuItem>
       </Select>);
   }
 
-  function onChangeRoleSelector(userGuid: string, role: string): void {
+  async function onChangeRoleSelector(userGuid: string, role: string): Promise<void> {
     console.warn(userGuid, role);
-    //WIP: call user rle change here
-    // curl -X POST "https://localhost:5001/user/FBAUL/roleChange/51654768-0967-48d3-b27a-ee4e0c2fcef3/role%3Adisabled"
+    var result = await api.editUserRole(userGuid, role);
+    if (result.success) {
+      let idx = state.gridData.findIndex(x => x.guid === userGuid);
+      state.gridData[idx].role = role;
+      setState(x => ({ ...x }));
+    }
   }
 
   if (!authorized) {
@@ -120,7 +122,6 @@ const UserPermissions = (api: InventartApi, permissionManager: PermissionManager
     return <div className={styles.loadingWrapper} ><CircularProgress /></div>;
   }
 
-  console.warn('Grid about to be drawn');
   return (
     <div className={styles.mainBody}>
       <Typography className={styles.title} variant={'h5'}> user permissions</Typography>
