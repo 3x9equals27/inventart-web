@@ -24,7 +24,6 @@ const UserPermissions = (api: InventartApi, permissionManager: PermissionManager
       console.warn('UserPermissions:useEffect');
       var response = await api.userRolesList();
       if (response.success) {
-        console.warn(response.payload);
         setState(x => {
           return {
             ...x,
@@ -105,7 +104,6 @@ const UserPermissions = (api: InventartApi, permissionManager: PermissionManager
   }
 
   async function onChangeRoleSelector(userGuid: string, role: string): Promise<void> {
-    console.warn(userGuid, role);
     var result = await api.editUserRole(userGuid, role);
     if (result.success) {
       let idx = state.gridData.findIndex(x => x.guid === userGuid);
