@@ -13,7 +13,8 @@
   },
   "diagnostic-list":{
     "hello":"Hi thing",
-    "goodbye":"Bye thing"
+    "goodbye":"Bye thing",
+    "create-new": "Create new diagnostic"
   },
   "login":{
     "email.not.found":"Email not found",

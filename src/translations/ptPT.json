@@ -13,7 +13,8 @@
   },
   "diagnostic-list":{
     "hello":"olá coisa",
-    "goodbye":"adeus coisa"
+    "goodbye":"adeus coisa",
+    "create-new": "Criar novo diagnostico"
   },
   "login":{
     "email.not.found":"Email desconhecido",

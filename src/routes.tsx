@@ -4,7 +4,7 @@ import { AppNavBar } from './components/NavBar/NavBar';
 import App from './views/app/App'
 import Playground from './views/playground/Playground';
 import ShowModel from './views/ShowModel/ShowModel';
-import Diagnostics from './views/Diagnostics/Diagnostics';
+import DiagnosticList from './views/Diagnostic/DiagnosticList';
 import { CircularProgress } from '@material-ui/core';
 import { InventartApi } from './services/api/InventartApi';
 import { PermissionManager } from './services/Authentication/PermissionManager';
@@ -139,7 +139,7 @@ export const Routes = () => {
           <Route exact path="/Home" component={() => Playground(userLogout, session, inventartApi, permissionManager)} />
           <Route exact path="/Model" component={() => ShowModel(inventartApi, permissionManager)} />
           <Route exact path="/About" component={App} />
-          <Route exact path="/Diagnostics" component={() => Diagnostics(inventartApi, permissionManager)} />
+          <Route exact path="/DiagnosticList" component={() => DiagnosticList(inventartApi, permissionManager)} />
           <Route exact path="/UserSettings" component={() => UserSettings(inventartApi, permissionManager)} />
           <Route exact path="/UserPermissions" component={() => UserPermissions(inventartApi, permissionManager)} />
           <Route exact path="/"><Redirect to="/Home" /></Route>
