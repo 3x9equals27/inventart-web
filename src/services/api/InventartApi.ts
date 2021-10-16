@@ -23,7 +23,7 @@ export class InventartApi {
     })
       .then(res => {
         console.warn('Login:loginUser:then', res.data);
-        return { success: true, token: res.data };
+        return { success: true, token: res.data as string };
       })
       .catch(err => {
         console.warn('catch', err.response);
@@ -113,7 +113,7 @@ export class InventartApi {
       },
     })
       .then(res => {
-        return { success: true, payload: res.data };
+        return { success: true, payload: res.data as UserInfoInterface };
       }).catch(err => {
         return { success: false, payload: undefined };
       });
@@ -127,7 +127,7 @@ export class InventartApi {
       },
     })
       .then(res => {
-        return { success: true, payload: res.data };
+        return { success: true, payload: res.data as UserTenantInterface };
       }).catch(err => {
         return { success: false, payload: undefined };
       });
@@ -141,7 +141,7 @@ export class InventartApi {
       },
     })
       .then(res => {
-        return { success: true, payload: res.data };
+        return { success: true, payload: res.data as UserTenantInterface[] };
       }).catch(err => {
         return { success: false, payload: undefined };
       });
