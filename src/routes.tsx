@@ -23,6 +23,7 @@ import UserPermissions from './views/UserPermissions/UserPermissions';
 import { useTranslation } from 'react-i18next';
 import useSessionLanguage from './hooks/useSessionLanguage';
 import useSessionTenant from './hooks/useSessionTenant';
+import DiagnosticCreate from './views/Diagnostic/DiagnosticCreate';
 const queryString = require('query-string');
 
 export const Routes = () => {
@@ -140,6 +141,7 @@ export const Routes = () => {
           <Route exact path="/Model" component={() => ShowModel(inventartApi, permissionManager)} />
           <Route exact path="/About" component={App} />
           <Route exact path="/DiagnosticList" component={() => DiagnosticList(inventartApi, permissionManager)} />
+          <Route exact path="/DiagnosticCreate" component={() => DiagnosticCreate(inventartApi, permissionManager)} />
           <Route exact path="/UserSettings" component={() => UserSettings(inventartApi, permissionManager)} />
           <Route exact path="/UserPermissions" component={() => UserPermissions(inventartApi, permissionManager)} />
           <Route exact path="/"><Redirect to="/Home" /></Route>

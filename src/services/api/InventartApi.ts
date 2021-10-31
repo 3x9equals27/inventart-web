@@ -147,7 +147,7 @@ export class InventartApi {
       });
   }
 
-  async diagnosticoList(): Promise<{ success: boolean, payload: any }> {
+  async diagnosticList(): Promise<{ success: boolean, payload: any }> {
     return axios.get(`${config.apiRoot}/diagnostic/${this.tenant}/list-all`, {
       headers: {
         'Content-Type': 'application/json',
@@ -160,6 +160,23 @@ export class InventartApi {
         return { success: false, payload: undefined };
       });
   }
+  async diagnosticCreate(description: string): Promise<{ success: boolean, error?: string }> {
+    return axios.post(`${config.apiRoot}/diagnostic/${this.tenant}/create`, {
+      description: description
+    }, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.token}`
+      },
+    })
+      .then(res => {
+        return { success: true, payload: res.data };
+      })
+      .catch(err => {
+        return { success: false, error: err.response.data };
+      });
+  }
+
   async userRolesList(): Promise<{ success: boolean, payload: any }> {
     return axios.get(`${config.apiRoot}/user/${this.tenant}/roles`, {
       headers: {

@@ -18,7 +18,7 @@ const DiagnosticList = (inventartApi: InventartApi, permissionManager: Permissio
 
   useEffect(() => {
     (async () => {
-      var response = await inventartApi.diagnosticoList();
+      var response = await inventartApi.diagnosticList();
       if (response.success) {
         setGridData(response.payload);
       } else {
