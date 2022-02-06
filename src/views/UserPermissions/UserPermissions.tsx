@@ -21,7 +21,6 @@ const UserPermissions = (api: InventartApi, permissionManager: PermissionManager
   useEffect(() => {
     (async () => {
       if (!authorized || !state.loading) return;
-      console.warn('UserPermissions:useEffect');
       var response = await api.userRolesList();
       if (response.success) {
         setState(x => {

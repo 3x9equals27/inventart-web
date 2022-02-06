@@ -48,7 +48,7 @@ export const GridCore: React.FC<GridCoreProps<any>> = ({
         // toolbar: false,
         // search: false,
         // showTitle: false,
-        // pageSize: 6,
+        pageSize: 10,
         // emptyRowsWhenPaging: false,
         // pageSizeOptions: [],
         paginationPosition: 'bottom',

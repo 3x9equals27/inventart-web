@@ -29,17 +29,13 @@ const UserSettings = (api: InventartApi, permissionManager: PermissionManager) =
     setOpenAlertSuccess(false);
   };
 
-  console.warn('UserSettings');
-
   useEffect(() => {
     (async () => {
       if(!authorized || !state.loading) return;
-      console.warn('UserSettings:useEffect');
       
       var resp_user = await api.authUserInfo();
       if (resp_user.success) {
         let userInfo: UserInfoInterface = resp_user.payload!;
-        console.warn(resp_user.payload);
 
         let defaultTenantName:string = state.defaultTenantName;
         if(userInfo.default_tenant){
@@ -70,7 +66,6 @@ const UserSettings = (api: InventartApi, permissionManager: PermissionManager) =
   async function saveUserSettings() {
     setSaving(true);
     const response = await api.userEditSelf(state.firstName, state.lastName, state.defaultTenant, state.defaultLanguage);
-    console.warn('UserSettings:handleSubmit', response);
 
     setSaving(false);
     if (response.success) {

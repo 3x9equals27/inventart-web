@@ -4,8 +4,9 @@ import { useHistory } from 'react-router-dom';
 import { InventartApi } from '../../services/api/InventartApi';
 import { PermissionManager } from '../../services/Authentication/PermissionManager';
 import { useTranslation } from 'react-i18next';
-import { useEffect, useState } from 'react';
-import { Box, Button, Grid, Paper, TextField } from '@material-ui/core';
+import { ChangeEvent, useEffect, useState } from 'react';
+import { Box, Button, Grid, Paper, Snackbar, TextField } from '@material-ui/core';
+import { Alert } from '@material-ui/lab';
 
 const DiagnosticCreate = (inventartApi: InventartApi, permissionManager: PermissionManager) => {
   const history = useHistory();
@@ -14,22 +15,33 @@ const DiagnosticCreate = (inventartApi: InventartApi, permissionManager: Permiss
   const [diagnostic, setDiagnostic] = useState<{ description: string }>({
     description: ''
   });
+  const [selectedFile, setSelectedFile] = useState<File | undefined>();
+  const [alertErrorMessage, setAlertErrorMessage] = useState<string | undefined>();
 
-  console.warn('diagnostic.description: ', diagnostic.description);
+  const handleFileSelect = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files) {
+      setSelectedFile(event.target.files[0]);
+    }
+  }
 
-  /*
-  useEffect(() => {
-    (async () => {
-      var response = await inventartApi.diagnosticCreate('and another one');
-      console.warn(response);
-
-    })();
-  }, [inventartApi]);
-*/
-
-  async function createNewDiagnostic(){
+  async function createNewDiagnostic() {
     var response = await inventartApi.diagnosticCreate(diagnostic.description);
-    console.warn(response);
+    if (response.success) {
+      uploadAttachment(response.payload.guid);
+    } else {
+      setAlertErrorMessage(response.error);
+    }
+  }
+
+  async function uploadAttachment(guid: string) {
+    if (guid && selectedFile) {
+      var response = await inventartApi.diagnosticFileUpload(guid, selectedFile);
+      if (response.success) {
+        history.push('/DiagnosticList')
+      } else {
+        setAlertErrorMessage(response.error);
+      }
+    }
   }
 
   return (
@@ -43,7 +55,7 @@ const DiagnosticCreate = (inventartApi: InventartApi, permissionManager: Permiss
             2
           </Grid>
           <Grid item xs={12} sm={6}>
-            3
+            <input type="file" onChange={handleFileSelect} />
           </Grid>
           <Grid item xs={12} sm={6}>
             4
@@ -52,6 +64,12 @@ const DiagnosticCreate = (inventartApi: InventartApi, permissionManager: Permiss
       </Box>
 
       <Button variant='outlined' onClick={() => { createNewDiagnostic(); }}>Register</Button>
+
+      <Snackbar open={!!alertErrorMessage} autoHideDuration={null} onClose={() => setAlertErrorMessage(undefined)} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+        <Alert onClose={() => setAlertErrorMessage(undefined)} severity="error" >
+          {alertErrorMessage}
+        </Alert>
+      </Snackbar>
     </div>
   );
 };

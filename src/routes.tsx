@@ -137,13 +137,14 @@ export const Routes = () => {
       <div className={styles.content}>
         <Switch>
           <Route exact path="/Tenant" component={() => <TenantSelection setTenantCallback={switchTenant} inventartApi={inventartApi} />} />
-          <Route exact path="/Home" component={() => Playground(userLogout, session, inventartApi, permissionManager)} />
+          <Route exact path="/Playground" component={() => Playground(userLogout, session, inventartApi, permissionManager)} />
           <Route exact path="/Model" component={() => ShowModel(inventartApi, permissionManager)} />
           <Route exact path="/About" component={App} />
           <Route exact path="/DiagnosticList" component={() => DiagnosticList(inventartApi, permissionManager)} />
           <Route exact path="/DiagnosticCreate" component={() => DiagnosticCreate(inventartApi, permissionManager)} />
           <Route exact path="/UserSettings" component={() => UserSettings(inventartApi, permissionManager)} />
           <Route exact path="/UserPermissions" component={() => UserPermissions(inventartApi, permissionManager)} />
+          <Route exact path="/Home"><Redirect to="/DiagnosticList" /></Route>
           <Route exact path="/"><Redirect to="/Home" /></Route>
           <Route render={() => <Redirect to="/Home" />} />
         </Switch>
@@ -151,4 +152,3 @@ export const Routes = () => {
     </div>
   );
 };
-

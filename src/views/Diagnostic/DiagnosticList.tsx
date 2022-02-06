@@ -44,7 +44,6 @@ const DiagnosticList = (inventartApi: InventartApi, permissionManager: Permissio
       {
         tooltip: 'Show Model',
         render: ({ rowData }) => {
-          console.warn('rowData', rowData);
           if (!rowData?.file_guid) {
             return <div>Nothing to see here</div>
           }

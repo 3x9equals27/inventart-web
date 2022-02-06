@@ -42,9 +42,9 @@ export const AppNavBar: React.FC<{
               <Button color='inherit' variant='outlined' onClick={() => { history.push('/Tenant') }}>{t(session.tenant?.role ?? '')}@{session.tenant?.short_name}</Button>
             </div>
             <div className={styles.divCenter}>
-              <Button color='inherit' onClick={() => { history.push('/Home') }}>Home</Button>
+              {/* <Button color='inherit' onClick={() => { history.push('/Home') }}>Home</Button> */}
               <Button color='inherit' onClick={() => { history.push('/DiagnosticList') }}>Diagnostics</Button>
-              <Button color='inherit' onClick={() => { history.push('/About') }}>About</Button>
+              {/* <Button color='inherit' onClick={() => { history.push('/About') }}>About</Button> */}
             </div>
             <div className={styles.divRight}>
               <IconButton edge='end' className={styles.menuButton} color='inherit' aria-label='menu' aria-controls="context-menu" aria-haspopup="true" onClick={menuClick}>

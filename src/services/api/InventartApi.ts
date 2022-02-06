@@ -160,10 +160,29 @@ export class InventartApi {
         return { success: false, payload: undefined };
       });
   }
-  async diagnosticCreate(description: string): Promise<{ success: boolean, error?: string }> {
+  async diagnosticCreate(description: string): Promise<{ success: boolean, error?: string, payload?: any }> {
     return axios.post(`${config.apiRoot}/diagnostic/${this.tenant}/create`, {
       description: description
     }, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.token}`
+      },
+    })
+      .then(res => {
+        return { success: true, payload: res.data };
+      })
+      .catch(err => {
+        return { success: false, error: err.response.data };
+      });
+  }
+
+  async diagnosticFileUpload(guid: string, file: File): Promise<{ success: boolean, error?: string, payload?: any }> {
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    return axios.post(`${config.apiRoot}/diagnostic/upload?diagnostico=${guid}`, formData, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${this.token}`
