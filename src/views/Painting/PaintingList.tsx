@@ -1,4 +1,4 @@
-import styles from './DiagnosticList.module.css';
+import styles from './PaintingList.module.css';
 import React, { useEffect, useState } from 'react';
 import { GridCore } from '../../components/GridCore/GridCore';
 import { Loading } from '../../components/Loading/Loading';
@@ -12,14 +12,14 @@ import { AddBox } from '@material-ui/icons';
 import { useTranslation } from 'react-i18next';
 import { Permission } from '../../services/Authentication/Permission';
 
-const DiagnosticList = (inventartApi: InventartApi, permissionManager: PermissionManager) => {
+const PaintingList = (inventartApi: InventartApi, permissionManager: PermissionManager) => {
   const history = useHistory();
   const { t } = useTranslation();
   const [gridData, setGridData] = useState<Array<any>>([]);
 
   useEffect(() => {
     (async () => {
-      var response = await inventartApi.diagnosticList();
+      var response = await inventartApi.paintingList();
       if (response.success) {
         setGridData(response.payload);
       } else {
@@ -66,9 +66,9 @@ const DiagnosticList = (inventartApi: InventartApi, permissionManager: Permissio
           actions={permissionManager.Check(Permission.UPLOAD_FILE) ? [
             {
               icon: AddBox,
-              tooltip: t('diagnostic-list:create-new'),
+              tooltip: t('painting-list:create-new'),
               isFreeAction: true,
-              onClick: (event) => { history.push('/DiagnosticCreate') }
+              onClick: (event) => { history.push('/PaintingCreate') }
             }
           ] : []}
         />
@@ -76,7 +76,7 @@ const DiagnosticList = (inventartApi: InventartApi, permissionManager: Permissio
     </div>);
 };
 
-export default DiagnosticList;
+export default PaintingList;
 
 const gridColumns: Array<Column<any>> = [
   {

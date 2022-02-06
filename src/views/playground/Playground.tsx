@@ -25,8 +25,8 @@ const Playground = (logout: ()=>void, session: SessionInterface, inventartApi: I
       try new stuff here<br />
       <div>i18n home hello: {t('home:hello')}</div>
       <div>i18n home goodbye: {t('home:goodbye')}</div>
-      <div>i18n diagnostic-list hello: {t('diagnostic-list:hello')}</div>
-      <div>i18n diagnostic-list goodbye: {t('diagnostic-list:goodbye')}</div>
+      <div>i18n painting-list hello: {t('painting-list:hello')}</div>
+      <div>i18n painting-list goodbye: {t('painting-list:goodbye')}</div>
       <Button variant='outlined' onClick={() => { i18n.changeLanguage('en-GB'); }}>english</Button><br />
       <Button variant='outlined' onClick={() => { i18n.changeLanguage('pt-PT'); }}>portugues</Button><br />
 

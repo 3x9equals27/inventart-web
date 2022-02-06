@@ -11,10 +11,10 @@
     "hello":"Hi home",
     "goodbye":"Bye home"
   },
-  "diagnostic-list":{
+  "painting-list":{
     "hello":"Hi thing",
     "goodbye":"Bye thing",
-    "create-new": "Create new diagnostic"
+    "create-new": "Create new painting"
   },
   "login":{
     "email.not.found":"Email not found",

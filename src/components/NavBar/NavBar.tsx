@@ -43,7 +43,7 @@ export const AppNavBar: React.FC<{
             </div>
             <div className={styles.divCenter}>
               {/* <Button color='inherit' onClick={() => { history.push('/Home') }}>Home</Button> */}
-              <Button color='inherit' onClick={() => { history.push('/DiagnosticList') }}>Diagnostics</Button>
+              <Button color='inherit' onClick={() => { history.push('/PaintingList') }}>Paintings</Button>
               {/* <Button color='inherit' onClick={() => { history.push('/About') }}>About</Button> */}
             </div>
             <div className={styles.divRight}>

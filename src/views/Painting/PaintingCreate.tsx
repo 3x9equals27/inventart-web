@@ -1,4 +1,4 @@
-import styles from './DiagnosticList.module.css';
+import styles from './PaintingList.module.css';
 import _ from 'lodash';
 import { useHistory } from 'react-router-dom';
 import { InventartApi } from '../../services/api/InventartApi';
@@ -8,11 +8,11 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { Box, Button, Grid, Paper, Snackbar, TextField } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 
-const DiagnosticCreate = (inventartApi: InventartApi, permissionManager: PermissionManager) => {
+const PaintingCreate = (inventartApi: InventartApi, permissionManager: PermissionManager) => {
   const history = useHistory();
   const { t } = useTranslation();
 
-  const [diagnostic, setDiagnostic] = useState<{ description: string }>({
+  const [painting, setPainting] = useState<{ description: string }>({
     description: ''
   });
   const [selectedFile, setSelectedFile] = useState<File | undefined>();
@@ -24,8 +24,8 @@ const DiagnosticCreate = (inventartApi: InventartApi, permissionManager: Permiss
     }
   }
 
-  async function createNewDiagnostic() {
-    var response = await inventartApi.diagnosticCreate(diagnostic.description);
+  async function createNewPainting() {
+    var response = await inventartApi.paintingCreate(painting.description);
     if (response.success) {
       uploadAttachment(response.payload.guid);
     } else {
@@ -35,9 +35,9 @@ const DiagnosticCreate = (inventartApi: InventartApi, permissionManager: Permiss
 
   async function uploadAttachment(guid: string) {
     if (guid && selectedFile) {
-      var response = await inventartApi.diagnosticFileUpload(guid, selectedFile);
+      var response = await inventartApi.paintingFileUpload(guid, selectedFile);
       if (response.success) {
-        history.push('/DiagnosticList')
+        history.push('/PaintingList')
       } else {
         setAlertErrorMessage(response.error);
       }
@@ -49,7 +49,7 @@ const DiagnosticCreate = (inventartApi: InventartApi, permissionManager: Permiss
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
-            <TextField id="outlined-basic" label="Description" variant="outlined" value={diagnostic.description} required onChange={(event) => { setDiagnostic(x => { return { ...x, description: event.target.value } }); }} />
+            <TextField id="outlined-basic" label="Description" variant="outlined" value={painting.description} required onChange={(event) => { setPainting(x => { return { ...x, description: event.target.value } }); }} />
           </Grid>
           <Grid item xs={12} sm={6}>
             2
@@ -63,7 +63,7 @@ const DiagnosticCreate = (inventartApi: InventartApi, permissionManager: Permiss
         </Grid>
       </Box>
 
-      <Button variant='outlined' onClick={() => { createNewDiagnostic(); }}>Register</Button>
+      <Button variant='outlined' onClick={() => { createNewPainting(); }}>Register</Button>
 
       <Snackbar open={!!alertErrorMessage} autoHideDuration={null} onClose={() => setAlertErrorMessage(undefined)} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
         <Alert onClose={() => setAlertErrorMessage(undefined)} severity="error" >
@@ -74,4 +74,4 @@ const DiagnosticCreate = (inventartApi: InventartApi, permissionManager: Permiss
   );
 };
 
-export default DiagnosticCreate;
+export default PaintingCreate;

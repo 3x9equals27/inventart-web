@@ -147,8 +147,8 @@ export class InventartApi {
       });
   }
 
-  async diagnosticList(): Promise<{ success: boolean, payload: any }> {
-    return axios.get(`${config.apiRoot}/diagnostic/${this.tenant}/list-all`, {
+  async paintingList(): Promise<{ success: boolean, payload: any }> {
+    return axios.get(`${config.apiRoot}/painting/${this.tenant}/list-all`, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${this.token}`
@@ -160,8 +160,8 @@ export class InventartApi {
         return { success: false, payload: undefined };
       });
   }
-  async diagnosticCreate(description: string): Promise<{ success: boolean, error?: string, payload?: any }> {
-    return axios.post(`${config.apiRoot}/diagnostic/${this.tenant}/create`, {
+  async paintingCreate(description: string): Promise<{ success: boolean, error?: string, payload?: any }> {
+    return axios.post(`${config.apiRoot}/painting/${this.tenant}/create`, {
       description: description
     }, {
       headers: {
@@ -177,12 +177,12 @@ export class InventartApi {
       });
   }
 
-  async diagnosticFileUpload(guid: string, file: File): Promise<{ success: boolean, error?: string, payload?: any }> {
+  async paintingFileUpload(guid: string, file: File): Promise<{ success: boolean, error?: string, payload?: any }> {
 
     const formData = new FormData();
     formData.append("file", file);
 
-    return axios.post(`${config.apiRoot}/diagnostic/upload?diagnostico=${guid}`, formData, {
+    return axios.post(`${config.apiRoot}/painting/upload?painting=${guid}`, formData, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${this.token}`

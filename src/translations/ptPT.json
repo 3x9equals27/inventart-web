@@ -11,10 +11,10 @@
     "hello":"olá casa",
     "goodbye":"adeus casa"
   },
-  "diagnostic-list":{
+  "painting-list":{
     "hello":"olá coisa",
     "goodbye":"adeus coisa",
-    "create-new": "Criar novo diagnostico"
+    "create-new": "Criar nova pintura"
   },
   "login":{
     "email.not.found":"Email desconhecido",

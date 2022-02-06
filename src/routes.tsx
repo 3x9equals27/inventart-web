@@ -4,7 +4,7 @@ import { AppNavBar } from './components/NavBar/NavBar';
 import App from './views/app/App'
 import Playground from './views/playground/Playground';
 import ShowModel from './views/ShowModel/ShowModel';
-import DiagnosticList from './views/Diagnostic/DiagnosticList';
+import PaintingList from './views/Painting/PaintingList';
 import { CircularProgress } from '@material-ui/core';
 import { InventartApi } from './services/api/InventartApi';
 import { PermissionManager } from './services/Authentication/PermissionManager';
@@ -23,7 +23,7 @@ import UserPermissions from './views/UserPermissions/UserPermissions';
 import { useTranslation } from 'react-i18next';
 import useSessionLanguage from './hooks/useSessionLanguage';
 import useSessionTenant from './hooks/useSessionTenant';
-import DiagnosticCreate from './views/Diagnostic/DiagnosticCreate';
+import PaintingCreate from './views/Painting/PaintingCreate';
 const queryString = require('query-string');
 
 export const Routes = () => {
@@ -140,11 +140,11 @@ export const Routes = () => {
           <Route exact path="/Playground" component={() => Playground(userLogout, session, inventartApi, permissionManager)} />
           <Route exact path="/Model" component={() => ShowModel(inventartApi, permissionManager)} />
           <Route exact path="/About" component={App} />
-          <Route exact path="/DiagnosticList" component={() => DiagnosticList(inventartApi, permissionManager)} />
-          <Route exact path="/DiagnosticCreate" component={() => DiagnosticCreate(inventartApi, permissionManager)} />
+          <Route exact path="/PaintingList" component={() => PaintingList(inventartApi, permissionManager)} />
+          <Route exact path="/PaintingCreate" component={() => PaintingCreate(inventartApi, permissionManager)} />
           <Route exact path="/UserSettings" component={() => UserSettings(inventartApi, permissionManager)} />
           <Route exact path="/UserPermissions" component={() => UserPermissions(inventartApi, permissionManager)} />
-          <Route exact path="/Home"><Redirect to="/DiagnosticList" /></Route>
+          <Route exact path="/Home"><Redirect to="/PaintingList" /></Route>
           <Route exact path="/"><Redirect to="/Home" /></Route>
           <Route render={() => <Redirect to="/Home" />} />
         </Switch>
