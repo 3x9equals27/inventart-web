@@ -10,6 +10,7 @@ import { InventartApi } from '../../services/api/InventartApi';
 import { PermissionManager } from '../../services/Authentication/PermissionManager';
 import { AddBox } from '@material-ui/icons';
 import { useTranslation } from 'react-i18next';
+import { Permission } from '../../services/Authentication/Permission';
 
 const DiagnosticList = (inventartApi: InventartApi, permissionManager: PermissionManager) => {
   const history = useHistory();
@@ -61,14 +62,15 @@ const DiagnosticList = (inventartApi: InventartApi, permissionManager: Permissio
           columns={gridColumns}
           detailPanel={gridDetailPanel()}
           onRowClick={gridRowClick}
-          actions={[
+          //this Permission.UPLOAD_FILE should be Permission.ADD_WORK
+          actions={permissionManager.Check(Permission.UPLOAD_FILE) ? [
             {
               icon: AddBox,
               tooltip: t('diagnostic-list:create-new'),
               isFreeAction: true,
               onClick: (event) => { history.push('/DiagnosticCreate') }
             }
-          ]}
+          ] : []}
         />
       </div>
     </div>);
