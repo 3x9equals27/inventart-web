@@ -1,5 +1,7 @@
 import { CircularProgress } from '@material-ui/core';
 import React, { FormEvent, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { ApiResponse } from '../../interfaces/api.interface';
 import { InventartApi } from '../../services/api/InventartApi';
 import styles from './ResetPasswordStep2.module.css';
 
@@ -8,7 +10,8 @@ export const ResetPasswordStep2: React.FC<{
 }> = ({
   guid
 }) => {
-  const api = new InventartApi();
+    const { t } = useTranslation();
+    const api = new InventartApi(t);
     const [state, setState] = useState<{ loading: boolean, linkExists: boolean, resetComplete: boolean, password: string, passwordRepeat: string, errorMessage?: string }>({
       loading: true,
       linkExists: false,
@@ -21,8 +24,8 @@ export const ResetPasswordStep2: React.FC<{
     useEffect(() => {
       (async () => {
         //
-        var result: boolean = await (new InventartApi()).authResetPasswordStep2a(guid);
-        setState(x => { return { ...x, loading: false, linkExists: result } });
+        var result: ApiResponse = await (new InventartApi(t)).authResetPasswordStep2a(guid);
+        setState(x => { return { ...x, loading: false, linkExists: result.success } });
         //
       })();
     }, [guid]);
@@ -31,11 +34,11 @@ export const ResetPasswordStep2: React.FC<{
       e.preventDefault();
       const response = await api.authResetPasswordStep2b(guid, state.password, state.passwordRepeat);
       console.warn('ResetPasswordStep2:handleSubmit', response);
-  
+
       if (response.success) {
         setState(x => { return { ...x, resetComplete: true } });
       } else {
-        setState(x => { return { ...x, errorMessage: response.error } });
+        setState(x => { return { ...x, errorMessage: response.errorMessage } });
       }
     }
 

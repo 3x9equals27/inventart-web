@@ -72,7 +72,7 @@ const UserSettings = (api: InventartApi, permissionManager: PermissionManager) =
       setSavingError('');
       setOpenAlertSuccess(true);
     } else {
-      setSavingError(JSON.stringify(response.error!));
+      setSavingError(JSON.stringify(response.errorMessage!));
     }
 
   }

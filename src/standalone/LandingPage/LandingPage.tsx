@@ -1,5 +1,6 @@
 import { Button, CircularProgress } from '@material-ui/core';
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { InventartApi } from '../../services/api/InventartApi';
 import styles from './LandingPage.module.css';
 
@@ -10,7 +11,8 @@ export interface LandingPageInterface {
 export const LandingPage: React.FC<LandingPageInterface> = ({
   setToken
 }) => {
-  const api = new InventartApi();
+  const { t } = useTranslation();
+  const api = new InventartApi(t);
   const [guestLoading, setGuestLoading] = useState<boolean>(false);
   const [loginError, setLoginError] = useState<string>('');
 
@@ -19,10 +21,10 @@ export const LandingPage: React.FC<LandingPageInterface> = ({
     const result = await api.authLogin('guest@inventart','guest');
     console.warn('LandingPage:LoginAsGuest', result);
     if(result.success){
-      setToken(result.token!);
+      setToken(result.payload);
     } else {
       setGuestLoading(false);
-      setLoginError(result.error!);
+      setLoginError(result.errorMessage!);
     }
   }
 

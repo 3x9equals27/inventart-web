@@ -29,7 +29,7 @@ const PaintingCreate = (inventartApi: InventartApi, permissionManager: Permissio
     if (response.success) {
       uploadAttachment(response.payload.guid);
     } else {
-      setAlertErrorMessage(response.error);
+      setAlertErrorMessage(response.errorMessage);
     }
   }
 
@@ -37,10 +37,12 @@ const PaintingCreate = (inventartApi: InventartApi, permissionManager: Permissio
     if (guid && selectedFile) {
       var response = await inventartApi.paintingFileUpload(guid, selectedFile);
       if (response.success) {
-        history.push('/PaintingList')
+        history.push('/PaintingList');
       } else {
-        setAlertErrorMessage(response.error);
+        setAlertErrorMessage(response.errorMessage);
       }
+    } else {
+      history.push('/PaintingList');
     }
   }
 

@@ -1,5 +1,7 @@
 import { CircularProgress } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { ApiResponse } from '../../interfaces/api.interface';
 import { InventartApi } from '../../services/api/InventartApi';
 import styles from './ResetPasswordStep1.module.css';
 
@@ -8,6 +10,7 @@ export const ResetPasswordStep1: React.FC<{
 }> = ({
   email
 }) => {
+    const { t } = useTranslation();
     const [state, setState] = useState<{ loading: boolean, linkSent: boolean }>({
       loading: false,
       linkSent: false
@@ -16,8 +19,8 @@ export const ResetPasswordStep1: React.FC<{
     useEffect(() => {
       (async () => {
         //
-        var result: boolean = await (new InventartApi()).authResetPasswordStep1(email);
-        setState(x => { return { loading: false, linkSent: result } });
+        var result: ApiResponse = await (new InventartApi(t)).authResetPasswordStep1(email);
+        setState(x => { return { loading: false, linkSent: result.success } });
         //
       })();
     }, [email]);

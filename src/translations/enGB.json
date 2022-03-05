@@ -1,27 +1,37 @@
 {
-  "role":{
-    "disabled":"Disabled",
-    "guest":"Guest",
-    "visitor":"Visitor",
-    "contributor":"Contributor",
-    "curator":"Curator",
-    "admin":"Admin"
+  "role": {
+    "disabled": "Disabled",
+    "guest": "Guest",
+    "visitor": "Visitor",
+    "contributor": "Contributor",
+    "curator": "Curator",
+    "admin": "Admin"
   },
-  "home":{
-    "hello":"Hi home",
-    "goodbye":"Bye home"
+  "home": {
+    "hello": "Hi home",
+    "goodbye": "Bye home"
   },
-  "painting-list":{
-    "hello":"Hi thing",
-    "goodbye":"Bye thing",
+  "painting-list": {
+    "hello": "Hi thing",
+    "goodbye": "Bye thing",
     "create-new": "Create new painting"
   },
-  "login":{
-    "email.not.found":"Email not found",
-    "wrong.password":"Wrong password",
-    "email.unverified":"Email unverified",
-    "go.to.registration":"register new user",
-    "forgot.password":"did you forget your password ?",
-    "reset.password":"reset password"
+  "login": {
+    "email.unverified": "Email unverified",
+    "go.to.registration": "register new user",
+    "forgot.password": "did you forget your password ?",
+    "reset.password": "reset password"
+  },
+  "api-error": {
+    "generic": "An error as ocurred",
+    "wrong.password": "Wrong Password",
+    "email.not.found": "Email not found",
+    "empty.email": "Empty email",
+    "empty.password": "Empty password",
+    "empty.first.name": "Empty first name",
+    "empty.last.name": "Empty last name",
+    "invalid.email": "Invalid e-mail",
+    "passwords.dont.match": "passwords don't match",
+    "password.too.small": "password too small"
   }
 }

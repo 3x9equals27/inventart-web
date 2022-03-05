@@ -1,10 +1,12 @@
 import { Button, CircularProgress, TextField } from '@material-ui/core';
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { InventartApi } from '../../services/api/InventartApi';
 import styles from './Register.module.css';
 
 export const Register: React.FC = () => {
-  const api = new InventartApi();
+  const { t } = useTranslation();
+  const api = new InventartApi(t);
   const [username, setUserName] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [passwordRepeat, setPasswordRepeat] = useState<string>('');
@@ -23,7 +25,7 @@ export const Register: React.FC = () => {
       setRegistrationComplete(true);
     } else {
       setRegistering(false);
-      setRegistrationError(response.error!);
+      setRegistrationError(response.errorMessage!);
     }
   }
 

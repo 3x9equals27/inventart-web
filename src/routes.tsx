@@ -27,7 +27,7 @@ import PaintingCreate from './views/Painting/PaintingCreate';
 const queryString = require('query-string');
 
 export const Routes = () => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { getSessionLanguage, unsetSessionLanguage } = useSessionLanguage();
   const { getSessionTenant, unsetSessionTenant, setSessionTenant } = useSessionTenant();
   const history = useHistory();
@@ -50,7 +50,7 @@ export const Routes = () => {
       if (!token || session) return;
       console.warn('Routes.tsx: useEffect');
       //
-      var api = new InventartApi(token);
+      var api = new InventartApi(t, token);
       var tmp_user: UserInfoInterface | undefined = undefined;
       var tmp_tenant: UserTenantInterface | undefined = undefined;
       //
@@ -122,13 +122,13 @@ export const Routes = () => {
   }
 
   if (!session?.tenant || !session?.tenant.role) {
-    let api = new InventartApi(token);
+    let api = new InventartApi(t, token);
     return <TenantSelection setTenantCallback={switchTenant} inventartApi={api} />
   }
 
   console.warn('session', session);
 
-  const inventartApi = new InventartApi(token, session?.tenant.code);
+  const inventartApi = new InventartApi(t, token, session?.tenant.code);
   const permissionManager = new PermissionManager(session.tenant?.role!);
 
   return (

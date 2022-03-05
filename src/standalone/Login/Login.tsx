@@ -12,11 +12,11 @@ export interface LoginInterface {
 export const Login: React.FC<LoginInterface> = ({
   setToken
 }) => {
-  const api = new InventartApi();
   const { t } = useTranslation();
+  const api = new InventartApi(t);
   const [username, setUserName] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [loginError, setLoginError] = useState<string>('');
+  const [loginError, setLoginError] = useState<{ code: string, translation: string }>({ code: '', translation: '' });
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -24,9 +24,12 @@ export const Login: React.FC<LoginInterface> = ({
     console.warn('Login:handleSubmit', response);
 
     if (response.success) {
-      setToken(response.token!);
+      setToken(response.payload);
     } else {
-      setLoginError(response.error!);
+      setLoginError({
+        code: response.payload,
+        translation: response.errorMessage!
+      });
     }
   }
 
@@ -50,12 +53,12 @@ export const Login: React.FC<LoginInterface> = ({
         </div>
       </form>
       {loginError && <div className={styles.errorDiv}>
-        {t(`login:${loginError}`)}
+        {loginError.translation}
       </div>}
-      {loginError === 'email.not.found' && <div className={styles.emailNotFound}>
+      {loginError.code === 'email.not.found' && <div className={styles.emailNotFound}>
         <Button variant='outlined' onClick={() => { window.location.href = '/register'; }}>{t(`login:go.to.registration`)}</Button>
       </div>}
-      {loginError === 'wrong.password' && <div className={styles.wrongPassword}>
+      {loginError.code === 'wrong.password' && <div className={styles.wrongPassword}>
         <p>{t(`login:forgot.password`)}</p>
         <Button variant='outlined' onClick={() => { window.location.href = `/reset-password-step1?email=${username}`; }}>{t(`login:reset.password`)}</Button>
       </div>}

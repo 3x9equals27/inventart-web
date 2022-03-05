@@ -1,5 +1,7 @@
 import { Button, CircularProgress } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { ApiResponse } from '../../interfaces/api.interface';
 import { InventartApi } from '../../services/api/InventartApi';
 import styles from './VerifyEmailPage.module.css';
 
@@ -8,6 +10,7 @@ export const VerifyEmailPage: React.FC<{
 }> = ({ 
   verificationCode 
 }) => {
+  const { t } = useTranslation();
   const [verification, setVerification] = useState<{ loading: boolean, verified: boolean }>({
     loading: false,
     verified: false
@@ -16,8 +19,8 @@ export const VerifyEmailPage: React.FC<{
   useEffect(() => {
     (async () => {
       //
-      var verificationResult: boolean = await (new InventartApi()).authVerify(verificationCode);
-      setVerification(x => { return { loading: false, verified: verificationResult } });
+      var verificationResult: ApiResponse = await (new InventartApi(t)).authVerify(verificationCode);
+      setVerification(x => { return { loading: false, verified: verificationResult.success } });
       //
     })();
   }, [verificationCode]);

@@ -1,258 +1,133 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
+import { TFunction } from 'react-i18next';
 import { config } from '../../config';
-import { UserTenantInterface, UserInfoInterface } from '../../interfaces/session.interface';
+import { ApiResponse } from '../../interfaces/api.interface';
 
 export class InventartApi {
   BASE_URL = config.apiRoot;
+  t: TFunction;
   token?: string;
   tenant?: string;
 
-  constructor(token?: string, tenant?: string) {
+  constructor(t: TFunction, token?: string, tenant?: string) {
+    this.t = t;
     this.token = token;
     this.tenant = tenant;
   }
 
-  async authLogin(username: string, password: string): Promise<{ success: boolean, token?: string, error?: string }> {
-    return axios.post(`${config.apiRoot}/auth/login`, {
-      email: username,
-      password: password
-    }, {
+  private async get(url: string): Promise<ApiResponse> {
+    return axios.get(`${config.apiRoot}/${url}`, {
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.token}`
       },
     })
-      .then(res => {
-        console.warn('Login:loginUser:then', res.data);
-        return { success: true, token: res.data as string };
-      })
-      .catch(err => {
-        console.warn('catch', err.response);
-        return { success: false, error: err.response.data };
-      });
+      .then(res => this.successHandler(res))
+      .catch(err => this.errorHandler(err));
+  }
+  private async post(url: string, data: any = null): Promise<ApiResponse> {
+    return axios.post(`${config.apiRoot}/${url}`, data, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.token}`
+      },
+    })
+      .then(res => this.successHandler(res))
+      .catch(err => this.errorHandler(err));
+  }
+  private successHandler(res: AxiosResponse<unknown, any>): ApiResponse {
+    return {
+      success: true,
+      payload: res.data
+    };
+  }
+  private errorHandler(error: any): ApiResponse {
+    let errorCode: string = error.response.data;
+    let translatedErrorCode: string = this.t([`api-error:${errorCode}`, 'api-error:generic']);
+    let result: ApiResponse = {
+      success: false,
+      payload: errorCode,
+      errorMessage: translatedErrorCode
+    };
+    console.warn('api errorHandler', result);
+    return result;
   }
 
-  async authRegister(email: string, password: string, passwordRepeat: string, firstName: string, lastName: string): Promise<{ success: boolean, error?: string }> {
-    return axios.post(`${config.apiRoot}/auth/register`, {
+  public async authLogin(username: string, password: string): Promise<ApiResponse> {
+    return this.post('auth/login', {
+      email: username,
+      password: password
+    });
+  }
+
+  async authRegister(email: string, password: string, passwordRepeat: string, firstName: string, lastName: string): Promise<ApiResponse> {
+    return this.post(`auth/register`, {
       email: email,
       password: password,
       passwordRepeat: passwordRepeat,
       firstName: firstName,
       lastName: lastName
-    }, {
-      headers: {
-        'Content-Type': 'application/json'
-      },
-    })
-      .then(res => {
-        return { success: true };
-      })
-      .catch(err => {
-        return { success: false, error: err.response.data };
-      });
+    });
   }
 
-  async authVerify(verificationCode: string): Promise<boolean> {
-    return axios.post(`${config.apiRoot}/auth/verify?verificationGuid=${verificationCode}`, null, {
-      headers: {
-        'Content-Type': 'application/json'
-      },
-    })
-      .then(res => {
-        return true;
-      }).catch(err => {
-        return false;
-      });
+  async authVerify(verificationCode: string): Promise<ApiResponse> {
+    return this.post(`auth/verify?verificationGuid=${verificationCode}`);
   }
-  async authResetPasswordStep1(email: string): Promise<boolean> {
-    return axios.post(`${config.apiRoot}/auth/password-reset-step1?email=${email}`, null, {
-      headers: {
-        'Content-Type': 'application/json'
-      },
-    })
-      .then(res => {
-        return true;
-      }).catch(err => {
-        return false;
-      });
+  async authResetPasswordStep1(email: string): Promise<ApiResponse> {
+    return this.post(`auth/password-reset-step1?email=${email}`);
   }
-  async authResetPasswordStep2a(password_reset_guid: string): Promise<boolean> {
-    return axios.post(`${config.apiRoot}/auth/password-reset-step2a?password_reset_guid=${password_reset_guid}`, null, {
-      headers: {
-        'Content-Type': 'application/json'
-      },
-    })
-      .then(res => {
-        return true;
-      }).catch(err => {
-        return false;
-      });
+  async authResetPasswordStep2a(password_reset_guid: string): Promise<ApiResponse> {
+    return this.post(`auth/password-reset-step2a?password_reset_guid=${password_reset_guid}`);
   }
-  async authResetPasswordStep2b(password_reset_guid: string, password: string, passwordRepeat: string): Promise<{ success: boolean, error?: string }> {
-    return axios.post(`${config.apiRoot}/auth/password-reset-step2b`, {
+  async authResetPasswordStep2b(password_reset_guid: string, password: string, passwordRepeat: string): Promise<ApiResponse> {
+    return this.post(`auth/password-reset-step2b`, {
       passwordResetGuid: password_reset_guid,
       password: password,
       passwordRepeat: passwordRepeat
-    }, {
-      headers: {
-        'Content-Type': 'application/json'
-      },
-    })
-      .then(res => {
-        return { success: true };
-      })
-      .catch(err => {
-        return { success: false, error: err.response.data };
-      });
+    });
   }
 
-  async authUserInfo(): Promise<{ success: boolean, payload: undefined | UserInfoInterface }> {
-    return axios.post(`${config.apiRoot}/auth/user-info`, null, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${this.token}`
-      },
-    })
-      .then(res => {
-        return { success: true, payload: res.data as UserInfoInterface };
-      }).catch(err => {
-        return { success: false, payload: undefined };
-      });
+  async authUserInfo(): Promise<ApiResponse> {
+    return this.post(`auth/user-info`);
   }
 
-  async authUserTenant(tenant: string): Promise<{ success: boolean, payload: undefined | UserTenantInterface }> {
-    return axios.post(`${config.apiRoot}/auth/user-tenant?tenant=${tenant}`, null, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${this.token}`
-      },
-    })
-      .then(res => {
-        return { success: true, payload: res.data as UserTenantInterface };
-      }).catch(err => {
-        return { success: false, payload: undefined };
-      });
+  async authUserTenant(tenant: string): Promise<ApiResponse> {
+    return this.post(`auth/user-tenant?tenant=${tenant}`);
   }
 
-  async authUserTenants(): Promise<{ success: boolean, payload: undefined | UserTenantInterface[] }> {
-    return axios.post(`${config.apiRoot}/auth/user-tenants`, null, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${this.token}`
-      },
-    })
-      .then(res => {
-        return { success: true, payload: res.data as UserTenantInterface[] };
-      }).catch(err => {
-        return { success: false, payload: undefined };
-      });
+  async authUserTenants(): Promise<ApiResponse> {
+    return this.post(`auth/user-tenants`);
   }
 
-  async paintingList(): Promise<{ success: boolean, payload: any }> {
-    return axios.get(`${config.apiRoot}/painting/${this.tenant}/list-all`, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${this.token}`
-      },
-    })
-      .then(res => {
-        return { success: true, payload: res.data };
-      }).catch(err => {
-        return { success: false, payload: undefined };
-      });
+  async paintingList(): Promise<ApiResponse> {
+    return this.get(`painting/${this.tenant}/list-all`);
   }
-  async paintingCreate(description: string): Promise<{ success: boolean, error?: string, payload?: any }> {
-    return axios.post(`${config.apiRoot}/painting/${this.tenant}/create`, {
+  async paintingCreate(description: string): Promise<ApiResponse> {
+    return this.post(`painting/${this.tenant}/create`, {
       description: description
-    }, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${this.token}`
-      },
-    })
-      .then(res => {
-        return { success: true, payload: res.data };
-      })
-      .catch(err => {
-        return { success: false, error: err.response.data };
-      });
+    });
   }
-
-  async paintingFileUpload(guid: string, file: File): Promise<{ success: boolean, error?: string, payload?: any }> {
-
+  async paintingFileUpload(guid: string, file: File): Promise<ApiResponse> {
     const formData = new FormData();
     formData.append("file", file);
-
-    return axios.post(`${config.apiRoot}/painting/upload?painting=${guid}`, formData, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${this.token}`
-      },
-    })
-      .then(res => {
-        return { success: true, payload: res.data };
-      })
-      .catch(err => {
-        return { success: false, error: err.response.data };
-      });
+    return this.post(`painting/upload?painting=${guid}`, formData);
   }
 
-  async userRolesList(): Promise<{ success: boolean, payload: any }> {
-    return axios.get(`${config.apiRoot}/user/${this.tenant}/roles`, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${this.token}`
-      },
-    })
-      .then(res => {
-        return { success: true, payload: res.data };
-      }).catch(err => {
-        return { success: false, payload: undefined };
-      });
+  async userRolesList(): Promise<ApiResponse> {
+    return this.get(`user/${this.tenant}/roles`);
   }
-  async fileLink(fileGuid: string): Promise<{ success: boolean, payload: any }> {
-    return axios.get(`${config.apiRoot}/File/link/${fileGuid}`, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${this.token}`
-      },
-    })
-      .then(res => {
-        return { success: true, payload: res.data };
-      }).catch(err => {
-        return { success: false, payload: undefined };
-      });
+  async fileLink(fileGuid: string): Promise<ApiResponse> {
+    return this.get(`file/link/${fileGuid}`);
   }
-  async userEditSelf(firstName: string, lastName: string, defaultTenant: string | null, defaultLanguage: string): Promise<{ success: boolean, error?: string }> {
-    return axios.post(`${config.apiRoot}/user/edit-self`, {
+  async userEditSelf(firstName: string, lastName: string, defaultTenant: string | null, defaultLanguage: string): Promise<ApiResponse> {
+    return this.post(`user/edit-self`, {
       firstName: firstName,
       lastName: lastName,
       defaultTenant: defaultTenant,
       defaultLanguage: defaultLanguage
-    }, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${this.token}`
-      },
-    })
-      .then(res => {
-        return { success: true };
-      })
-      .catch(err => {
-        return { success: false, error: err.response.data };
-      });
+    });
   }
-  async editUserRole(userGuid: string, nextRole: string): Promise<{ success: boolean, error?: string }> {
-    return axios.post(`${config.apiRoot}/user/${this.tenant}/roleChange/${userGuid}/${nextRole}`, {}, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${this.token}`
-      },
-    })
-      .then(res => {
-        return { success: true };
-      })
-      .catch(err => {
-        return { success: false, error: err.response.data };
-      });
+  async editUserRole(userGuid: string, nextRole: string): Promise<ApiResponse> {
+    return this.post(`user/${this.tenant}/roleChange/${userGuid}/${nextRole}`);
   }
 }

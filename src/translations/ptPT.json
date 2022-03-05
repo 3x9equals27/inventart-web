@@ -17,11 +17,21 @@
     "create-new": "Criar nova pintura"
   },
   "login":{
-    "email.not.found":"Email desconhecido",
-    "wrong.password":"Password errada",
     "email.unverified":"Email não verificado",
     "go.to.registration":"registar novo utilizador",
     "forgot.password":"Esqueceu-se da palavra passe ?",
     "reset.password":"Renovar palavra passe"
+  },
+  "api-error":{
+    "generic":"Ocorreu um erro",
+    "wrong.password":"Password Errada",
+    "email.not.found":"Email desconhecido",
+    "empty.email": "Email vazio",
+    "empty.password": "Password vazia",
+    "empty.first.name": "Nome próprio vazio",
+    "empty.last.name": "Nome de familia vazio",
+    "invalid.email": "email inválido",
+    "passwords.dont.match": "password não coincide",
+    "password.too.small": "password muito pequena"
   }
 }
