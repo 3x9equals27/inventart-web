@@ -41,6 +41,7 @@ export const GridCore: React.FC<GridCoreProps<any>> = ({
       columns={columns}
       data={data}
       options={{
+        actionsColumnIndex: -1,
         minBodyHeight: 'calc(100vh - 230px)',
         maxBodyHeight: 'calc(100vh - 230px)',
         emptyRowsWhenPaging: false,
@@ -58,8 +59,15 @@ export const GridCore: React.FC<GridCoreProps<any>> = ({
       detailPanel={detailPanel}
       onRowClick={onRowClick}
       actions={actions}
-      title={title??''}
-      localization={{ toolbar: { searchPlaceholder: searchPlaceholder } }}
+      title={title ?? ''}
+      localization={{
+        toolbar: {
+          searchPlaceholder: searchPlaceholder
+        },
+        header: {
+          actions: ''
+        }
+      }}
     />
   );
 };

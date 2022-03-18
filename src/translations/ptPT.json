@@ -11,10 +11,20 @@
     "hello":"olá casa",
     "goodbye":"adeus casa"
   },
+  "painting-create": {
+    "name": "Nome",
+    "author": "Autor",
+    "description": "Descrição",
+    "register": "Registar"
+  },
   "painting-list":{
-    "hello":"olá coisa",
-    "goodbye":"adeus coisa",
-    "create-new": "Criar nova pintura"
+    "name": "Nome",
+    "author": "Autor",
+    "description": "Descrição",
+    "model": "Modelo",
+    "view-model": "Ver Modelo",
+    "create-new": "Criar nova pintura",
+    "edit": "Editar"
   },
   "login":{
     "email.unverified":"Email não verificado",

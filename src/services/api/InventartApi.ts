@@ -2,6 +2,7 @@ import axios, { AxiosResponse } from 'axios';
 import { TFunction } from 'react-i18next';
 import { config } from '../../config';
 import { ApiResponse } from '../../interfaces/api.interface';
+import { PaintingDto } from '../../interfaces/paintingDto.interface';
 
 export class InventartApi {
   BASE_URL = config.apiRoot;
@@ -102,10 +103,8 @@ export class InventartApi {
   async paintingList(): Promise<ApiResponse> {
     return this.get(`painting/${this.tenant}/list-all`);
   }
-  async paintingCreate(description: string): Promise<ApiResponse> {
-    return this.post(`painting/${this.tenant}/create`, {
-      description: description
-    });
+  async paintingCreate(painting: PaintingDto): Promise<ApiResponse> {
+    return this.post(`painting/${this.tenant}/create`, painting);
   }
   async paintingFileUpload(guid: string, file: File): Promise<ApiResponse> {
     const formData = new FormData();

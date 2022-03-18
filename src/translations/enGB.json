@@ -11,10 +11,20 @@
     "hello": "Hi home",
     "goodbye": "Bye home"
   },
+  "painting-create": {
+    "name": "Name",
+    "author": "Author",
+    "description": "Description",
+    "register": "Register"
+  },
   "painting-list": {
-    "hello": "Hi thing",
-    "goodbye": "Bye thing",
-    "create-new": "Create new painting"
+    "name": "Name",
+    "author": "Author",
+    "description": "Description",
+    "model": "Model",
+    "view-model": "View Model",
+    "create-new": "Create new painting",
+    "edit": "Edit"
   },
   "login": {
     "email.unverified": "Email unverified",
