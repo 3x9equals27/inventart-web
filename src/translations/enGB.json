@@ -23,6 +23,7 @@
     "description": "Description",
     "model": "Model",
     "view-model": "View Model",
+    "show-model": "Show Model",
     "create-new": "Create new painting",
     "edit": "Edit"
   },
@@ -34,12 +35,16 @@
   },
   "api-error": {
     "generic": "An error as ocurred",
+    "db.error": "A database error as ocurred",
     "wrong.password": "Wrong Password",
     "email.not.found": "Email not found",
     "empty.email": "Empty email",
     "empty.password": "Empty password",
     "empty.first.name": "Empty first name",
     "empty.last.name": "Empty last name",
+    "empty.name": "Empty painting name",
+    "empty.author": "Empty author name",
+    "duplicated.name.author": "That Name/Author is already registered",
     "invalid.email": "Invalid e-mail",
     "passwords.dont.match": "passwords don't match",
     "password.too.small": "password too small"

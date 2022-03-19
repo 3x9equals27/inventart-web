@@ -23,6 +23,7 @@
     "description": "Descrição",
     "model": "Modelo",
     "view-model": "Ver Modelo",
+    "show-model": "Mostrar Modelo",
     "create-new": "Criar nova pintura",
     "edit": "Editar"
   },
@@ -34,12 +35,16 @@
   },
   "api-error":{
     "generic":"Ocorreu um erro",
+    "db.error": "Ocorreu um erro de base de dados",
     "wrong.password":"Password Errada",
     "email.not.found":"Email desconhecido",
     "empty.email": "Email vazio",
     "empty.password": "Password vazia",
     "empty.first.name": "Nome próprio vazio",
     "empty.last.name": "Nome de familia vazio",
+    "empty.name": "Nome da pintura em falta",
+    "empty.author": "Nome do autor em falta",
+    "duplicated.name.author": "Esse Nome/Autor já se encontra registado",
     "invalid.email": "email inválido",
     "passwords.dont.match": "password não coincide",
     "password.too.small": "password muito pequena"

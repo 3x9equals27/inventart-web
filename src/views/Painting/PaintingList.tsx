@@ -80,7 +80,7 @@ const PaintingList = (inventartApi: InventartApi, permissionManager: PermissionM
   const gridDetailPanel = (): DetailPanel<any>[] => {
     return [
       {
-        tooltip: 'Show Model',
+        tooltip: t('painting-list:show-model'),
         render: ({ rowData }) => {
           if (!rowData?.file_guid) {
             return <div>Nothing to see here</div>
