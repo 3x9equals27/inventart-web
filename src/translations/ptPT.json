@@ -36,6 +36,9 @@
     "create-new": "Criar novo registo",
     "edit": "Editar"
   },
+  "nav-bar": {
+    "paintings": "Pinturas"
+  },
   "login":{
     "email.unverified":"Email não verificado",
     "go.to.registration":"registar novo utilizador",

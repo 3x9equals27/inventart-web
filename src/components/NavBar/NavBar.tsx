@@ -43,7 +43,7 @@ export const AppNavBar: React.FC<{
             </div>
             <div className={styles.divCenter}>
               {/* <Button color='inherit' onClick={() => { navigate('/Home') }}>Home</Button> */}
-              <Button color='inherit' onClick={() => { navigate('/PaintingList') }}>Paintings</Button>
+              <Button color='inherit' onClick={() => { navigate('/PaintingList') }}>{t('nav-bar:paintings')}</Button>
               {/* <Button color='inherit' onClick={() => { navigate('/About') }}>About</Button> */}
             </div>
             <div className={styles.divRight}>

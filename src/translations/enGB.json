@@ -36,6 +36,9 @@
     "create-new": "Create new record",
     "edit": "Edit"
   },
+  "nav-bar": {
+    "paintings": "Paintings"
+  },
   "login": {
     "email.unverified": "Email unverified",
     "go.to.registration": "register new user",
