@@ -42,3 +42,66 @@
     scale: 50%;
     cursor: pointer;
 }
+.embeddedLightingButton{
+    position: absolute;
+    opacity: 0.5;
+    visibility: visible;
+    left: 20px;
+    top: -18px;
+    scale: 50%;
+    cursor: pointer;
+}
+.embeddedLightButton{
+    position: absolute;
+    opacity: 0.5;
+    visibility: visible;
+    left: 60px;
+    top: -18px;
+    scale: 50%;
+    cursor: pointer;
+}
+.embeddedPerspectiveButton{
+    position: absolute;
+    opacity: 0.5;
+    visibility: visible;
+    left: 100px;
+    top: -18px;
+    scale: 50%;
+    cursor: pointer;
+}
+.embeddedColorButton{
+    position: absolute;
+    opacity: 0.5;
+    visibility: visible;
+    left: 140px;
+    top: -18px;
+    scale: 50%;
+    cursor: pointer;
+}
+.embeddedMeasureButton{
+    position: absolute;
+    opacity: 0.5;
+    visibility: visible;
+    left: 260px;
+    top: -18px;
+    scale: 50%;
+    cursor: pointer;
+}
+.embeddedPickButton{
+    position: absolute;
+    opacity: 0.5;
+    visibility: visible;
+    left: 220px;
+    top: -18px;
+    scale: 50%;
+    cursor: pointer;
+}
+.embeddedScreenshotButton{
+    position: absolute;
+    opacity: 0.5;
+    visibility: visible;
+    left: 180px;
+    top: -18px;
+    scale: 50%;
+    cursor: pointer;
+}
