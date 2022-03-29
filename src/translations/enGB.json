@@ -15,7 +15,16 @@
     "name": "Name",
     "author": "Author",
     "description": "Description",
-    "register": "Register"
+    "register": "Register",
+    "title": "new regis"
+  },
+  "painting-update": {
+    "name": "Name",
+    "author": "Author",
+    "description": "Description",
+    "update": "Update",
+    "title": "Update record",
+    "view-model": "View existing Model"
   },
   "painting-list": {
     "name": "Name",
@@ -24,7 +33,7 @@
     "model": "Model",
     "view-model": "View Model",
     "show-model": "Show Model",
-    "create-new": "Create new painting",
+    "create-new": "Create new record",
     "edit": "Edit"
   },
   "login": {

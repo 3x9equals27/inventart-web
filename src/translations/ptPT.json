@@ -15,7 +15,16 @@
     "name": "Nome",
     "author": "Autor",
     "description": "Descrição",
-    "register": "Registar"
+    "register": "Registar",
+    "title": "Registar nova pintura"
+  },
+  "painting-update": {
+    "name": "Nome",
+    "author": "Autor",
+    "description": "Descrição",
+    "update": "Actualizar",
+    "title": "Actualizar registo",
+    "view-model": "Visualizar modelo actual"
   },
   "painting-list":{
     "name": "Nome",
@@ -24,7 +33,7 @@
     "model": "Modelo",
     "view-model": "Ver Modelo",
     "show-model": "Mostrar Modelo",
-    "create-new": "Criar nova pintura",
+    "create-new": "Criar novo registo",
     "edit": "Editar"
   },
   "login":{

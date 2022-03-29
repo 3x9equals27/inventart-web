@@ -3,10 +3,19 @@ import styles from './ShowModel.module.css';
 import Loading from '../../components/Loading/Loading';
 import { InventartApi } from '../../services/api/InventartApi';
 import { PermissionManager } from '../../services/Authentication/PermissionManager';
-const queryString = require('query-string');
+import { useSearchParams } from 'react-router-dom';
 
-const ShowModel = (inventartApi: InventartApi, permissionManager: PermissionManager) => {
-  const qs = queryString.parse(window.location.search);
+export interface ShowModelInterface {
+  inventartApi: InventartApi,
+  permissionManager: PermissionManager
+}
+
+const ShowModel = (props: ShowModelInterface) => {
+  let inventartApi = props.inventartApi;
+  let permissionManager = props.permissionManager;
+
+  const [searchParams] = useSearchParams();
+  const modelGuid: string = searchParams.get('model') ?? '';
 
   const promisseModelViewer = async (fileGuid: string): Promise<JSX.Element> => {
     var response = await inventartApi.fileLink(fileGuid);
@@ -16,7 +25,7 @@ const ShowModel = (inventartApi: InventartApi, permissionManager: PermissionMana
   return (
     <div className={styles.mainBody}>
       <div className={styles.modelViewer}>
-        <Loading condition={() => promisseModelViewer(qs.model)} />
+        <Loading condition={() => promisseModelViewer(modelGuid)} />
       </div>
     </div>);
 };

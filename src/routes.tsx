@@ -1,10 +1,9 @@
-import { Route, Switch, Redirect, useHistory } from 'react-router-dom';
-import styles from './routes.module.css'
+import { Route, Routes, Navigate, useNavigate  } from 'react-router-dom';
+import styles from './routes.module.css';
 import { AppNavBar } from './components/NavBar/NavBar';
-import App from './views/app/App'
+import App from './views/app/App';
 import Playground from './views/playground/Playground';
 import ShowModel from './views/ShowModel/ShowModel';
-import PaintingList from './views/Painting/PaintingList';
 import { CircularProgress } from '@material-ui/core';
 import { InventartApi } from './services/api/InventartApi';
 import { PermissionManager } from './services/Authentication/PermissionManager';
@@ -23,19 +22,21 @@ import UserPermissions from './views/UserPermissions/UserPermissions';
 import { useTranslation } from 'react-i18next';
 import useSessionLanguage from './hooks/useSessionLanguage';
 import useSessionTenant from './hooks/useSessionTenant';
+import PaintingList from './views/Painting/PaintingList';
 import PaintingCreate from './views/Painting/PaintingCreate';
+import PaintingUpdate from './views/Painting/PaintingUpdate';
 const queryString = require('query-string');
 
-export const Routes = () => {
+export const MyRouter = () => {
   const { t, i18n } = useTranslation();
   const { getSessionLanguage, unsetSessionLanguage } = useSessionLanguage();
   const { getSessionTenant, unsetSessionTenant, setSessionTenant } = useSessionTenant();
-  const history = useHistory();
+  const navigate = useNavigate();
   const { token, setToken, logout } = useToken();
   const [session, setSession] = useState<SessionInterface>();
   const [languageChanged, setLanguageChanged] = useState<boolean>(false);
 
-  console.warn('Routes.tsx: ', 'start');
+  //console.warn('Routes.tsx: ', 'start');
 
   //clear session on logout
   if (!token && session) 
@@ -77,16 +78,16 @@ export const Routes = () => {
   }, [token, session, logout, getSessionTenant, i18n, getSessionLanguage]);
 
   function setLoginToken(userToken: string): void {
-    history.push('/');
+    navigate('/');
     setToken(userToken);
   }
   function switchTenant(tenant: UserTenantInterface): void {
     setSessionTenant(tenant.code);
-    history.push('/');
+    navigate('/');
     setSession(x => { return { user: x?.user, tenant: tenant } });
   }
   function userLogout(): void {
-    history.push('/');
+    navigate('/');
     logout();
     unsetSessionLanguage();
     unsetSessionTenant();
@@ -126,7 +127,7 @@ export const Routes = () => {
     return <TenantSelection setTenantCallback={switchTenant} inventartApi={api} />
   }
 
-  console.warn('session', session);
+  //console.warn('session', session);
 
   const inventartApi = new InventartApi(t, token, session?.tenant.code);
   const permissionManager = new PermissionManager(session.tenant?.role!);
@@ -135,19 +136,20 @@ export const Routes = () => {
     <div>
       <AppNavBar session={session} logout={userLogout} permissionManager={permissionManager}/>
       <div className={styles.content}>
-        <Switch>
-          <Route exact path="/Tenant" component={() => <TenantSelection setTenantCallback={switchTenant} inventartApi={inventartApi} />} />
-          <Route exact path="/Playground" component={() => Playground(userLogout, session, inventartApi, permissionManager)} />
-          <Route exact path="/Model" component={() => ShowModel(inventartApi, permissionManager)} />
-          <Route exact path="/About" component={App} />
-          <Route exact path="/PaintingList" component={() => PaintingList(inventartApi, permissionManager)} />
-          <Route exact path="/PaintingCreate" component={() => PaintingCreate(inventartApi, permissionManager)} />
-          <Route exact path="/UserSettings" component={() => UserSettings(inventartApi, permissionManager)} />
-          <Route exact path="/UserPermissions" component={() => UserPermissions(inventartApi, permissionManager)} />
-          <Route exact path="/Home"><Redirect to="/PaintingList" /></Route>
-          <Route exact path="/"><Redirect to="/Home" /></Route>
-          <Route render={() => <Redirect to="/Home" />} />
-        </Switch>
+        <Routes>
+          <Route path="/Tenant" element={<TenantSelection setTenantCallback={switchTenant} inventartApi={inventartApi} />} />
+          <Route path="/Playground" element={<Playground logout={userLogout} session={session} inventartApi={inventartApi} permissionManager={permissionManager} />} />
+          <Route path="/Model" element={<ShowModel inventartApi={inventartApi} permissionManager={permissionManager} />} />
+          <Route path="/About" element={<App/>} />
+          <Route path="/PaintingList" element={<PaintingList inventartApi={inventartApi} permissionManager={permissionManager} />} />
+          <Route path="/PaintingCreate" element={<PaintingCreate inventartApi={inventartApi} permissionManager={permissionManager} />} />
+          <Route path="/PaintingUpdate" element={<PaintingUpdate inventartApi={inventartApi} permissionManager={permissionManager} />} />
+          <Route path="/UserSettings" element={<UserSettings inventartApi={inventartApi} permissionManager={permissionManager} />} />
+          <Route path="/UserPermissions" element={<UserPermissions inventartApi={inventartApi} permissionManager={permissionManager} />} />
+          <Route path="/Home" element={<Navigate to="/PaintingList" />} />
+          <Route path="/" element={<Navigate to="/Home" />} />
+          <Route path="*" element={<Navigate to="/Home" />} />
+        </Routes>
       </div>
     </div>
   );

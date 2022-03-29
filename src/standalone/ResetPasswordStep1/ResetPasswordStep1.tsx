@@ -23,7 +23,7 @@ export const ResetPasswordStep1: React.FC<{
         setState(x => { return { loading: false, linkSent: result.success } });
         //
       })();
-    }, [email]);
+    }, [email, t]);
 
     if (state.loading) {
       return <div className={styles.centeredContent}>

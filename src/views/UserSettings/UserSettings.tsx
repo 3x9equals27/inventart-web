@@ -9,7 +9,15 @@ import { UserInfoInterface, UserTenantInterface } from '../../interfaces/session
 import { Permission } from '../../services/Authentication/Permission';
 import { PermissionManager } from '../../services/Authentication/PermissionManager';
 
-const UserSettings = (api: InventartApi, permissionManager: PermissionManager) => {
+export interface PaintingCreateInterface {
+  inventartApi: InventartApi,
+  permissionManager: PermissionManager
+}
+
+const UserSettings = (props: PaintingCreateInterface) => {
+  let api = props.inventartApi;
+  let permissionManager = props.permissionManager;
+  
   const [state, setState] = useState<{ loading: boolean, firstName: string, lastName: string, defaultTenant: string | null, defaultLanguage: string, defaultTenantName: string }>({
     loading: true,
     firstName: '',

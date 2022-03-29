@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styles from './NavBar.module.css';
 import { SessionInterface } from '../../interfaces/session.interface';
 import { useTranslation } from 'react-i18next';
@@ -23,7 +23,7 @@ export const AppNavBar: React.FC<{
   permissionManager,
   logout
 }) => {
-    const history = useHistory();
+    const navigate = useNavigate();
     const { t } = useTranslation();
     const [menuAnchorEl, setMenuAnchorEl] = React.useState<null | HTMLElement>(null);
     const menuClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -39,12 +39,12 @@ export const AppNavBar: React.FC<{
           <Toolbar className={styles.toolbar}>
             <div className={styles.divLeft}>
               <LocaleMenu />
-              <Button color='inherit' variant='outlined' onClick={() => { history.push('/Tenant') }}>{t(session.tenant?.role ?? '')}@{session.tenant?.short_name}</Button>
+              <Button color='inherit' variant='outlined' onClick={() => { navigate('/Tenant') }}>{t(session.tenant?.role ?? '')}@{session.tenant?.short_name}</Button>
             </div>
             <div className={styles.divCenter}>
-              {/* <Button color='inherit' onClick={() => { history.push('/Home') }}>Home</Button> */}
-              <Button color='inherit' onClick={() => { history.push('/PaintingList') }}>Paintings</Button>
-              {/* <Button color='inherit' onClick={() => { history.push('/About') }}>About</Button> */}
+              {/* <Button color='inherit' onClick={() => { navigate('/Home') }}>Home</Button> */}
+              <Button color='inherit' onClick={() => { navigate('/PaintingList') }}>Paintings</Button>
+              {/* <Button color='inherit' onClick={() => { navigate('/About') }}>About</Button> */}
             </div>
             <div className={styles.divRight}>
               <IconButton edge='end' className={styles.menuButton} color='inherit' aria-label='menu' aria-controls="context-menu" aria-haspopup="true" onClick={menuClick}>
@@ -57,10 +57,10 @@ export const AppNavBar: React.FC<{
                 open={Boolean(menuAnchorEl)}
                 onClose={menuHandleClose}
               >
-                {permissionManager.Check(Permission.EDIT_SELF) && <MenuItem onClick={() => { menuHandleClose(); history.push('/UserSettings'); }}>
+                {permissionManager.Check(Permission.EDIT_SELF) && <MenuItem onClick={() => { menuHandleClose(); navigate('/UserSettings'); }}>
                   <Typography variant="inherit">User Settings</Typography>
                 </MenuItem>}
-                {permissionManager.Check(Permission.EDIT_PERMISSIONS) && <MenuItem onClick={() => { menuHandleClose(); history.push('/UserPermissions'); }}>
+                {permissionManager.Check(Permission.EDIT_PERMISSIONS) && <MenuItem onClick={() => { menuHandleClose(); navigate('/UserPermissions'); }}>
                   <Typography variant="inherit">User Permissions</Typography>
                 </MenuItem>}
                 <MenuItem onClick={() => logout()}>

@@ -5,15 +5,24 @@ import { Loading } from '../../components/Loading/Loading';
 import { Column, DetailPanel } from '@material-table/core';
 import ModelViewer from '../../components/ModelViewer/ModelViewer';
 import _ from 'lodash';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { InventartApi } from '../../services/api/InventartApi';
 import { PermissionManager } from '../../services/Authentication/PermissionManager';
 import { AddBox, Edit } from '@material-ui/icons';
 import { useTranslation } from 'react-i18next';
 import { Permission } from '../../services/Authentication/Permission';
 
-const PaintingList = (inventartApi: InventartApi, permissionManager: PermissionManager) => {
-  const history = useHistory();
+export interface PaintingListInterface {
+  inventartApi: InventartApi,
+  permissionManager: PermissionManager
+}
+
+const PaintingList = (props: PaintingListInterface) => {
+  
+  let inventartApi = props.inventartApi;
+  let permissionManager = props.permissionManager;
+
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const [gridData, setGridData] = useState<Array<any>>([]);
 
@@ -100,7 +109,7 @@ const PaintingList = (inventartApi: InventartApi, permissionManager: PermissionM
         icon: AddBox,
         tooltip: t('painting-list:create-new'),
         isFreeAction: true,
-        onClick: (event:any) => { history.push('/PaintingCreate') }
+        onClick: (event:any) => { navigate('/PaintingCreate') }
       });
     }
     //this Permission.UPLOAD_FILE should be Permission.EDIT_PAINTING
@@ -109,7 +118,7 @@ const PaintingList = (inventartApi: InventartApi, permissionManager: PermissionM
         icon: Edit,
         tooltip: t('painting-list:edit'),
         isFreeAction: false,
-        onClick: (event:any, data:any) => { console.warn(data.guid); }
+        onClick: (event:any, data:any) => { navigate(`/PaintingUpdate?guid=${data.guid}`); }
       });
     }
 

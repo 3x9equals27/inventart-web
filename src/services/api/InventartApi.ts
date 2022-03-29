@@ -100,11 +100,17 @@ export class InventartApi {
     return this.post(`auth/user-tenants`);
   }
 
+  async paintingSelect(guid: string): Promise<ApiResponse> {
+    return this.get(`painting/${this.tenant}/select/${guid}`);
+  }
   async paintingList(): Promise<ApiResponse> {
     return this.get(`painting/${this.tenant}/list-all`);
   }
   async paintingCreate(painting: PaintingDto): Promise<ApiResponse> {
     return this.post(`painting/${this.tenant}/create`, painting);
+  }
+  async paintingUpdate(guid: string, painting: PaintingDto): Promise<ApiResponse> {
+    return this.post(`painting/${this.tenant}/update/${guid}`, painting);
   }
   async paintingFileUpload(guid: string, file: File): Promise<ApiResponse> {
     const formData = new FormData();

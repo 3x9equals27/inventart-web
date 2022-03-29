@@ -1,6 +1,6 @@
-import styles from './PaintingList.module.css';
+import styles from './PaintingCreate.module.css';
 import _ from 'lodash';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { InventartApi } from '../../services/api/InventartApi';
 import { PermissionManager } from '../../services/Authentication/PermissionManager';
 import { useTranslation } from 'react-i18next';
@@ -9,8 +9,16 @@ import { Box, Button, Grid, Paper, Snackbar, TextField } from '@material-ui/core
 import { Alert } from '@material-ui/lab';
 import { PaintingDto } from '../../interfaces/paintingDto.interface';
 
-const PaintingCreate = (inventartApi: InventartApi, permissionManager: PermissionManager) => {
-  const history = useHistory();
+export interface PaintingCreateInterface {
+  inventartApi: InventartApi,
+  permissionManager: PermissionManager
+}
+
+const PaintingCreate = (props: PaintingCreateInterface) => {
+  let inventartApi = props.inventartApi;
+  let permissionManager = props.permissionManager;
+  
+  const navigate = useNavigate();
   const { t } = useTranslation();
 
   const [painting, setPainting] = useState<PaintingDto>({
@@ -40,12 +48,12 @@ const PaintingCreate = (inventartApi: InventartApi, permissionManager: Permissio
     if (guid && selectedFile) {
       var response = await inventartApi.paintingFileUpload(guid, selectedFile);
       if (response.success) {
-        history.push('/PaintingList');
+        navigate('/PaintingList');
       } else {
         setAlertErrorMessage(response.errorMessage);
       }
     } else {
-      history.push('/PaintingList');
+      navigate('/PaintingList');
     }
   }
 

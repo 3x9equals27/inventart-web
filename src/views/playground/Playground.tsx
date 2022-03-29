@@ -1,4 +1,4 @@
-import { Link, useHistory } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from '@material-ui/core';
 import logo from './play.png';
 import { config } from '../../config';
@@ -10,12 +10,22 @@ import { useTranslation } from "react-i18next";
 //override typescript error messages on calls to window object
 declare const window: any;
 
-const Playground = (logout: ()=>void, session: SessionInterface, inventartApi: InventartApi, permissionManager: PermissionManager) => {
-  const history = useHistory();
+export interface PlaygroundInterface {
+  logout: () => void, session: SessionInterface, inventartApi: InventartApi, permissionManager: PermissionManager
+}
+
+const Playground = (props: PlaygroundInterface) => {
+  let logout = props.logout;
+  let session = props.session;
+  let inventartApi = props.inventartApi;
+  let permissionManager = props.permissionManager;
+
+
+  const navigate = useNavigate();
   const { t, i18n } = useTranslation();
 
   function showVariables() {
-    console.warn('config', config);  
+    console.warn('config', config);
     console.warn('PermissionManager', permissionManager);
     console.warn('Session', session);
   }
@@ -30,7 +40,7 @@ const Playground = (logout: ()=>void, session: SessionInterface, inventartApi: I
 
       <Button variant='contained' onClick={() => { logout(); /*window.location.href = '/';*/ }}>Logout</Button><br />
       {/* Open in same window SPA style */}
-      <Button color="inherit" onClick={() => { history.push('/Model?model=0e1249c3-aa30-4477-855e-660200669047') }}>history.push('/Model?model=0e1249c3-aa30-4477-855e-660200669047')</Button><br />
+      <Button color="inherit" onClick={() => { navigate('/Model?model=0e1249c3-aa30-4477-855e-660200669047') }}>navigate('/Model?model=0e1249c3-aa30-4477-855e-660200669047')</Button><br />
       <Link to={"/Model?model=0e1249c3-aa30-4477-855e-660200669047"}>Link to="/Model?model=0e1249c3-aa30-4477-855e-660200669047"</Link><br />
       {/* Open in new window */}
       <Link to={"/Model?model=0e1249c3-aa30-4477-855e-660200669047"} target="_blank">Link to="/Model?model=0e1249c3-aa30-4477-855e-660200669047" target="_blank"</Link><br />
@@ -42,7 +52,7 @@ const Playground = (logout: ()=>void, session: SessionInterface, inventartApi: I
         onClick={async (e) => { e.preventDefault(); await openInNewWindow("/Model", "?model=0e1249c3-aa30-4477-855e-660200669047") }}
       >
         open 0e1249c3-aa30-4477-855e-660200669047 in another window
-        </a><br />
+      </a><br />
 
       <button onClick={async () => await openInNewWindow("/Model", "?model=0e1249c3-aa30-4477-855e-660200669047")}> open 0e1249c3-aa30-4477-855e-660200669047 in another window</button><br />
       <button onClick={async () => showVariables()}> show config</button><br />

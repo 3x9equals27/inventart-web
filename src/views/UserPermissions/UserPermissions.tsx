@@ -10,7 +10,15 @@ import { GridCore } from '../../components/GridCore/GridCore';
 import { Role } from '../../services/Authentication/Role';
 import { useTranslation } from 'react-i18next';
 
-const UserPermissions = (api: InventartApi, permissionManager: PermissionManager) => {
+export interface PaintingCreateInterface {
+  inventartApi: InventartApi,
+  permissionManager: PermissionManager
+}
+
+const UserPermissions = (props: PaintingCreateInterface) => {
+  let api = props.inventartApi;
+  let permissionManager = props.permissionManager;
+  
   const { t } = useTranslation();
   const [state, setState] = useState<{ loading: boolean, gridData: Array<any> }>({
     loading: true,
