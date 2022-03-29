@@ -17,7 +17,7 @@ export interface PaintingUpdateInterface {
 const PaintingUpdate = (props: PaintingUpdateInterface) => {
   let api = props.inventartApi;
   let permissionManager = props.permissionManager;
-  
+
   const navigate = useNavigate();
   const { t } = useTranslation();
   const [searchParams] = useSearchParams();
@@ -43,11 +43,11 @@ const PaintingUpdate = (props: PaintingUpdateInterface) => {
   useEffect(() => {
     (async () => {
       //
-      if(currentData){
-        setPainting({ 
-          name: currentData.name??'',
-          author: currentData.author??'',
-          description: currentData.description??''  
+      if (currentData) {
+        setPainting({
+          name: currentData.name ?? '',
+          author: currentData.author ?? '',
+          description: currentData.description ?? ''
         });
         setLoading(false);
       }
@@ -76,6 +76,14 @@ const PaintingUpdate = (props: PaintingUpdateInterface) => {
       setAlertErrorMessage(response.errorMessage);
     }
   }
+  async function deletePainting() {
+    var response = await api.paintingDelete(paintingGuid);
+    if (response.success) {
+      navigate('/PaintingList');
+    } else {
+      setAlertErrorMessage(response.errorMessage);
+    }
+  }
 
   async function uploadAttachment(guid: string) {
     if (guid && selectedFile) {
@@ -90,10 +98,10 @@ const PaintingUpdate = (props: PaintingUpdateInterface) => {
     }
   }
 
-  function showModelLink(){
+  function showModelLink() {
     return !currentData?.file_guid ? null :
-          <Link target={'update-model'} to={`/Model?model=${currentData?.file_guid}`} >{t('painting-update:view-model')}</Link>
-          ;
+      <Link target={'update-model'} to={`/Model?model=${currentData?.file_guid}`} >{t('painting-update:view-model')}</Link>
+      ;
   }
 
   if (loading) {
@@ -106,7 +114,11 @@ const PaintingUpdate = (props: PaintingUpdateInterface) => {
 
   return (
     <div className={styles.mainBody}>
-      <div className={styles.title}>{t('painting-update:title')}</div>
+      <div className={styles.deleteButtonHover}>
+        <Button color='secondary' variant='contained' onClick={() => { deletePainting(); }}>{t('painting-update:delete')}</Button>
+      </div>
+      <div className={styles.header}>{t('painting-update:title')}</div>
+
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={2}>
           <Grid item xs={12} md={6} >
@@ -127,7 +139,7 @@ const PaintingUpdate = (props: PaintingUpdateInterface) => {
         </Grid>
       </Box>
 
-      <Button variant='outlined' onClick={() => { updatePainting(); }}>{t('painting-update:update')}</Button>
+      <Button color='primary' variant='contained' onClick={() => { updatePainting(); }}>{t('painting-update:update')}</Button>
 
       <Snackbar open={!!alertErrorMessage} autoHideDuration={null} onClose={() => setAlertErrorMessage(undefined)} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
         <Alert onClose={() => setAlertErrorMessage(undefined)} severity="error" >

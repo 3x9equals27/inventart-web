@@ -24,7 +24,8 @@
     "description": "Descrição",
     "update": "Actualizar",
     "title": "Actualizar registo",
-    "view-model": "Visualizar modelo actual"
+    "view-model": "Visualizar modelo actual",
+    "delete": "Apagar"
   },
   "painting-list":{
     "name": "Nome",

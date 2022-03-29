@@ -24,7 +24,8 @@
     "description": "Description",
     "update": "Update",
     "title": "Update record",
-    "view-model": "View existing Model"
+    "view-model": "View existing Model",
+    "delete": "Delete"
   },
   "painting-list": {
     "name": "Name",

@@ -112,6 +112,9 @@ export class InventartApi {
   async paintingUpdate(guid: string, painting: PaintingDto): Promise<ApiResponse> {
     return this.post(`painting/${this.tenant}/update/${guid}`, painting);
   }
+  async paintingDelete(guid: string): Promise<ApiResponse> {
+    return this.post(`painting/${this.tenant}/delete/${guid}`);
+  }
   async paintingFileUpload(guid: string, file: File): Promise<ApiResponse> {
     const formData = new FormData();
     formData.append("file", file);
