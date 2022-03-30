@@ -55,6 +55,7 @@ const PaintingList = (props: PaintingListInterface) => {
     {
       field: 'file_guid',
       title: t('painting-list:model'),
+      disableClick: true,
       render: (rowData: any) => {
         return !rowData?.file_guid ? null :
           <Link target={'list-model'} to={`/Model?model=${rowData?.file_guid}`} >{t('painting-list:view-model')}</Link>
@@ -143,6 +144,6 @@ export default PaintingList;
 
 
 function gridRowClick(event?: React.MouseEvent, rowData?: any, toggleDetailPanel?: (panelIndex?: number) => void) {
-  //toggleDetailPanel?.(0);
+  toggleDetailPanel?.(0);
 }
 
